@@ -40,7 +40,7 @@ export default createStore({
         return;
       }
       commit("SET_USER", auth.currentUser);
-      router.push("/");
+      router.push("/home");
     },
 
     async register({ commit }, details) {
@@ -66,13 +66,26 @@ export default createStore({
         return;
       }
       commit("SET_USER", auth.currentUser);
-      router.push("/");
+      router.push("/home");
     },
 
     async logout({ commit }) {
       await signOut(auth);
       commit("CLEAR_USER");
       router.push("/login");
+    },
+
+    fetchUser({ commit }) {
+      auth.onAuthStateChanged(async (user) => {
+        if (user === null) {
+          commit("CLEAR_USER");
+        } else {
+          commit("SET_USER", user);
+          if (router.isReady() && router.currentRoute.value.path === "/login") {
+            router.push("/home");
+          }
+        }
+      });
     },
   },
 });
