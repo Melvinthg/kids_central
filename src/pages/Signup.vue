@@ -1,53 +1,40 @@
 <template>
-    <div>
-        Signup
-    </div>
-    <p>    <input type = "text" placeholder = "Email" v-model = "email"/></p>
+<form  class="register" @submit.prevent = "register">
+    <h1>Register</h1>
+    <p>    <input type = "text" placeholder = "Email" v-model = "register_form.email"/></p>
 
     
-    <p><input type = "password" placeholder = "Password" v-model = "password"/></p>
+    <p><input type = "password" placeholder = "Password" v-model = "register_form.password"/></p>
     <p>
-        <button @click = "register">Submit</button>
+        <input type = "submit" value = "Register"/>
     </p>
+</form>
+
+  
 
 </template>
 
-
-    
 <script>
+import {ref } from "vue"
+import {useStore} from "vuex"
+    export default {
+        name:"Signup",
+        setup() {
+          const register_form = ref({})
+          const store = useStore();
+          const register = () => {
+            store.dispatch('register', register_form.value)
+          }
 
-
-export default {
-     name:"Signup",
-  // data() {
-  //   return {
-  //     form: {
-        
-  //       email: "",
-  //       password: ""
-  //     },
-  //     error: null
-  //   };
-  // },
-  // methods: {
-  //   submit() {
-  //     firebase
-  //       .auth()
-  //       .createUserWithEmailAndPassword(this.email, this.password)
-  //       .then(data => {
-  //         data.user
-  //           .updateProfile({
-  //             displayName: this.form.name
-  //           })
-  //           .then(() => {});
-  //       })
-  //       .catch(err => {
-  //         this.error = err.message;
-  //       });
-  //   }
-  // }
-};
+          return {
+            register_form,
+            store,
+            register
+          }
+        }
+    }
 </script>
+
 
 <style template>
 
