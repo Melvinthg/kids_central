@@ -1,7 +1,7 @@
 <template>
 <div v-if = "$store.state.user">  
   <router-link to = "/Home" >Home</router-link> 
-  <h1>Home</h1>
+  <h1>Home [testing for git]</h1>
 <button @click = "$store.dispatch('logout')">Log out</button> 
         
           
