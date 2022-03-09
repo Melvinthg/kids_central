@@ -1,4 +1,5 @@
 <template>
+<LandingTopBar/>
 <div v-if = "$store.state.user">  
   <router-link to = "/Home" >Home</router-link> 
   <h1>Home [testing for git]</h1>
