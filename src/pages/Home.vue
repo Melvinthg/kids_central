@@ -1,21 +1,33 @@
 <template>
   
   <LandingTopBar></LandingTopBar>
-  <img alt="Vue logo" src="@/assets/logo.png">
-  
-  
-  
+  <div id="sideBar">
+    <h1>Joshua Tan</h1>
+    <router-link to = "/home">Edit Class Dashboard</router-link>
+    <router-link to = "/home">Manage Class Info</router-link>
+    <router-link to = "/home">Class Forum</router-link>
+    <router-link to = "/home">Contact Parents</router-link>
+  </div>
+  <WritePost></WritePost>
+
+  <!-- feed -->
+  <div>
+    <h1>feed</h1>
+  </div>
+
+  <router-view></router-view>
 </template>
 
 <script>
 
 import LandingTopBar from '@/components/LandingTopBar.vue'
-
+import WritePost from '@/components/WritePost.vue'
 
 export default {
-  name: 'App',
+  name: 'Home',
   components: {
     LandingTopBar,
+    WritePost
   
     
   }

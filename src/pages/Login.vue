@@ -14,7 +14,7 @@
 
 <script>
     import {ref } from "vue"
-import {useStore} from "vuex"
+    import {useStore} from "vuex"
     export default {
         name:"Login",
         setup() {
