@@ -2,29 +2,46 @@
 <nav>
   <ul>
   <li id = "KidsCentral"><router-link to = "/">Kids Central</router-link></li>
+  <!-- <li id = "KidsCentral">
+    <button >Kids Central</button>
+    </li> -->
   <!-- need more things before i can edit the back like the if else conditions to see which page to back to-->
-  <li id = "Back"><router-link to = "/empty">Back</router-link></li>
-  <li id = "Logout" style="float:right"><router-link to = "/Home" ><u>Log Out</u></router-link> </li>
+  <li id = "login"><router-link to = "/login">Login</router-link></li>
+  <li v-if= "$store.state.user"
+  id = "Logout" style="float:right"><router-link to = "/Home" ><u>Log Out</u></router-link> </li>
 </ul>
 </nav>
 </template>
 
 <script>
+import { useStore } from "vuex";
+import {onBeforeMount} from "vue"
     export default {
-        name: 'LandingTopBar'
+        name: 'LandingTopBar',
+        setup() {
+    const store = useStore()
+    onBeforeMount(() => {
+      store.dispatch("fetchUser")
+    })
+  }
     }
 </script>
 
 <style scoped>
+nav {margin: 0;
+ padding: 0; }
 ul {
-  list-style-type: none;
   margin: 0;
-  padding: 0;
+ padding: 0;
   overflow: hidden;
   background-color: lightskyblue;
+  list-style-type: none;
+  
+ 
 }
 
 li {
+  
   float: left;
 }
 
