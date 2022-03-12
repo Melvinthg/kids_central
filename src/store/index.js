@@ -6,12 +6,13 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-
+import { vuexfireMutations } from "vuexfire";
 export default createStore({
   state: {
     user: null,
   },
   mutations: {
+    ...vuexfireMutations,
     SET_USER(state, user) {
       state.user = user;
     },
