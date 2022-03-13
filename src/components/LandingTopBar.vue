@@ -6,12 +6,17 @@
     <button >Kids Central</button>
     </li> -->
   <!-- need more things before i can edit the back like the if else conditions to see which page to back to-->
-  <li id = "login"><router-link to = "/login">Login</router-link></li>
-   <li id = "signup"><router-link to = "/signup">Register</router-link></li>
+  <button  v-if= "$store.state.user" @click = "$store.dispatch('logout')" id = "logout" >Log out</button> 
+  <div v-else>
+<li id = "login"><router-link to = "/login">Login</router-link></li>
+   <li id = "signupParent"><router-link to = "/signupparent">Register Parent</router-link></li>
+    <li id = "signupTeacher"><router-link to = "/signupteacher">Register Teacher</router-link></li>
+  </div>
+  
   <!-- <li v-if= "$store.state.user"
   id = "Logout" style="float:right"><router-link to = "/" v-slot = "$store.dispatch('logout')" ><u>Log Out</u></router-link> </li> -->
 
-  <button  v-if= "$store.state.user" @click = "$store.dispatch('logout')" id = "logout" >Log out</button> 
+  
   
 </ul>
 </nav>
