@@ -1,6 +1,6 @@
 <template>
   
-  <LandingTopBar></LandingTopBar>
+  
   <div class="homepageview">
     <div class="sidebar">
       <header>Joshua Tan</header>
@@ -27,7 +27,7 @@
 
 <script>
 
-import LandingTopBar from '@/components/LandingTopBar.vue'
+
 import WritePost from '@/components/WritePost.vue'
 
 // import firebaseApp from "../firebase.js";
@@ -38,7 +38,7 @@ import WritePost from '@/components/WritePost.vue'
 export default {
   name: 'Home',
   components: {
-    LandingTopBar,
+    
     WritePost
   },
   // methods: {
@@ -51,17 +51,8 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-#app {
-  
-  font-family: Inter;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-  
-  margin-top: 60px;
-  /* font-weight: bold; */ 
-}
+
+
 
 .sidebar {
   position: fixed;
