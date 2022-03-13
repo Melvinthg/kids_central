@@ -1,6 +1,6 @@
 <template>
   
-  <LandingTopBar></LandingTopBar>
+  
   <div class="homepageview">
     <div class="sidebar">
       <header>Joshua Tan</header>
@@ -27,7 +27,7 @@
 
 <script>
 
-import LandingTopBar from '@/components/LandingTopBar.vue'
+
 import WritePost from '@/components/WritePost.vue'
 
 // import firebaseApp from "../firebase.js";
@@ -38,7 +38,7 @@ import WritePost from '@/components/WritePost.vue'
 export default {
   name: 'Home',
   components: {
-    LandingTopBar,
+    
     WritePost
   },
   // methods: {

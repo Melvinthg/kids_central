@@ -7,8 +7,12 @@
     </li> -->
   <!-- need more things before i can edit the back like the if else conditions to see which page to back to-->
   <li id = "login"><router-link to = "/login">Login</router-link></li>
-  <li v-if= "$store.state.user"
-  id = "Logout" style="float:right"><router-link to = "/Home" ><u>Log Out</u></router-link> </li>
+   <li id = "signup"><router-link to = "/signup">Register</router-link></li>
+  <!-- <li v-if= "$store.state.user"
+  id = "Logout" style="float:right"><router-link to = "/" v-slot = "$store.dispatch('logout')" ><u>Log Out</u></router-link> </li> -->
+
+  <button  v-if= "$store.state.user" @click = "$store.dispatch('logout')" id = "logout" >Log out</button> 
+  
 </ul>
 </nav>
 </template>
@@ -39,6 +43,26 @@ ul {
   
  
 }
+
+#logout {
+  background-color: lightskyblue;
+  border: none;
+  padding: 16px 16px;
+  font-size: 20px;
+  float: right;
+  /*optional*/
+  
+  
+  color:  white;
+  
+  
+}
+
+#logout:hover {
+  background-color: black;
+  
+}
+
 
 li {
   
