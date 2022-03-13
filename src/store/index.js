@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import router from "../router";
 import { auth, db } from "../firebase.js";
+import {doc, setDoc} from "firebase/firestore"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,32 +11,43 @@ import { vuexfireMutations } from "vuexfire";
 export default createStore({
   state: {
     user: null,
+    userModel: null,
   },
   mutations: {
     ...vuexfireMutations,
     SET_USER(state, user) {
       state.user = user;
     },
+    SET_USER_MODEL(state,userModel) {
+      state.userModel = userModel;
+    },
     CLEAR_USER(state) {
       state.user = null;
     },
   },
   actions: {
-    // async createUser() => {
-    //   // we first create a copy that excludes `id`
-    //   // this exclusion is automatic because `id` is non-enumerable
-    //   const user = { ...state.user }
-    //   user.lastName = newLastName
-
-    //   // return the promise so we can await this action
-    //   return db
-    //     .collection('users')
-    //     .doc(this.user.id)
-    //     .set(user)
-    //     .then(() => {
-    //       console.log('user updated!')
-    //     })
-    // },
+    async createUser({commit, state}, details) {
+      // we first create a copy that excludes `id`
+      // this exclusion is automatic because `id` is non-enumerable
+     
+      const { email, password, first, last } = details;
+      const user = {
+        "email" : email,
+        "password" : password,
+        "first" : first,
+        "last" : last,
+      }
+      // return the promise so we can await this action
+      await db
+        .collection('users')
+        .doc(state.user.uid)
+        .set(user)
+        .then(() => {
+          console.log('user updated!')
+        })
+        
+        commit("SET_USER_MODEL", user)
+    },
     async login({ commit }, details) {
       const { email, password } = details;
       try {
@@ -59,7 +71,7 @@ export default createStore({
       router.push("/home");
     },
 
-    async register({ commit }, details) {
+    async registerParent({ commit }, details) {
       const { email, password, last, first } = details;
       try {
          await createUserWithEmailAndPassword(
@@ -87,16 +99,82 @@ export default createStore({
         return;
       }
       const uid = auth.currentUser.uid;
-      
-      const users = db.collection("users").doc(uid);
-      await users.set({
+      const user = {
         "email": email,
         "password": password,
         "first": first,
         "last": last,
-      });
+        "type": "parent"
+      }
+
+      //creating user document
+      const ref = await setDoc(doc(db, "users", uid), user)
+      console.log(ref);
+      // {
+      //   email: email,
+      //   password: password,
+      //   first: first,
+      //   last: last,
+      // }
+      
+      // const users = db.collection("users").doc(uid);
+      // await users.set();
 
       commit("SET_USER", auth.currentUser);
+      commit("SET_USER_MODEL", user)
+      router.push("/home");
+    },
+    async registerTeacher({ commit }, details) {
+      const { email, password, last, first } = details;
+      try {
+         await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        );
+       
+      } catch (error) {
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            alert(error.code);
+            break;
+          case "auth/invalid-email":
+            alert("Invalid Email");
+            break;
+          case "auth/weak-password":
+            alert("Weak password");
+            break;
+
+          default:
+            alert("Something went wrong");
+            break;
+        }
+        return;
+      }
+      const uid = auth.currentUser.uid;
+      const user = {
+        "email": email,
+        "password": password,
+        "first": first,
+        "last": last,
+        "type": "teacher"
+      }
+
+      //creating user document
+      const ref = await setDoc(doc(db, "users", uid), user)
+      console.log(ref);
+      // {
+      //   email: email,
+      //   password: password,
+      //   first: first,
+      //   last: last,
+      // }
+      
+      // const users = db.collection("users").doc(uid);
+      // await users.set();
+
+      commit("SET_USER", auth.currentUser);
+      commit("SET_USER_MODEL", user)
       router.push("/home");
     },
 

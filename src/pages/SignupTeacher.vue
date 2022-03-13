@@ -1,6 +1,6 @@
 <template>
 <form  class="register" @submit.prevent = "register">
-    <h1>Sign Up</h1>
+    <h1>Register as a Teacher</h1>
     <p><input type = "text" placeholder = "Email" v-model = "register_form.email"/></p>
 
     
@@ -20,22 +20,26 @@
 <script>
 import {ref } from "vue"
 import {useStore,} from "vuex"
+// import {db} from '../firebase.js'
+// import {doc, setDoc} from "firebase/firestore"
 
     export default {
-        name:"Signup",
+        name:"SignupTeacher",
         
         
         methods: {
-          test() {
-           
+          async test() {
+            
+          //  await db.collections("dab").set({form : this.register_form})
           }
         },
         setup() {
           const register_form = ref({})
           const store = useStore();
-          const register = () => {
-            store.dispatch('register', register_form.value)
-          }
+          const register =  () => {
+             store.dispatch('registerTeacher', register_form.value)
+          //   store.dispatch('createUser', register_form.value)
+           }
          
           return {
             register_form,
