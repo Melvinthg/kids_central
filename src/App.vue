@@ -41,11 +41,13 @@ export default {
 * {
   padding: 0px;
   margin: 0px;
-  box-sizing: border-box;}
+  box-sizing: border-box;
+  font-family: Inter;
+  }
 
   #app {
  
-  font-family: Inter;
+  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
