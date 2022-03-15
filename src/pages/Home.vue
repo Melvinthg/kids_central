@@ -65,7 +65,7 @@ export default {
 
 .sidebar {
   position: fixed;
-  width:fit-content;
+  width: auto;
   height: 100%;
   background: #2470b7;
   text-align: centre;
