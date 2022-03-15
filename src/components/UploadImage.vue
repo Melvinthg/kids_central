@@ -4,11 +4,9 @@
             <v-flex md6 offset-sm3 class="textcenter">
                 <v-text-field solo v-model="caption" label="Write a post here..."></v-text-field>
             </v-flex>
-            <v-btn @click="click1">Choose a photo</v-btn>
-            <input type = "file" name="image" @change="previewImage">
         </v-layout>
-        <!-- <v-btn @click="click1">Choose a photo</v-btn>
-        <input type = "file" name="image" @change="previewImage"> -->
+        <v-btn @click="click1">Choose a photo</v-btn>
+        <input type = "file" name="image" @change="previewImage">
     </div>
 </template>
 

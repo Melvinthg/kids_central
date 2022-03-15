@@ -7,6 +7,8 @@ import SignupTeacher from "@/pages/SignupTeacher.vue";
 import Landing from "@/pages/Landing.vue";
 import ContactParent from "@/pages/ContactParent.vue";
 import ContactTeacher from "@/pages/ContactTeacher.vue"
+import ForumDisplay from "@/pages/ForumDisplay.vue";
+import ForumCreatePost from "@/pages/ForumCreatePost.vue";
 
 const routes = [
   {
@@ -46,6 +48,16 @@ const routes = [
     path: "/",
     name: "Landing",
     component: Landing,
+  },
+  {
+    path: "/forumdisplay",
+    name: "ForumDisplay",
+    component: ForumDisplay,
+  },
+  {
+    path: "/forumcreatepost",
+    name: "ForumCreatePost",
+    component: ForumCreatePost,
   },
 ];
 const router = createRouter({

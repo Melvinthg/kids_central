@@ -6,7 +6,8 @@
       <header>Joshua Tan</header>
       <router-link to = "/home" className='text-link'>Edit Class Dashboard</router-link><br>
       <router-link to = "/home" className='text-link'>Manage Class Info</router-link><br>
-      <router-link to = "/home" className='text-link'>Class Forum</router-link><br>
+
+      <router-link to = "/forumdisplay" className='text-link'>Class Forum</router-link><br>
       <router-link to = "/contactparent" className='text-link'>Contact Parents</router-link><br>
     </div>
     <div class="content">
