@@ -2,29 +2,75 @@
 <nav>
   <ul>
   <li id = "KidsCentral"><router-link to = "/">Kids Central</router-link></li>
+  <!-- <li id = "KidsCentral">
+    <button >Kids Central</button>
+    </li> -->
   <!-- need more things before i can edit the back like the if else conditions to see which page to back to-->
-  <li id = "Back"><router-link to = "/empty">Back</router-link></li>
-  <li id = "Logout" style="float:right"><router-link to = "/Home" ><u>Log Out</u></router-link> </li>
+  <button  v-if= "$store.state.user" @click = "$store.dispatch('logout')" id = "logout" >Log out</button> 
+  <div v-else>
+<li id = "login"><router-link to = "/login">Login</router-link></li>
+   <li id = "signupParent"><router-link to = "/signupparent">Register Parent</router-link></li>
+    <li id = "signupTeacher"><router-link to = "/signupteacher">Register Teacher</router-link></li>
+  </div>
+  
+  <!-- <li v-if= "$store.state.user"
+  id = "Logout" style="float:right"><router-link to = "/" v-slot = "$store.dispatch('logout')" ><u>Log Out</u></router-link> </li> -->
+
+  
+  
 </ul>
 </nav>
 </template>
 
 <script>
+import { useStore } from "vuex";
+import {onBeforeMount} from "vue"
     export default {
-        name: 'LandingTopBar'
+        name: 'LandingTopBar',
+        setup() {
+    const store = useStore()
+    onBeforeMount(() => {
+      store.dispatch("fetchUser")
+    })
+  }
     }
 </script>
 
 <style scoped>
+nav {margin: 0;
+ padding: 0; }
 ul {
-  list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: lightskyblue;
+  list-style-type: none;
+  
+ 
 }
 
+#logout {
+  background-color: lightskyblue;
+  border: none;
+  padding: 16px 16px;
+  font-size: 20px;
+  float: right;
+  /*optional*/
+  
+  
+  color:  white;
+  
+  
+}
+
+#logout:hover {
+  background-color: black;
+  
+}
+
+
 li {
+  
   float: left;
 }
 

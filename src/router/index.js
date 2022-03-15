@@ -2,8 +2,12 @@ import { createRouter, createWebHistory } from "vue-router";
 import { auth } from "../firebase.js";
 import Home from "@/pages/Home.vue";
 import Login from "@/pages/Login.vue";
-import Signup from "@/pages/Signup.vue";
+import SignupParent from "@/pages/SignupParent.vue";
+import SignupTeacher from "@/pages/SignupTeacher.vue";
 import Landing from "@/pages/Landing.vue";
+import ForumDisplay from "@/pages/ForumDisplay.vue";
+import ForumCreatePost from "@/pages/ForumCreatePost.vue";
+
 const routes = [
   {
     path: "/home",
@@ -19,14 +23,29 @@ const routes = [
     component: Login,
   },
   {
-    path: "/signup",
-    name: "Signup",
-    component: Signup,
+    path: "/signupparent",
+    name: "SignupParent",
+    component: SignupParent,
+  },
+  {
+    path: "/signupteacher",
+    name: "SignupTeacher",
+    component: SignupTeacher,
   },
   {
     path: "/",
     name: "Landing",
     component: Landing,
+  },
+  {
+    path: "/forumdisplay",
+    name: "ForumDisplay",
+    component: ForumDisplay,
+  },
+  {
+    path: "/forumcreatepost",
+    name: "ForumCreatePost",
+    component: ForumCreatePost,
   },
 ];
 const router = createRouter({
