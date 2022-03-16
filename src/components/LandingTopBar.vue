@@ -10,6 +10,7 @@
   <div v-else>
 <li id = "login"><router-link to = "/login">Login</router-link></li>
    <li id = "signupParent"><router-link to = "/signupparent">Register Parent</router-link></li>
+  <Dropdown title = "Services" :items = "services" />
     <li id = "signupTeacher"><router-link to = "/signupteacher">Register Teacher</router-link></li>
   </div>
   
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import { Dropdown } from './Dropdown';
 import { useStore } from "vuex";
 import {onBeforeMount} from "vue"
     export default {
@@ -32,7 +34,24 @@ import {onBeforeMount} from "vue"
     onBeforeMount(() => {
       store.dispatch("fetchUser")
     })
-  }
+  }, components: {
+    Dropdown
+  },
+
+    // eslint-disable-next-line no-dupe-keys
+    name: 'navbar', data() {
+      return {
+        services : [ {
+          title: 'web', link: '#'
+        }, 
+        {
+          title : 'Design', link: '#'
+        },
+        {
+          title : 'testing', link: '#'
+        } ]
+      }
+    }
     }
 </script>
 
