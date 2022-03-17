@@ -46,7 +46,6 @@
 
 
 import WritePost from '@/components/WritePost.vue'
-import {Menu as IconMenu,} from '@element-plus/icons-vue'
 //import {Location,Document,Menu as IconMenu,Setting} from '@element-plus/icons-vue'
 
 // import firebaseApp from "../firebase.js";
@@ -55,7 +54,6 @@ import {Menu as IconMenu,} from '@element-plus/icons-vue'
 // const db = getFirestore(firebaseApp);
 
 export default {
-  IconMenu,
   name: 'Home',
   components: {
     
