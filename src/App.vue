@@ -1,7 +1,8 @@
 <template>
-<div v-if = "$store.state.user">  
+<LandingTopBar/>
+<!-- <div v-if = "$store.state.user">  
   <router-link to = "/Home" >Home</router-link> 
-  <h1>Home</h1>
+  
 <button @click = "$store.dispatch('logout')">Log out</button> 
         
           
@@ -12,7 +13,7 @@
           <router-link to = "/signup">Sign up</router-link> 
           
     </div>
-    <div></div>
+    <div></div> -->
     
    <router-view></router-view>
   
@@ -37,5 +38,22 @@ export default {
 </script>
 
 <style>
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: Inter;
+  }
 
+  #app {
+ 
+  
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* text-align: center; */
+  color: #2c3e50;
+  
+ 
+  /* font-weight: bold; */ 
+}
 </style>

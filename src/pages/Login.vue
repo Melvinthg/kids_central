@@ -34,5 +34,15 @@
 </script>
 
 <style scoped>
-
+input {
+  border-style: solid;
+  border-color: CadetBlue;
+  border-width: 1px;
+  border-radius: 8px;
+  margin: 8px;
+  padding: 4px;
+}
+.login {
+  text-align: center;
+}
 </style>
