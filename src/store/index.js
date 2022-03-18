@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import router from "../router";
 import { auth, db } from "../firebase.js";
-import {doc, setDoc} from "firebase/firestore"
+import {doc, setDoc, addDoc, collection} from "firebase/firestore"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -214,6 +214,23 @@ export default createStore({
           }
         }
       });
+    },
+
+    async forumCreatePost({commit, state}, details) {
+     console.log(commit)
+     console.log(state)
+
+      const { title, text } = details;
+      
+      const forumpost = {
+        "title" : title,
+        "text" : text,
+        "uid" : auth.currentUser.uid,
+        "time" : new Date()
+      }
+
+      const docRef = await addDoc(collection(db, "forumposts"), forumpost);
+      console.log("Document written with ID: ", docRef.id);
     },
   },
 });
