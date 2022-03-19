@@ -18,9 +18,9 @@
           <p>messages to be displayed here</p>
           <el-footer>
                 <el-input
-                  id="messagecontent"
+                  id="message"
                   ref="type"
-                  v-model="caption"
+                  v-model="message"
                   :rows="2"
                   v-on:keydown="typing()"
                   type="textarea"
@@ -45,7 +45,7 @@ import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
 //import { addDoc, getFirestore, collection, getDocs, Timestamp } from "firebase/firestore";
 // import { ref } from 'vue'
 // import { doc, setDoc } from "firebase/firestore";
-//const db = getFirestore(app);
+// const db = getFirestore(app);
 //const messagesCollection = getFirestore(app).collection("messages")
 const auth = getAuth();
 
@@ -57,7 +57,7 @@ export default {
             messageData: null,
             currentSelectedUserDisplayName : '',
             currentSelectedUserFirstName: '',
-            user: auth.currentUser.first,
+            user: auth.currentUser,
         }
     },
     mounted() {
@@ -99,7 +99,7 @@ export default {
       send() {
           const msg = {
               message: this.message,
-              senderID: this.user.first, //this.user.first (either one)
+              senderID: auth.currentUser.first,
               receiverID: this.currentSelectedUserFirstName,
               time: Timestamp
               // time: serverTimestamp()
