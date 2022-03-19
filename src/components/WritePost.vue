@@ -11,33 +11,35 @@
       placeholder="Write something here..."
     />
     <el-row class="sendRow">
-    <div>Send to:
-      <el-select
-        v-model="value1"
-        placeholder="Select"
-        style="width: 200px"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </div>
+      <div>
+        Send to:
+        <el-select
+          v-model="value1"
+          placeholder="Select"
+          style="width: 200px"
+          @change="onChange($event)"
+          ref="selects"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
 
-    <!-- upload image -->
+      <!-- upload image -->
 
-    <input
-      type="file"
-      name="image"
-      @change="previewImage"
-      style="margin: auto"
-    />
+      <input
+        type="file"
+        name="image"
+        @change="previewImage"
+        style="margin: auto"
+      />
 
-    <!-- send button -->
-    <el-button plain @click="create" style="float: right;"
-      >Post</el-button>
+      <!-- send button -->
+      <el-button plain @click="create" style="float: right">Post</el-button>
     </el-row>
   </div>
 </template>
@@ -46,10 +48,11 @@
 import { db } from "../firebase.js";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { ref } from "vue";
+import { getAuth } from "firebase/auth";
+const auth = getAuth();
 
-const value1 = ref([]);
+
 export default {
-
   name: "WritePost",
 
   data() {
@@ -58,15 +61,19 @@ export default {
       img1: "",
       imageData: null,
       options: [],
-      value1
+      value1: ref('selects')
     };
   },
 
   methods: {
     create() {
+      var today = new Date();
       const post = {
         photo: this.img1,
         caption: this.caption,
+        date: today,
+        receiver: this.value1,
+        poster: auth.currentUser.email
       };
       addDoc(collection(db, "posts"), post)
         .then((response) => {
@@ -119,19 +126,19 @@ export default {
     },
 
     async getOptions() {
-        let value = await getDocs(collection(db, "students"));
-        console.log("hello")
-        value.forEach((d) => {
-            this.options.push({
-                value: d.id,
-                label: d.data().Name
-            })
-        })
-    }
+      let value = await getDocs(collection(db, "students"));
+      console.log("hello");
+      value.forEach((d) => {
+        this.options.push({
+          value: d.id,
+          label: d.data().Name,
+        });
+      });
+    },
   },
-  created: function() {
-      this.getOptions()
-  }
+  created: function () {
+    this.getOptions();
+  },
 };
 </script>
 
