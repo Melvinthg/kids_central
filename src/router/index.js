@@ -7,6 +7,7 @@ import SignupTeacher from "@/pages/SignupTeacher.vue";
 import Landing from "@/pages/Landing.vue";
 import ForumDisplay from "@/pages/ForumDisplay.vue";
 import ForumCreatePost from "@/pages/ForumCreatePost.vue";
+import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 
 const routes = [
   {
@@ -47,6 +48,11 @@ const routes = [
     name: "ForumCreatePost",
     component: ForumCreatePost,
   },
+  {
+    path: "/ChildrenInfo",
+    name: "ChildrenInfo",
+    component: ChildrenInfo
+  }
 ];
 const router = createRouter({
   history: createWebHistory(),

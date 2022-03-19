@@ -15,11 +15,15 @@
             <el-icon><icon-menu /></el-icon>
             <span><router-link to ="/home" className="sidebarLinks">Manage Class Info</router-link></span>
           </el-menu-item>
-          <el-menu-item index="3">
+              <el-menu-item index="3">
+            <el-icon><icon-menu /></el-icon>
+            <span><router-link to = "/ChildrenInfo" className="sidebarLinks">Children info</router-link></span>
+          </el-menu-item>
+          <el-menu-item index="4">
             <el-icon><icon-menu /></el-icon>
             <span><router-link to = "/forumdisplay" className="sidebarLinks">Class Forum</router-link></span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="5">
             <el-icon><icon-menu /></el-icon>
             <span><router-link to = "/home" className="sidebarLinks">Contact Parents</router-link></span>
           </el-menu-item>
