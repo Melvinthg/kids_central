@@ -8,13 +8,16 @@
     <p>
         <input type = "submit" value = "Sign In"/>
     </p>
+    
 </form>
-
+<button @click = 'this.test("BT3103")'>test</button>
 </template>
 
 <script>
     import {ref } from "vue"
-import {useStore} from "vuex"
+    // import { db } from "../firebase.js";
+    // import { doc, getDoc, } from "firebase/firestore";
+import {useStore, mapActions} from "vuex"
     export default {
         name:"Login",
         setup() {
@@ -23,12 +26,24 @@ import {useStore} from "vuex"
           const login = () => {
             store.dispatch('login', login_form.value)
           }
-
+          
+        //  const test = () => {
+        //    console.log("xd")
+        //     store.dispatch("getStudentsInClass")}
           return {
             login_form,
             store,
-            login
+            login,
+            // test,
           }
+        },
+        methods: {
+      
+          ...mapActions({test: 'getStudentsInClass', test1 : "getStudentsInClass"}),
+
+
+
+          
         }
     }
 </script>

@@ -31,7 +31,7 @@
     <input
       type="file"
       name="image"
-      @change="previewImage"
+      @change="this.previewImage"
       style="margin: auto"
     />
 
@@ -43,8 +43,9 @@
 </template>
 
 <script>
-import { db } from "../firebase.js";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { db, storage } from "../firebase.js";
+import {uploadBytes, getDownloadURL, ref as reference} from "firebase/storage"
+import { addDoc, collection, getDocs, } from "firebase/firestore";
 import { ref } from "vue";
 
 const value1 = ref([]);
@@ -63,9 +64,31 @@ export default {
   },
 
   methods: {
+    // uploadImage(event) {
+    //    if(event.target.files[0]){
+        
+    //       let file = event.target.files[0];
+    
+    //       var storageRef = imagesRef.ref(Math.random() + '_'  + file.name);
+    
+    //       let uploadTask  = storageRef.put(file);
+    
+    //       uploadTask.on('state_changed', (snapshot) => {
+            
+    //       }, (error) => {
+    //         // Handle unsuccessful uploads
+    //       }, () => {
+    //         // Handle successful uploads on complete
+    //         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            
+    //         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+    //           this.product.images.push(downloadURL);
+    //         });
+    //       });
+    // }},
     create() {
       const post = {
-        photo: this.img1,
+        photo: this.imageData.name,
         caption: this.caption,
       };
       addDoc(collection(db, "posts"), post)
@@ -89,33 +112,58 @@ export default {
       this.uploadValue = 0;
       this.img1 = null;
       this.imageData = event.target.files[0];
+      
       this.onUpload();
     },
 
     async onUpload() {
       this.img1 = null;
-      const imgDataObj = Object.assign({}, this.imageData);
-      const storageRef = await addDoc(
-        collection(db, `${this.imageData.name}`),
-        imgDataObj
-      );
-      storageRef.on(
-        `state_changed`,
-        (snapshot) => {
-          this.uploadValue =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          console.log(error.message);
-        },
-        () => {
-          this.uploadValue = 100;
-          storageRef.snapshot.ref.getDownloadURL().then((url) => {
-            this.img1 = url;
-            console.log(this.img1);
-          });
-        }
-      );
+      const tempUrl = "images/" + Math.random().toString() + this.imageData.name
+      // const imgDataObj = Object.assign({}, this.imageData);
+      
+      const imageRef = reference(storage, tempUrl)
+      //await uploadBytes(imageRef, this.imageData)
+      
+      //console.log(imageUrl)
+      
+uploadBytes(imageRef, this.imageData, )
+  .then((snapshot) => {
+    // console.log('Uploaded', snapshot.totalBytes, 'bytes.');
+    // console.log('File metadata:', snapshot.metadata);
+    // Let's get a download URL for the file.
+    getDownloadURL(snapshot.ref).then((url) => {
+      //set image url here --> insert into post object
+      const imageUrl = url
+      
+      console.log('File available at', imageUrl);
+      // ...
+    });
+  }).catch((error) => {
+    console.error('Upload failed', error);
+    // ...
+  });
+      // getimagesRef
+      // const storageRef = await addDoc(
+      //   collection(db, `${this.imageData.name}`),
+      //   imgDataObj
+      // );
+      // storageRef.on(
+      //   `state_changed`,
+      //   (snapshot) => {
+      //     this.uploadValue =
+      //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //   },
+      //   (error) => {
+      //     console.log(error.message);
+      //   },
+      //   () => {
+      //     this.uploadValue = 100;
+      //     storageRef.snapshot.ref.getDownloadURL().then((url) => {
+      //       this.img1 = url;
+      //       console.log(this.img1);
+      //     });
+      //   }
+      // );
     },
 
     async getOptions() {
