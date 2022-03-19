@@ -1,38 +1,53 @@
 <template>
-<div>
-  <b-dropdown id="dropdown-1" text="Dropdown Button" class="m-md-2">
-    <b-dropdown-item>First Action</b-dropdown-item>
-    <b-dropdown-item>Second Action</b-dropdown-item>
-  </b-dropdown>
+  <div class="dropdown">
+  <button class="dropbtn">Registration</button>
+  <div class="dropdown-content">
+   <li id = "signupParent"><router-link to = "/signupparent">Register Parent</router-link></li>
+    <li id = "signupTeacher"><router-link to = "/signupteacher">Register Teacher</router-link></li>
+  </div>
 </div>
 </template>
 
-<script>
-export default {
-    name: "Dropdown",
-}
-</script>
-
-<style>
-
-</style>
-<!--<template>
-    <div class = "menu-item">
-        <a href="#">
-            {{title}}
-        </a>
-        </div>    
-</template>
 
 <script>
 
-export default ({
-    name : 'dropdown',
-    props : ['title', 'items']
-})
 </script>
 
 <style scoped>
+.dropbtn {
+  background-color: lightskyblue;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: absolute;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: relative;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: black;}
 
 </style>
--->
+
