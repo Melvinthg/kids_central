@@ -1,20 +1,5 @@
 <template>
 <LandingTopBar/>
-<!-- <div v-if = "$store.state.user">  
-  <router-link to = "/Home" >Home</router-link> 
-  
-<button @click = "$store.dispatch('logout')">Log out</button> 
-        
-          
-    </div >
-    <div v-else> 
-        <router-link to = "/">Landing</router-link> | 
-         <router-link to = "/login">Login</router-link> | 
-          <router-link to = "/signup">Sign up</router-link> 
-          
-    </div>
-    <div></div> -->
-    
    <router-view></router-view>
   
 </template>
