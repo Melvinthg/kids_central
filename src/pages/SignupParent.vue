@@ -7,12 +7,16 @@
     <p><input type = "password" placeholder = "Password" v-model = "register_form.password"/></p>
     <p><input type = "first" placeholder = "First Name" v-model = "register_form.first"/></p>
     <p><input type = "last" placeholder = "Last Name" v-model = "register_form.last"/></p>
+    <p><input type = "childName" placeholder = "Child Name" v-model = "register_form.childName"/></p>
+    <p><input type = "childClass" placeholder = "Child Class" v-model = "register_form.childClass"/></p>
+    <p><input type = "childID" placeholder = "Child ID" v-model = "register_form.childID"/></p>
+    
     <p>
         <input type = "submit" value = "Register"/>
     </p>
 </form>
 
-<button @click = "test()">xdddd</button>
+
   
 
 </template>

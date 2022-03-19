@@ -26,28 +26,33 @@ export default createStore({
     },
   },
   actions: {
-    async createUser({commit, state}, details) {
-      // we first create a copy that excludes `id`
-      // this exclusion is automatic because `id` is non-enumerable
+    // async createUser({commit, state}, details) {
+    //   // we first create a copy that excludes `id`
+    //   // this exclusion is automatic because `id` is non-enumerable
      
-      const { email, password, first, last } = details;
-      const user = {
-        "email" : email,
-        "password" : password,
-        "first" : first,
-        "last" : last,
-      }
-      // return the promise so we can await this action
-      await db
-        .collection('users')
-        .doc(state.user.uid)
-        .set(user)
-        .then(() => {
-          console.log('user updated!')
-        })
+    //   const { email, password, first, last } = details;
+    //   const user = {
+    //     "email" : email,
+    //     "password" : password,
+    //     "first" : first,
+    //     "last" : last,
+    //   }
+    //   // return the promise so we can await this action
+    //   await db
+    //     .collection('users')
+    //     .doc(state.user.uid)
+    //     .set(user)
+    //     .then(() => {
+    //       console.log('user updated!')
+    //     })
         
-        commit("SET_USER_MODEL", user)
-    },
+    //     commit("SET_USER_MODEL", user)
+    // },
+
+    // async createPost({commit}, details) {
+    //   const { userId, content, title,  } = details;
+
+    // },
     async login({ commit }, details) {
       const { email, password } = details;
       try {
@@ -72,7 +77,7 @@ export default createStore({
     },
 
     async registerParent({ commit }, details) {
-      const { email, password, last, first } = details;
+      const { email, password, last, first, childName, childClass, childID } = details;
       try {
          await createUserWithEmailAndPassword(
           auth,
@@ -104,12 +109,24 @@ export default createStore({
         "password": password,
         "first": first,
         "last": last,
+        "childClass" : childClass,
+        "childName" : childName,
+        "childID" : childID,
         "type": "parent"
       }
+      
+      const child ={
+        "childName" : childName,
+        "childID" : childID,
+      }
+      //creating/ updating class
+      // const classRef = 
+      await setDoc(doc(db, "classes", childClass), child)
 
       //creating user document
-      const ref = await setDoc(doc(db, "users", uid), user)
-      console.log(ref);
+      // const ref = 
+      await setDoc(doc(db, "users", uid), user)
+      // console.log(ref);
       // {
       //   email: email,
       //   password: password,
@@ -125,7 +142,7 @@ export default createStore({
       router.push("/home");
     },
     async registerTeacher({ commit }, details) {
-      const { email, password, last, first } = details;
+      const { email, password, last, first, teacherID, teacherClass } = details;
       try {
          await createUserWithEmailAndPassword(
           auth,
@@ -157,7 +174,9 @@ export default createStore({
         "password": password,
         "first": first,
         "last": last,
-        "type": "teacher"
+        "type": "teacher",
+        "teacherID" : teacherID,
+        "teacherClass" : teacherClass
       }
 
       //creating user document
