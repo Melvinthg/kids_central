@@ -11,6 +11,7 @@
       placeholder="Write something here..."
     />
     <el-row class="sendRow">
+
     <div>Send to:
       <el-select
         v-model="value1"
@@ -38,6 +39,7 @@
     <!-- send button -->
     <el-button plain @click="create" style="float: right;"
       >Post</el-button>
+
     </el-row>
   </div>
 </template>
@@ -47,10 +49,11 @@ import { db, storage } from "../firebase.js";
 import {uploadBytes, getDownloadURL, ref as reference} from "firebase/storage"
 import { addDoc, collection, getDocs, } from "firebase/firestore";
 import { ref } from "vue";
+import { getAuth } from "firebase/auth";
+const auth = getAuth();
 
-const value1 = ref([]);
+
 export default {
-
   name: "WritePost",
 
   data() {
@@ -59,7 +62,7 @@ export default {
       img1: "",
       imageData: null,
       options: [],
-      value1
+      value1: ref('selects')
     };
   },
 
@@ -87,9 +90,13 @@ export default {
     //       });
     // }},
     create() {
+      var today = new Date();
       const post = {
         photo: this.imageData.name,
         caption: this.caption,
+        date: today,
+        receiver: this.value1,
+        poster: auth.currentUser.email
       };
       addDoc(collection(db, "posts"), post)
         .then((response) => {
@@ -167,19 +174,19 @@ uploadBytes(imageRef, this.imageData, )
     },
 
     async getOptions() {
-        let value = await getDocs(collection(db, "students"));
-        console.log("hello")
-        value.forEach((d) => {
-            this.options.push({
-                value: d.id,
-                label: d.data().Name
-            })
-        })
-    }
+      let value = await getDocs(collection(db, "students"));
+      console.log("hello");
+      value.forEach((d) => {
+        this.options.push({
+          value: d.id,
+          label: d.data().Name,
+        });
+      });
+    },
   },
-  created: function() {
-      this.getOptions()
-  }
+  created: function () {
+    this.getOptions();
+  },
 };
 </script>
 
@@ -196,4 +203,3 @@ uploadBytes(imageRef, this.imageData, )
   margin-left: auto;
 }
 </style>
-
