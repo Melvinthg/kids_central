@@ -8,9 +8,9 @@
          <!-- query number of parents in the class -->
          <h4>25 members</h4>
      </div>
-     <div id="thirdgroup">
+     <!-- <div id="thirdgroup">
          
-     </div>
+     </div> -->
  </div>
 </template>
 
@@ -48,7 +48,7 @@
     padding: 10px;
 }
 
-#thirdgroup {
+/* #thirdgroup {
   float: right;
   width: 25%;
   padding: 10px 10px;
@@ -56,7 +56,7 @@
   text-align: center;
   color: white;
   line-height: 80px;
-}
+} */
 
 #firstgroup:hover {
   background-color: black;

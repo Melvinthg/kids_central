@@ -2,15 +2,12 @@
 <nav>
   <ul>
   <li id = "KidsCentral"><router-link to = "/">Kids Central</router-link></li>
-  <!-- <li id = "KidsCentral">
-    <button >Kids Central</button>
-    </li> -->
-  <!-- need more things before i can edit the back like the if else conditions to see which page to back to-->
   <button  v-if= "$store.state.user" @click = "$store.dispatch('logout')" id = "logout" >Log out</button> 
   <div v-else>
 <li id = "login"><router-link to = "/login">Login</router-link></li>
    <li id = "signupParent"><router-link to = "/signupparent">Register Parent</router-link></li>
-  <Dropdown title = "Services" :items = "services" />
+   <li id = "testing">testing</li>
+  <Dropdown/>
     <li id = "signupTeacher"><router-link to = "/signupteacher">Register Teacher</router-link></li>
   </div>
   
@@ -24,7 +21,7 @@
 </template>
 
 <script>
-import { Dropdown } from './Dropdown';
+import { Dropdown } from './components/Dropdown.vue'
 import { useStore } from "vuex";
 import {onBeforeMount} from "vue"
     export default {
@@ -37,21 +34,6 @@ import {onBeforeMount} from "vue"
   }, components: {
     Dropdown
   },
-
-    // eslint-disable-next-line no-dupe-keys
-    name: 'navbar', data() {
-      return {
-        services : [ {
-          title: 'web', link: '#'
-        }, 
-        {
-          title : 'Design', link: '#'
-        },
-        {
-          title : 'testing', link: '#'
-        } ]
-      }
-    }
     }
 </script>
 
