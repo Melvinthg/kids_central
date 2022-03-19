@@ -47,6 +47,7 @@ import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
 // import { doc, setDoc } from "firebase/firestore";
 // const db = getFirestore(app);
 //const messagesCollection = getFirestore(app).collection("messages")
+// const app = firebase.initializeApp(firebaseConfig);
 const auth = getAuth();
 
 export default {
