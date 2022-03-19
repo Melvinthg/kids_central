@@ -1,29 +1,4 @@
 <template>
-<<<<<<< HEAD
-  
-  
-  <div class="homepageview">
-    <div class="sidebar">
-      <header>Joshua Tan</header>
-      <router-link to = "/home" className='text-link'>Edit Class Dashboard</router-link><br>
-      <router-link to = "/home" className='text-link'>Manage Class Info</router-link><br>
-
-      <router-link to = "/forumdisplay" className='text-link'>Class Forum</router-link><br>
-      <router-link to = "/contactparent" className='text-link'>Contact Parents</router-link><br>
-    </div>
-    <div class="content">
-      <div class ="writepost">
-        <WritePost></WritePost>
-      </div>
-      <div class="feed">
-        <!-- feed -->
-    
-        <h1>feed</h1>
-      </div>
-    </div>
-
-    
-=======
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
@@ -63,7 +38,7 @@
             <el-menu-item index="4">
               <el-icon><Cellphone /></el-icon>
               <span
-                ><router-link to="/home" className="sidebarLinks"
+                ><router-link to="/contactparent" className="sidebarLinks"
                   >Contact Parents</router-link
                 ></span
               >
@@ -81,7 +56,6 @@
         </el-main>
       </el-container>
     </el-container>
->>>>>>> upstream/main
   </div>
   <router-view></router-view>
 </template>

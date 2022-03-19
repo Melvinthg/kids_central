@@ -9,17 +9,24 @@
         <el-aside width="200px">
         <h3> ChatList </h3>
           <el-table :data="userList" @current-change="selectUser">
-            <el-table-column prop="first" label="name"> </el-table-column>
+            <el-table-column prop="first" label="Parents:"> </el-table-column>
           </el-table>
         </el-aside>
 
         <el-container>
-          <el-main> <h3>  {{currentSelectedUserDisplayName}}  </h3> </el-main>
+          <el-main> <h3>  Talking to: {{currentSelectedUserDisplayName}}  </h3> </el-main>
           <p>messages to be displayed here</p>
           <el-footer>
-              <h2> send bar here </h2>
-            <el-input v-model="input" placeholder="type your message here..." />
-            <el-button type="primary" @click="send"> send </el-button>
+                <el-input
+                  id="messagecontent"
+                  ref="type"
+                  v-model="caption"
+                  :rows="2"
+                  v-on:keydown="typing()"
+                  type="textarea"
+                  placeholder="Type your message here..."
+                />
+            <el-button type="primary" @click="send" style ="float: right"> Send </el-button>
           </el-footer>
         </el-container>
       </el-container>
@@ -30,14 +37,17 @@
 </template>
 
 <script>
-import { app } from "../firebase.js";
+import { db } from "../firebase.js";
+// import { db, app } from "../firebase.js";
 import { getAuth } from "firebase/auth";
 // import {serverTimestamp} from "firebase/firestore";
-import { getFirestore, collection, getDocs, Timestamp } from "firebase/firestore";
-import { ref } from 'vue'
+import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
+//import { addDoc, getFirestore, collection, getDocs, Timestamp } from "firebase/firestore";
+// import { ref } from 'vue'
 // import { doc, setDoc } from "firebase/firestore";
-const db = getFirestore(app);
+//const db = getFirestore(app);
 //const messagesCollection = getFirestore(app).collection("messages")
+const auth = getAuth();
 
 export default {
     data() {
@@ -47,6 +57,7 @@ export default {
             messageData: null,
             currentSelectedUserDisplayName : '',
             currentSelectedUserFirstName: '',
+            user: auth.currentUser.first,
         }
     },
     mounted() {
@@ -85,30 +96,30 @@ export default {
         // this.userList = userNames;
       },
 
-      async send() {
-          const auth = getAuth();
-          const user = auth.currentUser;
-          const input = ref('');
+      send() {
           const msg = {
-              message: input,
-              senderID: user.first,
+              message: this.message,
+              senderID: this.user.first, //this.user.first (either one)
               receiverID: this.currentSelectedUserFirstName,
               time: Timestamp
               // time: serverTimestamp()
-          }
+          };
           
-          db.database().ref('messages').push(msg)
-          .then((response) => {
-              console.log(response)
-          })
-          .catch(error => {
-              console.log(error)
-          })
-          // need to clear msg box
+          addDoc(collection(db, "messages"), msg)
+            .then((response) => {
+              console.log(response);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
       },
     
       click1() {
           this.$refs.input1.click()
+      },
+
+      typing() {
+        this.$refs.type.value = this.message;
       },
 
     }
