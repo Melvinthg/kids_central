@@ -38,7 +38,7 @@
             <el-menu-item index="4">
               <el-icon><Cellphone /></el-icon>
               <span
-                ><router-link to="/home" className="sidebarLinks"
+                ><router-link to="/contactparent" className="sidebarLinks"
                   >Contact Parents</router-link
                 ></span
               >
