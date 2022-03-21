@@ -10,7 +10,7 @@
     </p>
     
 </form>
-<button @click = 'this.test("BT3103")'>test</button>
+<!-- <button @click = 'this.test("BT3103")'>test</button> -->
 </template>
 
 <script>
@@ -18,7 +18,7 @@
 
     // import { db } from "../firebase.js";
     // import { doc, getDoc, } from "firebase/firestore";
-import {useStore, mapActions} from "vuex"
+import {useStore,} from "vuex"
 
     export default {
         name:"Login",
@@ -41,7 +41,7 @@ import {useStore, mapActions} from "vuex"
         },
         methods: {
       
-          ...mapActions({test: 'getStudentsInClass', test1 : "getStudentsInClass"}),
+          //...mapActions({test: 'getStudentsInClass', test1 : "getStudentsInClass"}),
 
 
 
