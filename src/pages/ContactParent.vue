@@ -2,13 +2,8 @@
 
   <div class="layout">
     <el-container>
-      <el-header id = "topbar">
-        <div id = "btn">
-          <el-button type="primary" @click="$router.push('home')"> <el-icon><Back /></el-icon> </el-button>
-        </div>
-        <div id = "selecteduser">
-          <h3>  Talking to: {{currentSelectedUserDisplayName}}  </h3>
-        </div>
+      <el-header> 
+          <router-link to = "/home" tag = "button" className = "back1"> Back </router-link>
       </el-header>
       <el-container>
         <el-aside width="200px">
@@ -19,7 +14,8 @@
         </el-aside>
 
         <el-container>
-          <el-main> <h3>  messages to be displayed here  </h3> </el-main>
+          <el-main> <h3>  Talking to: {{currentSelectedUserDisplayName}}  </h3> </el-main>
+          <p>messages to be displayed here</p>
           <el-footer>
                 <el-input
                   id="message"
@@ -51,12 +47,7 @@ import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
 // import { doc, setDoc } from "firebase/firestore";
 // const db = getFirestore(app);
 //const messagesCollection = getFirestore(app).collection("messages")
-// const app = firebase.initializeApp(firebaseConfig);
-import {
-  Back,
-} from "@element-plus/icons-vue";
 const auth = getAuth();
-
 export default {
     data() {
          return {
@@ -71,13 +62,7 @@ export default {
     mounted() {
       this.getUserList();
     },
-
-    components: {
-      Back,
-    },
-
     methods: {
-
       selectUser(user) {
         console.log('user was selected');
         var currentUser = user;
@@ -89,10 +74,8 @@ export default {
         // var userNames = [];
         const q = await getDocs(collection(db, "users"))
         console.log(q);
-
         //const querySnapshot = await getDocs(q);
         q.forEach((doc) => {
-
           // need to filter out against current type (auth):Teacher
           // need to filter out MY own name via getAUTH
           var data = doc.data();
@@ -107,7 +90,6 @@ export default {
         // console.log(userNames);
         // this.userList = userNames;
       },
-
       send() {
           const msg = {
               message: this.message,
@@ -129,41 +111,17 @@ export default {
       click1() {
           this.$refs.input1.click()
       },
-
       typing() {
         this.$refs.type.value = this.message;
       },
-
     }
 }
 </script>
-
 <style>
-#topbar {
-    overflow: hidden;
-    background-color: rgb(0, 238, 255);
-    display: block;
-    margin: 0%;
-    padding: 5px;
-    width: 100%;
-}
-
-#btn {
+.back1 {
   float: left;
-  width: 10%;
-  color: blue;
+  font-size: 20px;
   text-align: center;
-  padding: 10px 10px;
-  text-decoration: none;
+  color: blue;
 }
-
-#selecteduser {
-
-    width: 90%;
-    text-align: center;
-    color: Black;
-    padding: 10px ;
-}
-
 </style>
-
