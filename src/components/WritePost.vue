@@ -14,8 +14,8 @@
 
     <div>Send to:
       <el-select
-        v-model="value1"
-        placeholder="Select"
+        v-model="recipient"
+        placeholder="Select a recipient"
         style="width: 200px"
       >
         <el-option
@@ -35,23 +35,30 @@
       @change="this.previewImage"
       style="margin: auto"
     />
-
+    
+     <div v-if="image!=null">                     
+          <img class="preview" height="268" width="356" :src="preview">
+      </div>
     <!-- send button -->
-    <el-button plain @click="create" style="float: right;"
+    <el-button plain @click="create" style="float: right;" 
       >Post</el-button>
 
     </el-row>
+      
   </div>
+  <button @click = "this.posts()">wzzuppp</button>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import { db, storage } from "../firebase.js";
-import {uploadBytes, getDownloadURL, ref as reference} from "firebase/storage"
-import { addDoc, collection, getDocs, } from "firebase/firestore";
+//import {uploadBytes, getDownloadURL, ref as reference} from "firebase/storage"
+import { collection, getDocs} from "firebase/firestore";
 import { ref } from "vue";
-import { getAuth } from "firebase/auth";
-const auth = getAuth();
+// eslint-disable-next-line no-unused-vars
+import {useStore, mapActions, mapState} from "vuex"
 
+// const store = useStore()
 
 export default {
   name: "WritePost",
@@ -59,52 +66,40 @@ export default {
   data() {
     return {
       caption: "",
-      img1: "",
-      imageData: null,
+      preview: "",
+      image: null,
       options: [],
-      value1: ref('selects')
+      recipient: ref('')
     };
   },
-
+//   computed: {
+// ...mapState({userModel: state => state.userModel}),
+//   },
   methods: {
-    // uploadImage(event) {
-    //    if(event.target.files[0]){
-        
-    //       let file = event.target.files[0];
     
-    //       var storageRef = imagesRef.ref(Math.random() + '_'  + file.name);
+    ...mapActions({createPost: "createPost", getPosts: "getPosts"}),
     
-    //       let uploadTask  = storageRef.put(file);
-    
-    //       uploadTask.on('state_changed', (snapshot) => {
-            
-    //       }, (error) => {
-    //         // Handle unsuccessful uploads
-    //       }, () => {
-    //         // Handle successful uploads on complete
-    //         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            
-    //         uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-    //           this.product.images.push(downloadURL);
-    //         });
-    //       });
-    // }},
-    create() {
+    async create() {
+      // i do not know what this is for so i will not touch it
       var today = new Date();
-      const post = {
-        photo: this.imageData.name,
+      // const post = {
+      //   photo: this.image.name,
+      //   caption: this.caption,
+      //   date: today,
+      //   receiver: this.recipient,
+      //   poster: store.state.userModel.email
+      // };
+      
+      const details = {
+        location: "post",
         caption: this.caption,
+        image: this.image,
         date: today,
-        receiver: this.value1,
-        poster: auth.currentUser.email
-      };
-      addDoc(collection(db, "posts"), post)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        poster: this.$store.state.userModel.email,
+        recipient: this.recipient
+      }
+      await this.createPost(details)    
+
     },
 
     typing() {
@@ -117,60 +112,18 @@ export default {
 
     previewImage(event) {
       this.uploadValue = 0;
-      this.img1 = null;
-      this.imageData = event.target.files[0];
+      this.preview = null;
+      this.image = event.target.files[0];
       
-      this.onUpload();
+      //this.onUpload();
     },
 
     async onUpload() {
-      this.img1 = null;
-      const tempUrl = "images/" + Math.random().toString() + this.imageData.name
-      // const imgDataObj = Object.assign({}, this.imageData);
+      this.preview = null;
+      const details = {location: "post", image: this.image}
+      this.imageUrl = await this.uploadImage(details)
+
       
-      const imageRef = reference(storage, tempUrl)
-      //await uploadBytes(imageRef, this.imageData)
-      
-      //console.log(imageUrl)
-      
-uploadBytes(imageRef, this.imageData, )
-  .then((snapshot) => {
-    // console.log('Uploaded', snapshot.totalBytes, 'bytes.');
-    // console.log('File metadata:', snapshot.metadata);
-    // Let's get a download URL for the file.
-    getDownloadURL(snapshot.ref).then((url) => {
-      //set image url here --> insert into post object
-      const imageUrl = url
-      
-      console.log('File available at', imageUrl);
-      // ...
-    });
-  }).catch((error) => {
-    console.error('Upload failed', error);
-    // ...
-  });
-      // getimagesRef
-      // const storageRef = await addDoc(
-      //   collection(db, `${this.imageData.name}`),
-      //   imgDataObj
-      // );
-      // storageRef.on(
-      //   `state_changed`,
-      //   (snapshot) => {
-      //     this.uploadValue =
-      //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      //   },
-      //   (error) => {
-      //     console.log(error.message);
-      //   },
-      //   () => {
-      //     this.uploadValue = 100;
-      //     storageRef.snapshot.ref.getDownloadURL().then((url) => {
-      //       this.img1 = url;
-      //       console.log(this.img1);
-      //     });
-      //   }
-      // );
     },
 
     async getOptions() {
