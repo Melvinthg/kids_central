@@ -1,14 +1,25 @@
 import { createStore } from "vuex";
 import router from "../router";
-import { auth, db } from "../firebase.js";
-import {doc, setDoc, addDoc, collection} from "firebase/firestore"
+import { auth, db, storage } from "../firebase.js";
+import createPersistedState from "vuex-persistedstate";
+import {
+  doc,
+  setDoc,
+  getDocs,
+  getDoc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import { vuexfireMutations } from "vuexfire";
+import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
 export default createStore({
+  plugins: [createPersistedState()],
+  //access state using this.$store.state.<stateVariableName>
   state: {
     user: null,
     userModel: null,
@@ -18,45 +29,53 @@ export default createStore({
     SET_USER(state, user) {
       state.user = user;
     },
-    SET_USER_MODEL(state,userModel) {
+    SET_USER_MODEL(state, userModel) {
       state.userModel = userModel;
     },
     CLEAR_USER(state) {
       state.user = null;
     },
   },
+
+  //to use getters call store.getters.<getterName>
+  getters: {
+    getName(state) {
+      return state.userModel.name;
+    },
+  },
+  //HOW TO USE ACTIONS example:
+  //in <script>:
+  //  methods; {
+  // ...mapActions({<name that you give the action (shouldnt have in "")> : "getStudentsInClass"})
+  //}
+  // in a function --> call this.<givenActionName>(parameters in object form)
+  // in <template>:
+  // <button @click = "name_given(parameters(i will comment the parameters needed))"></button>
   actions: {
-    // async createUser({commit, state}, details) {
-    //   // we first create a copy that excludes `id`
-    //   // this exclusion is automatic because `id` is non-enumerable
-     
-    //   const { email, password, first, last } = details;
-    //   const user = {
-    //     "email" : email,
-    //     "password" : password,
-    //     "first" : first,
-    //     "last" : last,
-    //   }
-    //   // return the promise so we can await this action
-    //   await db
-    //     .collection('users')
-    //     .doc(state.user.uid)
-    //     .set(user)
-    //     .then(() => {
-    //       console.log('user updated!')
-    //     })
-        
-    //     commit("SET_USER_MODEL", user)
-    // },
+    //RETURNS A LIST OF STUDENTS IN {CLASSNAME}
+    async getStudentsInClass(context, className) {
+      //console.log(password)
+      const studentsList = [];
+      console.log(context);
+      const classRef = collection(db, "classes", className, "students");
+      const classSnap = await getDocs(classRef);
+      console.log(classSnap.docs);
+      //console.log(classSnap.)
+      //const classesCollection = await getDocs(collection(db, "classes"))
+      classSnap.forEach((e) => {
+        const x = e.data();
+        studentsList.push(x);
+      });
 
-    // async createPost({commit}, details) {
-    //   const { userId, content, title,  } = details;
+      return studentsList;
+    },
 
-    // },
     async login({ commit }, details) {
       const { email, password } = details;
       try {
         await signInWithEmailAndPassword(auth, email, password);
+
+        console.log(user);
       } catch (error) {
         switch (error.code) {
           case "auth/user-not-found":
@@ -70,21 +89,23 @@ export default createStore({
             alert("Something went wrong");
             break;
         }
+
         return;
       }
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const user = await getDoc(userRef);
+      //console.log(user.data())
+      commit("SET_USER_MODEL", user.data());
       commit("SET_USER", auth.currentUser);
+
       router.push("/home");
     },
 
     async registerParent({ commit }, details) {
-      const { email, password, last, first, childName, childClass, childID } = details;
+      const { email, password, last, first, childName, childClass, childID } =
+        details;
       try {
-         await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password,
-        );
-       
+        await createUserWithEmailAndPassword(auth, email, password);
       } catch (error) {
         switch (error.code) {
           case "auth/email-already-in-use":
@@ -105,51 +126,33 @@ export default createStore({
       }
       const uid = auth.currentUser.uid;
       const user = {
-        "email": email,
-        "password": password,
-        "first": first,
-        "last": last,
-        "childClass" : childClass,
-        "childName" : childName,
-        "childID" : childID,
-        "type": "parent"
-      }
-      
-      const child ={
-        "childName" : childName,
-        "childID" : childID,
-      }
-      //creating/ updating class
-      // const classRef = 
-      await setDoc(doc(db, "classes", childClass), child)
+        email: email,
+        password: password,
+        first: first,
+        last: last,
+        childClass: childClass,
+        childName: childName,
+        childID: childID,
+        type: "parent",
+      };
 
-      //creating user document
-      // const ref = 
-      await setDoc(doc(db, "users", uid), user)
-      // console.log(ref);
-      // {
-      //   email: email,
-      //   password: password,
-      //   first: first,
-      //   last: last,
-      // }
-      
-      // const users = db.collection("users").doc(uid);
-      // await users.set();
+      const child = {
+        childName: childName,
+        childID: childID,
+      };
+
+      await setDoc(doc(db, "classes", childClass, "students", childID), child);
+
+      await setDoc(doc(db, "users", uid), user);
 
       commit("SET_USER", auth.currentUser);
-      commit("SET_USER_MODEL", user)
+      commit("SET_USER_MODEL", user);
       router.push("/home");
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
       try {
-         await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password,
-        );
-       
+        await createUserWithEmailAndPassword(auth, email, password);
       } catch (error) {
         switch (error.code) {
           case "auth/email-already-in-use":
@@ -170,30 +173,21 @@ export default createStore({
       }
       const uid = auth.currentUser.uid;
       const user = {
-        "email": email,
-        "password": password,
-        "first": first,
-        "last": last,
-        "type": "teacher",
-        "teacherID" : teacherID,
-        "teacherClass" : teacherClass
-      }
+        email: email,
+        password: password,
+        first: first,
+        last: last,
+        type: "teacher",
+        teacherID: teacherID,
+        teacherClass: teacherClass,
+      };
 
       //creating user document
-      const ref = await setDoc(doc(db, "users", uid), user)
+      const ref = await setDoc(doc(db, "users", uid), user);
       console.log(ref);
-      // {
-      //   email: email,
-      //   password: password,
-      //   first: first,
-      //   last: last,
-      // }
-      
-      // const users = db.collection("users").doc(uid);
-      // await users.set();
 
       commit("SET_USER", auth.currentUser);
-      commit("SET_USER_MODEL", user)
+      commit("SET_USER_MODEL", user);
       router.push("/home");
     },
 
@@ -215,19 +209,94 @@ export default createStore({
         }
       });
     },
+    //uploading image
+    // async uploadImage({ context }, details) {
+    //   console.log(context);
+    //   const tempUrl =
+    //     "images/" +
+    //     details.location +
+    //     String(Math.random()) +
+    //     details.image.name;
+    //   const imageRef = ref(storage, tempUrl);
+    //   uploadBytes(imageRef, details.image)
+    //     .then((snapshot) => {
+    //       // Let's get a download URL for the file.
+    //       getDownloadURL(snapshot.ref).then((url) => {
+    //         //set image url here --> insert into post object
+    //         const imageUrl = url;
+    //         console.log("File available at", imageUrl);
+    //         return imageUrl;
+    //       });
+    //     })
+    //     .catch((error) => {
+    //       console.error("Upload failed", error);
+    //     });
+    // },
+    //getting list of posts
+    async getPosts({context},){
+      const postsList = [];
+      console.log(context);
+      const postsRef = collection(db, "posts",);
+      const postSnap = await getDocs(postsRef);
+      // console.log(postSnap.docs);
+      //console.log(classSnap.)
+      //const classesCollection = await getDocs(collection(db, "classes"))
+      postSnap.forEach((e) => {
+        const x = e.data();
+        postsList.push(x);
+      });
+      return postsList
+    },
+    //CREATING NON FORUM POST USE THIS
+    async createPost({ context }, details) {
+      console.log(context);
+      console.log(details);
+      const tempUrl =
+        "images/" +
+        details.location +
+        String(Math.random()) +
+        details.image.name;
+      const imageRef = ref(storage, tempUrl);
+      uploadBytes(imageRef, details.image)
+        .then((snapshot) => {
+          // Let's get a download URL for the file.
+          getDownloadURL(snapshot.ref).then((url) => {
+            //set image url here --> insert into post object
+            const post = {
+              location: details.location,
+              caption: details.caption,
+              imageUrl: url,
+              date: details.date,
+              poster: details.poster,
+              recipient: details.recipient,
+            };
+            addDoc(collection(db, "posts"), post)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            console.log("File available at", url);
+          });
+        })
+        .catch((error) => {
+          console.error("Upload failed", error);
+        });
+    },
 
-    async forumCreatePost({commit, state}, details) {
-     console.log(commit)
-     console.log(state)
+    async forumCreatePost({ context }, details) {
+      //  console.log(commit)
+      //  console.log(state)
 
       const { title, text } = details;
-      
+
       const forumpost = {
-        "title" : title,
-        "text" : text,
-        "uid" : auth.currentUser.uid,
-        "time" : new Date()
-      }
+        title: title,
+        text: text,
+        uid: context.state.user.uid,
+        time: Date.now(),
+      };
 
       const docRef = await addDoc(collection(db, "forumposts"), forumpost);
       console.log("Document written with ID: ", docRef.id);
