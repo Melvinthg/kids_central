@@ -1,76 +1,34 @@
 <template>
-  <div class="common-layout" style="background-color: ">
-    <el-container>
-      <el-container>
-        <el-aside width="200px" style="background-color: cornflowerblue">
-          <br />
-          <header style="text-align:center; size=18px">{{user.email}}</header>
-          <br />
-          <el-menu
-            active-text-color="steelblue"
-            background-color="dodgerblue"
-            textcolor="white"
-          >
-            <el-menu-item index="1">
-              <el-icon><Edit /></el-icon>
-              <span
-                ><router-link to="/home" className="sidebarLinks"
-                  >Edit Class Dashboard</router-link
-                ></span
-              >
-            </el-menu-item>
-            <el-menu-item index="2">
-              <el-icon><Notebook /></el-icon>
-              <span
-                ><router-link to="/home" className="sidebarLinks"
-                  >Manage Class Info</router-link
-                ></span
-              >
-            </el-menu-item>
-            <el-menu-item index="3">
-              <el-icon><ChatLineSquare /></el-icon>
-              <span
-                ><router-link to="/forumdisplay" className="sidebarLinks"
-                  >Class Forum</router-link
-                ></span
-              >
-            </el-menu-item>
-            <el-menu-item index="4">
-              <el-icon><Cellphone /></el-icon>
-              <span
-                ><router-link to="/contactparent" className="sidebarLinks"
-                  >Contact Parents</router-link
-                ></span
-              >
-            </el-menu-item>
-          </el-menu>
-        </el-aside>
-        <el-main>
-          <div class="writepost">
-            <WritePost></WritePost>
-          </div>
-          <br /><br />
-          <div class="feed">
-            <h1>feed</h1>
-          </div>
-        </el-main>
-      </el-container>
-    </el-container>
+  
+  <LandingTopBar></LandingTopBar>
+  <div class="homepageview">
+    <div class="sidebar">
+      <header>Joshua Tan</header>
+      <router-link to = "/home" className='text-link'>Edit Class Dashboard</router-link><br>
+      <router-link to = "/home" className='text-link'>Manage Class Info</router-link><br>
+      <router-link to = "/forumdisplay" className='text-link'>Class Forum</router-link><br>
+      <router-link to = "/home" className='text-link'>Contact Parents</router-link><br>
+    </div>
+    <div class="content">
+      <div class ="writepost">
+        <WritePost></WritePost>
+      </div>
+      <div class="feed">
+        <!-- feed -->
+    
+        <h1>feed</h1>
+      </div>
+    </div>
+
+    
   </div>
   <router-view></router-view>
 </template>
 
 <script>
-import WritePost from "@/components/WritePost.vue";
-import {
-  Edit,
-  Notebook,
-  ChatLineSquare,
-  Cellphone,
-} from "@element-plus/icons-vue";
-import { getAuth } from "firebase/auth";
-const auth = getAuth();
-//import {Location,Document,Menu as IconMenu,Setting} from '@element-plus/icons-vue'
+
+import LandingTopBar from '@/components/LandingTopBar.vue'
+import WritePost from '@/components/WritePost.vue'
 
 // import firebaseApp from "../firebase.js";
 // import { getFirestore } from "firebase/firestore";
@@ -78,34 +36,59 @@ const auth = getAuth();
 // const db = getFirestore(firebaseApp);
 
 export default {
-  name: "Home",
-  data() {
-    return {
-      user: auth.currentUser,
-      
-    };
-  },
+  name: 'Home',
   components: {
-    WritePost,
-    Edit,
-    Notebook,
-    ChatLineSquare,
-    Cellphone,
+    LandingTopBar,
+    WritePost
   },
-};
+  // methods: {
+    
+
+
+  // }
+}
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-
-.sidebarLinks {
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  text-decoration: none;
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+#app {
+  
+  font-family: Inter;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* text-align: center; */
+  color: #2c3e50;
+  
+  margin-top: 60px;
+  /* font-weight: bold; */ 
 }
 
-.text-link:hover {
+.sidebar {
+  position: fixed;
+  width:fit-content;
+  height: 100%;
+  background: #2470b7;
+  text-align: centre;
+  color: white;
+  float: left;
+  line-height:40px;
+  padding-left: 25px;
+  padding-right: 25px
+ 
+}
+.sidebar header {
+  font-size: 24px;
+  color: white;
+  background: #2470b7;
+}
+
+.text-link {
+  color: white;
+  text-decoration: none;
+
+}
+
+.text-link:hover{
   padding-left: 5px;
 }
 
@@ -114,16 +97,16 @@ export default {
   margin-left: 30%;
 }
 .writepost {
-  padding: 10px;
-  width: auto;
-  height: auto;
+  margin-left: 25%;
+  width:100%;
+  height: 100px;
   background: #eeeeee;
 }
 
 .feed {
   margin-left: 25%;
   width: fit-content;
-  height: 100%;
+  height:100%;
   background: #eeeeee;
   padding-left: 25px;
   padding-right: 25px;

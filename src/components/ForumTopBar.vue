@@ -1,7 +1,7 @@
 <template>
  <div id="wholegroup">
      <div id="firstgroup">
-        <router-link to = "/home" className='text-link'>Back</router-link>
+        <router-link to = "/home" className='text-link' style='color:white'>Back</router-link>
      </div>
      <div id="secondgroup">
          <h1>CLASS K FORUM</h1><br>
@@ -9,7 +9,7 @@
          <h4>25 members</h4>
      </div>
      <div id="thirdgroup">
-         <router-link to = "/forumcreatepost" className='text-link'>New Post</router-link>
+         <router-link to = "/forumcreatepost" className='text-link' style='color:white'>New Post</router-link>
      </div>
  </div>
 </template>
@@ -34,10 +34,10 @@
   width: 25%;
   color: white;
   text-align: center;
-  padding: 10px 10px;
+  padding: 20px 20px;
   text-decoration: none;
   font-size: 20px;
-  line-height: 80px;
+  line-height: 100px;
 }
 
 #secondgroup {
@@ -51,11 +51,11 @@
 #thirdgroup {
   float: right;
   width: 25%;
-  padding: 10px 10px;
+  padding: 20px 20px;
   font-size: 20px;
   text-align: center;
   color: white;
-  line-height: 80px;
+  line-height: 100px;
 }
 
 #firstgroup:hover {

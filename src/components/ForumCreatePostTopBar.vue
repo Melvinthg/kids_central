@@ -1,7 +1,7 @@
 <template>
  <div id="wholegroup">
      <div id="firstgroup">
-        <router-link to = "/forumdisplay" className='text-link'>Back</router-link>
+        <router-link to = "/forumdisplay" className='text-link' style='color:white'>Back</router-link>
      </div>
      <div id="secondgroup">
          <h1>CLASS K FORUM</h1><br>
@@ -34,10 +34,10 @@
   width: 25%;
   color: white;
   text-align: center;
-  padding: 10px 10px;
+  padding: 20px 20px;
   text-decoration: none;
   font-size: 20px;
-  line-height: 80px;
+  line-height:100px;
 }
 
 #secondgroup {
