@@ -61,16 +61,9 @@
 </template>
 
 <script>
-import WritePost from "@/components/WritePost.vue";
-import {
-  Edit,
-  Notebook,
-  ChatLineSquare,
-  Cellphone,
-} from "@element-plus/icons-vue";
-import { getAuth } from "firebase/auth";
-const auth = getAuth();
-//import {Location,Document,Menu as IconMenu,Setting} from '@element-plus/icons-vue'
+
+import LandingTopBar from '@/components/LandingTopBar.vue'
+import WritePost from '@/components/WritePost.vue'
 
 // import firebaseApp from "../firebase.js";
 // import { getFirestore } from "firebase/firestore";
@@ -78,34 +71,59 @@ const auth = getAuth();
 // const db = getFirestore(firebaseApp);
 
 export default {
-  name: "Home",
-  data() {
-    return {
-      user: auth.currentUser,
-      
-    };
-  },
+  name: 'Home',
   components: {
-    WritePost,
-    Edit,
-    Notebook,
-    ChatLineSquare,
-    Cellphone,
+    LandingTopBar,
+    WritePost
   },
-};
+  // methods: {
+    
+
+
+  // }
+}
 </script>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-
-.sidebarLinks {
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  text-decoration: none;
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+#app {
+  
+  font-family: Inter;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* text-align: center; */
+  color: #2c3e50;
+  
+  margin-top: 60px;
+  /* font-weight: bold; */ 
 }
 
-.text-link:hover {
+.sidebar {
+  position: fixed;
+  width:fit-content;
+  height: 100%;
+  background: #2470b7;
+  text-align: centre;
+  color: white;
+  float: left;
+  line-height:40px;
+  padding-left: 25px;
+  padding-right: 25px
+ 
+}
+.sidebar header {
+  font-size: 24px;
+  color: white;
+  background: #2470b7;
+}
+
+.text-link {
+  color: white;
+  text-decoration: none;
+
+}
+
+.text-link:hover{
   padding-left: 5px;
 }
 
@@ -114,16 +132,16 @@ export default {
   margin-left: 30%;
 }
 .writepost {
-  padding: 10px;
-  width: auto;
-  height: auto;
+  margin-left: 25%;
+  width:100%;
+  height: 100px;
   background: #eeeeee;
 }
 
 .feed {
   margin-left: 25%;
   width: fit-content;
-  height: 100%;
+  height:100%;
   background: #eeeeee;
   padding-left: 25px;
   padding-right: 25px;
