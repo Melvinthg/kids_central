@@ -14,7 +14,7 @@
             <el-menu-item index="1">
               <el-icon><Edit /></el-icon>
               <span
-                ><router-link to="/home" className="sidebarLinks"
+                ><router-link to="/editclassdashboard" className="sidebarLinks"
                   >Edit Class Dashboard</router-link
                 ></span
               >

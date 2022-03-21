@@ -2,8 +2,13 @@
 
   <div class="layout">
     <el-container>
-      <el-header> 
-          <router-link to = "/home" tag = "button" className = "back1"> Back </router-link>
+      <el-header id = "topbar">
+        <div id = "btn">
+          <el-button type="primary" @click="$router.push('home')"> <el-icon><Back /></el-icon> </el-button>
+        </div>
+        <div id = "selecteduser">
+          <h3>  Talking to: {{currentSelectedUserDisplayName}}  </h3>
+        </div>
       </el-header>
       <el-container>
         <el-aside width="200px">
@@ -14,8 +19,7 @@
         </el-aside>
 
         <el-container>
-          <el-main> <h3>  Talking to: {{currentSelectedUserDisplayName}}  </h3> </el-main>
-          <p>messages to be displayed here</p>
+          <el-main> <h3>  messages to be displayed here  </h3> </el-main>
           <el-footer>
                 <el-input
                   id="message"
@@ -47,6 +51,10 @@ import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
 // import { doc, setDoc } from "firebase/firestore";
 // const db = getFirestore(app);
 //const messagesCollection = getFirestore(app).collection("messages")
+// const app = firebase.initializeApp(firebaseConfig);
+import {
+  Back,
+} from "@element-plus/icons-vue";
 const auth = getAuth();
 
 export default {
@@ -62,6 +70,10 @@ export default {
     },
     mounted() {
       this.getUserList();
+    },
+
+    components: {
+      Back,
     },
 
     methods: {
@@ -124,15 +136,33 @@ export default {
 
     }
 }
-
 </script>
-<style>
 
-.back1 {
+<style>
+#topbar {
+    overflow: hidden;
+    background-color: rgb(0, 238, 255);
+    display: block;
+    margin: 0%;
+    padding: 5px;
+    width: 100%;
+}
+
+#btn {
   float: left;
-  font-size: 20px;
-  text-align: center;
+  width: 10%;
   color: blue;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+}
+
+#selecteduser {
+
+    width: 90%;
+    text-align: center;
+    color: Black;
+    padding: 10px ;
 }
 
 </style>

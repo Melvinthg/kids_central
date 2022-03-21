@@ -10,6 +10,7 @@ import ContactTeacher from "@/pages/ContactTeacher.vue"
 import ForumDisplay from "@/pages/ForumDisplay.vue";
 import ForumCreatePost from "@/pages/ForumCreatePost.vue";
 import ChildrenInfo from '@/pages/ChildrenInfo.vue'
+import EditClassDashboard from '@/pages/EditClassDashboard.vue'
 
 const routes = [
   {
@@ -63,7 +64,12 @@ const routes = [
   {
     path: "/ChildrenInfo",
     name: "ChildrenInfo",
-    component: ChildrenInfo
+    component: ChildrenInfo,
+  },
+  {
+    path: "/editclassdashboard",
+    name: "EditClassDashboard",
+    component: EditClassDashboard,
   }
 ];
 const router = createRouter({
