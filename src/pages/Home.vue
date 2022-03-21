@@ -1,26 +1,61 @@
 <template>
-  
-  <LandingTopBar></LandingTopBar>
-  <div class="homepageview">
-    <div class="sidebar">
-      <header>Joshua Tan</header>
-      <router-link to = "/home" className='text-link'>Edit Class Dashboard</router-link><br>
-      <router-link to = "/home" className='text-link'>Manage Class Info</router-link><br>
-      <router-link to = "/forumdisplay" className='text-link'>Class Forum</router-link><br>
-      <router-link to = "/home" className='text-link'>Contact Parents</router-link><br>
-    </div>
-    <div class="content">
-      <div class ="writepost">
-        <WritePost></WritePost>
-      </div>
-      <div class="feed">
-        <!-- feed -->
-    
-        <h1>feed</h1>
-      </div>
-    </div>
-
-    
+  <div class="common-layout" style="background-color: ">
+    <el-container>
+      <el-container>
+        <el-aside width="200px" style="background-color: cornflowerblue">
+          <br />
+          <header style="text-align:center; size=18px">{{user.email}}</header>
+          <br />
+          <el-menu
+            active-text-color="steelblue"
+            background-color="dodgerblue"
+            textcolor="white"
+          >
+            <el-menu-item index="1">
+              <el-icon><Edit /></el-icon>
+              <span
+                ><router-link to="/editclassdashboard" className="sidebarLinks"
+                  >Edit Class Dashboard</router-link
+                ></span
+              >
+            </el-menu-item>
+            <el-menu-item index="2">
+              <el-icon><Notebook /></el-icon>
+              <span
+                ><router-link to="/home" className="sidebarLinks"
+                  >Manage Class Info</router-link
+                ></span
+              >
+            </el-menu-item>
+            <el-menu-item index="3">
+              <el-icon><ChatLineSquare /></el-icon>
+              <span
+                ><router-link to="/forumdisplay" className="sidebarLinks"
+                  >Class Forum</router-link
+                ></span
+              >
+            </el-menu-item>
+            <el-menu-item index="4">
+              <el-icon><Cellphone /></el-icon>
+              <span
+                ><router-link to="/contactparent" className="sidebarLinks"
+                  >Contact Parents</router-link
+                ></span
+              >
+            </el-menu-item>
+          </el-menu>
+        </el-aside>
+        <el-main>
+          <div class="writepost">
+            <WritePost></WritePost>
+          </div>
+          <br /><br />
+          <div class="feed">
+            <h1>feed</h1>
+          </div>
+        </el-main>
+      </el-container>
+    </el-container>
   </div>
   <router-view></router-view>
 </template>
