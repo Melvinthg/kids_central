@@ -1,4 +1,5 @@
 <template>
+<LandingTopBar></LandingTopBar>
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
