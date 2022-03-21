@@ -1,5 +1,4 @@
 <template>
-<LandingTopBar></LandingTopBar>
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
@@ -62,87 +61,63 @@
 </template>
 
 <script>
-
-import LandingTopBar from '@/components/LandingTopBar.vue'
-import WritePost from '@/components/WritePost.vue'
-
+import WritePost from "@/components/WritePost.vue";
+import {
+  Edit,
+  Notebook,
+  ChatLineSquare,
+  Cellphone,
+} from "@element-plus/icons-vue";
+import { getAuth } from "firebase/auth";
+const auth = getAuth();
+//import {Location,Document,Menu as IconMenu,Setting} from '@element-plus/icons-vue'
 // import firebaseApp from "../firebase.js";
 // import { getFirestore } from "firebase/firestore";
 // import { doc } from "firebase/firestore";
 // const db = getFirestore(firebaseApp);
-
 export default {
-  name: 'Home',
-  components: {
-    LandingTopBar,
-    WritePost
+  name: "Home",
+  data() {
+    return {
+      user: auth.currentUser,
+      
+    };
   },
-  // methods: {
-    
-
-
-  // }
-}
+  components: {
+    WritePost,
+    Edit,
+    Notebook,
+    ChatLineSquare,
+    Cellphone,
+  },
+};
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-#app {
-  
-  font-family: Inter;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-  
-  margin-top: 60px;
-  /* font-weight: bold; */ 
-}
-
-.sidebar {
-  position: fixed;
-  width:fit-content;
-  height: 100%;
-  background: #2470b7;
-  text-align: centre;
+@import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+.sidebarLinks {
   color: white;
-  float: left;
-  line-height:40px;
-  padding-left: 25px;
-  padding-right: 25px
- 
-}
-.sidebar header {
-  font-size: 24px;
-  color: white;
-  background: #2470b7;
-}
-
-.text-link {
-  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
   text-decoration: none;
-
 }
-
-.text-link:hover{
+.text-link:hover {
   padding-left: 5px;
 }
-
 .content {
   position: fixed;
   margin-left: 30%;
 }
 .writepost {
-  margin-left: 25%;
-  width:100%;
-  height: 100px;
+  padding: 10px;
+  width: auto;
+  height: auto;
   background: #eeeeee;
 }
-
 .feed {
   margin-left: 25%;
   width: fit-content;
-  height:100%;
+  height: 100%;
   background: #eeeeee;
   padding-left: 25px;
   padding-right: 25px;
