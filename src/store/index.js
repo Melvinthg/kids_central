@@ -247,6 +247,17 @@ export default createStore({
       });
       return postsList
     },
+    async getForumPosts({context},){
+      const postsList = [];
+      console.log(context);
+      const postsRef = collection(db, "forumposts",);
+      const postSnap = await getDocs(postsRef);
+      postSnap.forEach((e) => {
+        const x = e.data();
+        postsList.push(x);
+      });
+      return postsList
+    },
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
       console.log(context);

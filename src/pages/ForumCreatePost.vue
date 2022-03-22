@@ -88,8 +88,7 @@ export default {
         text: this.text,
         uid: auth.currentUser.uid,
         time: new Date(),
-        class: this.$store.state.userModel.childClass
-        // '2K' // access childClass field in user doc
+        class: this.$store.state.userModel.childClass || this.$store.state.userModel.teacherClass
       }
     await this.createForumPost(details)
     this.goBack()
