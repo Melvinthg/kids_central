@@ -3,7 +3,7 @@
    <div id = search> <input type = "text" placeholder = "Search by name..." > </div>
    <button id = button v-on:click = "search()">Search</button>
    <table>
-       <tr v-for="student in students" :key="student">
+       <tr v-for="student in students" :key="student.name">
            <td>{{student.name}}</td>
            <td>{{student.NRIC}}</td>
            <td>{{student.Age}}</td>
@@ -23,13 +23,10 @@ export default {
 
     data() {
         return {
-            students: {},
-            name: "",
-            Address: "", 
-            Class: "",
-            Gender: "",
-            NRIC: "",
-            Nationality: ""
+            students: [],
+            name: null, 
+            NRIC: null,
+            Address: null,
 
         }
     },
