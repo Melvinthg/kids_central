@@ -8,19 +8,15 @@
           <br>
           <el-menu active-text-color=steelblue background-color=dodgerblue textcolor=white>
           <el-menu-item index="1">
-            <el-icon><icon-menu /></el-icon>
             <span><router-link to = "/home" className="sidebarLinks">Edit Class Dashboard</router-link></span>
           </el-menu-item>
           <el-menu-item index="2">
-            <el-icon><icon-menu /></el-icon>
             <span><router-link to ="/home" className="sidebarLinks">Manage Class Info</router-link></span>
           </el-menu-item>
           <el-menu-item index="3">
-            <el-icon><icon-menu /></el-icon>
             <span><router-link to = "/forumdisplay" className="sidebarLinks">Class Forum</router-link></span>
           </el-menu-item>
           <el-menu-item index="4">
-            <el-icon><icon-menu /></el-icon>
             <span><router-link to = "/home" className="sidebarLinks">Contact Parents</router-link></span>
           </el-menu-item>
           </el-menu>        
@@ -71,10 +67,6 @@ export default {
   font-size: 14px;
   text-decoration: none;
 
-}
-
-.text-link:hover{
-  padding-left: 5px;
 }
 
 .content {

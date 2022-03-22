@@ -10,46 +10,45 @@
       type="textarea"
       placeholder="Write something here..."
     />
-    <el-row class="sendRow">
-    <div>Send to:
-      <el-select
-        v-model="value1"
-        placeholder="Select"
-        style="width: 200px"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </div>
-
-    <!-- upload image -->
-
-    <input
-      type="file"
-      name="image"
-      @change="previewImage"
-      style="margin: auto"
-    />
-
-    <!-- send button -->
-    <el-button plain @click="create" style="float: right;"
-      >Post</el-button>
+    <el-row>
+      <div>
+        Send to:
+        <el-select v-model="value1" placeholder="Select" style="width: 200px">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
+    </el-row>
+    <el-row>
+      <button @click="click1">choose photo</button>
+      <input
+        type="file"
+        ref="input1"
+        style="display: none"
+        @change="previewImage"
+        accept="image/*"
+      />
+      <el-button class="ml-3" type="success" @click="onUpload">
+        Upload to server
+      </el-button>
+      <!-- send button -->
+      <el-button plain @click="create">Post</el-button>
     </el-row>
   </div>
 </template>
 
 <script>
-import { db } from "../firebase.js";
+import { auth, db, storage, uploadBytes } from "../firebase.js";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { ref } from "vue";
 
 const value1 = ref([]);
-export default {
 
+export default {
   name: "WritePost",
 
   data() {
@@ -57,8 +56,9 @@ export default {
       caption: "",
       img1: "",
       imageData: null,
+      time: "",
       options: [],
-      value1
+      value1,
     };
   },
 
@@ -67,6 +67,8 @@ export default {
       const post = {
         photo: this.img1,
         caption: this.caption,
+        uid: auth.currentUser.uid,
+        time: new Date(),
       };
       addDoc(collection(db, "posts"), post)
         .then((response) => {
@@ -92,46 +94,56 @@ export default {
       this.onUpload();
     },
 
-    async onUpload() {
-      this.img1 = null;
-      const imgDataObj = Object.assign({}, this.imageData);
-      const storageRef = await addDoc(
-        collection(db, `${this.imageData.name}`),
-        imgDataObj
-      );
-      storageRef.on(
-        `state_changed`,
-        (snapshot) => {
-          this.uploadValue =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          console.log(error.message);
-        },
-        () => {
-          this.uploadValue = 100;
-          storageRef.snapshot.ref.getDownloadURL().then((url) => {
-            this.img1 = url;
-            console.log(this.img1);
-          });
-        }
-      );
+    onUpload() {
+      // this.img1 = null;
+      // //const imgDataObj = Object.assign({}, this.imageData);
+      // console.log(storage)
+      // const storageRef = storage
+      //   .ref(this.imageData.name)
+      //   .put(this.imageData);
+      // storageRef.on(
+      //   `state_changed`,
+      //   (snapshot) => {
+      //     this.uploadValue =
+      //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //   },
+      //   (error) => {
+      //     console.log(error.message);
+      //   },
+      //   () => {
+      //     this.uploadValue = 100;
+      //     storageRef.snapshot.ref.getDownloadURL().then((url) => {
+      //       this.img1 = url;
+      //       console.log(this.img1);
+      //     });
+      //   }
+      // );
+      const storageRef = ref(storage, this.imageData.name);
+      const storageImageRef = ref(storage, this.imageData)
+
+      // const metadata = {
+      //   contentType: 'image/jpeg',
+      // }
+      const uploadTask=uploadBytes(storageRef,this.imageData);
+      uploadTask.on('state_changed',
+      )
+
     },
 
     async getOptions() {
-        let value = await getDocs(collection(db, "students"));
-        console.log("hello")
-        value.forEach((d) => {
-            this.options.push({
-                value: d.id,
-                label: d.data().Name
-            })
-        })
-    }
+      let value = await getDocs(collection(db, "students"));
+      console.log("hello");
+      value.forEach((d) => {
+        this.options.push({
+          value: d.id,
+          label: d.data().Name,
+        });
+      });
+    },
   },
-  created: function() {
-      this.getOptions()
-  }
+  created: function () {
+    this.getOptions();
+  },
 };
 </script>
 
@@ -142,10 +154,6 @@ export default {
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
-}
-
-#btn {
-  margin-left: auto;
 }
 </style>
 
