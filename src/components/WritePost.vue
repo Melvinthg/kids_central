@@ -10,10 +10,16 @@
       type="textarea"
       placeholder="Write something here..."
     />
-    <el-row>
+    <el-row class="sendRow">
       <div>
         Send to:
-        <el-select v-model="value1" placeholder="Select" style="width: 200px">
+        <el-select
+          v-model="value1"
+          placeholder="Select"
+          style="width: 200px"
+          @change="onChange($event)"
+          ref="selects"
+        >
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -22,21 +28,18 @@
           />
         </el-select>
       </div>
-    </el-row>
-    <el-row>
-      <button @click="click1">choose photo</button>
+
+      <!-- upload image -->
+
       <input
         type="file"
-        ref="input1"
-        style="display: none"
+        name="image"
         @change="previewImage"
-        accept="image/*"
+        style="margin: auto"
       />
-      <el-button class="ml-3" type="success" @click="onUpload">
-        Upload to server
-      </el-button>
+
       <!-- send button -->
-      <el-button plain @click="create">Post</el-button>
+      <el-button plain @click="create" style="float: right">Post</el-button>
     </el-row>
   </div>
 </template>
@@ -45,8 +48,9 @@
 import { auth, db } from "../firebase.js";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { ref } from "vue";
+// import { getAuth } from "firebase/auth";
+// const auth = getAuth();
 
-const value1 = ref([]);
 
 export default {
   name: "WritePost",
@@ -58,17 +62,21 @@ export default {
       imageData: null,
       time: "",
       options: [],
-      value1,
+      value1: ref('selects')
     };
   },
 
   methods: {
     create() {
+      var today = new Date();
       const post = {
         photo: this.img1,
         caption: this.caption,
         uid: auth.currentUser.uid,
         time: new Date(),
+        date: today,
+        receiver: this.value1,
+        poster: auth.currentUser.email
       };
       addDoc(collection(db, "posts"), post)
         .then((response) => {
@@ -157,4 +165,3 @@ export default {
   font-size: 17px;
 }
 </style>
-
