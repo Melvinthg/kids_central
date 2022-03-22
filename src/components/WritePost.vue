@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { auth, db, storage, uploadBytes } from "../firebase.js";
+import { auth, db } from "../firebase.js";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { ref } from "vue";
 
@@ -118,15 +118,16 @@ export default {
       //     });
       //   }
       // );
-      const storageRef = ref(storage, this.imageData.name);
-      const storageImageRef = ref(storage, this.imageData)
+      // const storageRef = ref(storage, this.imageData.name);
+      // const storageImageRef = ref(storage, this.imageData)
 
-      // const metadata = {
-      //   contentType: 'image/jpeg',
-      // }
-      const uploadTask=uploadBytes(storageRef,this.imageData);
-      uploadTask.on('state_changed',
-      )
+      // // const metadata = {
+      // //   contentType: 'image/jpeg',
+      // // }
+      // const uploadTask=uploadBytes(storageRef,this.imageData);
+      // uploadTask.on('state_changed',
+      // )
+
 
     },
 
