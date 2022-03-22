@@ -18,7 +18,7 @@
   background-color: lightskyblue;
   color: white;
   padding: 16px;
-  font-size: 16px;
+  font-size: 20px;
   border: none;
 }
 

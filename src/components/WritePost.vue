@@ -11,10 +11,11 @@
       placeholder="Write something here..."
     />
     <el-row class="sendRow">
+
     <div>Send to:
       <el-select
-        v-model="value1"
-        placeholder="Select"
+        v-model="recipient"
+        placeholder="Select a recipient"
         style="width: 200px"
       >
         <el-option
@@ -31,50 +32,74 @@
     <input
       type="file"
       name="image"
-      @change="previewImage"
+      @change="this.previewImage"
       style="margin: auto"
     />
-
+    
+     <div v-if="image!=null">                     
+          <img class="preview" height="268" width="356" :src="preview">
+      </div>
     <!-- send button -->
-    <el-button plain @click="create" style="float: right;"
+    <el-button plain @click="create" style="float: right;" 
       >Post</el-button>
+
     </el-row>
+      
   </div>
+  <button @click = "this.posts()">wzzuppp</button>
 </template>
 
 <script>
-import { db } from "../firebase.js";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+// eslint-disable-next-line no-unused-vars
+import { db, storage } from "../firebase.js";
+//import {uploadBytes, getDownloadURL, ref as reference} from "firebase/storage"
+import { collection, getDocs} from "firebase/firestore";
 import { ref } from "vue";
+// eslint-disable-next-line no-unused-vars
+import {useStore, mapActions, mapState} from "vuex"
 
-const value1 = ref([]);
+// const store = useStore()
+
 export default {
-
   name: "WritePost",
 
   data() {
     return {
       caption: "",
-      img1: "",
-      imageData: null,
+      preview: "",
+      image: null,
       options: [],
-      value1
+      recipient: ref('')
     };
   },
-
+//   computed: {
+// ...mapState({userModel: state => state.userModel}),
+//   },
   methods: {
-    create() {
-      const post = {
-        photo: this.img1,
+    
+    ...mapActions({createPost: "createPost", getPosts: "getPosts"}),
+    
+    async create() {
+      // i do not know what this is for so i will not touch it
+      var today = new Date();
+      // const post = {
+      //   photo: this.image.name,
+      //   caption: this.caption,
+      //   date: today,
+      //   receiver: this.recipient,
+      //   poster: store.state.userModel.email
+      // };
+      
+      const details = {
+        location: "post",
         caption: this.caption,
-      };
-      addDoc(collection(db, "posts"), post)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        image: this.image,
+        date: today,
+        poster: this.$store.state.userModel.email,
+        recipient: this.recipient
+      }
+      await this.createPost(details)    
+
     },
 
     typing() {
@@ -87,51 +112,34 @@ export default {
 
     previewImage(event) {
       this.uploadValue = 0;
-      this.img1 = null;
-      this.imageData = event.target.files[0];
-      this.onUpload();
+      this.preview = null;
+      this.image = event.target.files[0];
+      
+      //this.onUpload();
     },
 
     async onUpload() {
-      this.img1 = null;
-      const imgDataObj = Object.assign({}, this.imageData);
-      const storageRef = await addDoc(
-        collection(db, `${this.imageData.name}`),
-        imgDataObj
-      );
-      storageRef.on(
-        `state_changed`,
-        (snapshot) => {
-          this.uploadValue =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        },
-        (error) => {
-          console.log(error.message);
-        },
-        () => {
-          this.uploadValue = 100;
-          storageRef.snapshot.ref.getDownloadURL().then((url) => {
-            this.img1 = url;
-            console.log(this.img1);
-          });
-        }
-      );
+      this.preview = null;
+      const details = {location: "post", image: this.image}
+      this.imageUrl = await this.uploadImage(details)
+
+      
     },
 
     async getOptions() {
-        let value = await getDocs(collection(db, "students"));
-        console.log("hello")
-        value.forEach((d) => {
-            this.options.push({
-                value: d.id,
-                label: d.data().Name
-            })
-        })
-    }
+      let value = await getDocs(collection(db, "students"));
+      console.log("hello");
+      value.forEach((d) => {
+        this.options.push({
+          value: d.id,
+          label: d.data().Name,
+        });
+      });
+    },
   },
-  created: function() {
-      this.getOptions()
-  }
+  created: function () {
+    this.getOptions();
+  },
 };
 </script>
 
@@ -148,4 +156,3 @@ export default {
   margin-left: auto;
 }
 </style>
-
