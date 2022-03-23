@@ -6,7 +6,7 @@ import * as firebase from "firebase/app";
 import { getFirestore } from '@firebase/firestore'
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getStorage, uploadBytes } from "firebase/storage";
+import { getStorage, } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,11 +22,14 @@ const firebaseConfig = {
   measurementId: "G-8HG1SC5X8L",
 };
 
+//METHOD TO UPLOAD IMAGES + GET URL OF IMAGE
+// const uploadImage(){}
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
+const storage = getStorage();
+// const storageRef = ref(storage)
 const auth = getAuth(app);
-const storage = getStorage(app)
-export { app, analytics, auth, db, storage, uploadBytes };
+export { app, analytics, auth, db, storage };
 

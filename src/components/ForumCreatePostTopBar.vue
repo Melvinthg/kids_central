@@ -1,12 +1,12 @@
 <template>
  <div id="wholegroup">
      <div id="firstgroup">
-        <router-link to = "/forumdisplay" className='text-link'>Back</router-link>
+        <router-link to = "/forumdisplay" className='text-link' style='color:white'>Back</router-link>
      </div>
      <div id="secondgroup">
-         <h1>CLASS K FORUM</h1><br>
+         <h1>CLASS {{classname}} FORUM</h1><br>
          <!-- query number of parents in the class -->
-         <h4>25 members</h4>
+         <h4>{{number}} members</h4>
      </div>
      <!-- <div id="thirdgroup">
          
@@ -15,7 +15,15 @@
 </template>
 
 <script>
-
+export default {
+  name: 'ForumTopBar',
+  data(){
+    return{
+      number: "1",
+      classname: this.$store.state.userModel.childClass || this.$store.state.userModel.teacherClass,
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -34,10 +42,10 @@
   width: 25%;
   color: white;
   text-align: center;
-  padding: 10px 10px;
+  padding: 20px 20px;
   text-decoration: none;
   font-size: 20px;
-  line-height: 80px;
+  line-height:100px;
 }
 
 #secondgroup {

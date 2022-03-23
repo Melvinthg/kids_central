@@ -5,9 +5,13 @@ import Login from "@/pages/Login.vue";
 import SignupParent from "@/pages/SignupParent.vue";
 import SignupTeacher from "@/pages/SignupTeacher.vue";
 import Landing from "@/pages/Landing.vue";
+import ContactParent from "@/pages/ContactParent.vue";
+import ContactTeacher from "@/pages/ContactTeacher.vue"
 import ForumDisplay from "@/pages/ForumDisplay.vue";
 import ForumCreatePost from "@/pages/ForumCreatePost.vue";
 import ChildrenInfo from '@/pages/ChildrenInfo.vue'
+import EditClassDashboard from '@/pages/EditClassDashboard.vue'
+
 
 const routes = [
   {
@@ -34,6 +38,16 @@ const routes = [
     component: SignupTeacher,
   },
   {
+    path: "/contactparent",
+    name: "ContactParent",
+    component: ContactParent,
+  },
+  {
+    path: "/contactteacher",
+    name: "ContactTeacher",
+    component: ContactTeacher,
+  },
+  {
     path: "/",
     name: "Landing",
     component: Landing,
@@ -51,7 +65,12 @@ const routes = [
   {
     path: "/ChildrenInfo",
     name: "ChildrenInfo",
-    component: ChildrenInfo
+    component: ChildrenInfo,
+  },
+  {
+    path: "/editclassdashboard",
+    name: "EditClassDashboard",
+    component: EditClassDashboard,
   }
 ];
 const router = createRouter({
@@ -70,4 +89,5 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
+router.forward()
 export default router;
