@@ -10,7 +10,11 @@ import ContactTeacher from "@/pages/ContactTeacher.vue"
 import ForumDisplay from "@/pages/ForumDisplay.vue";
 import ForumCreatePost from "@/pages/ForumCreatePost.vue";
 import ChildrenInfo from '@/pages/ChildrenInfo.vue'
+
+// import Dashboard from '@/pages/Dashboard.vue'
+
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
+
 
 
 const routes = [
@@ -63,14 +67,22 @@ const routes = [
     component: ForumCreatePost,
   },
   {
-    path: "/ChildrenInfo",
+    path: "/childreninfo",
     name: "ChildrenInfo",
-    component: ChildrenInfo,
+    component: ChildrenInfo
   },
+//   {
+//     path: "/dashboard",
+//     name: "Dashboard",
+//     component: Dashboard
+//   }
+
+
   {
     path: "/editclassdashboard",
     name: "EditClassDashboard",
     component: EditClassDashboard,
+
   }
 ];
 const router = createRouter({

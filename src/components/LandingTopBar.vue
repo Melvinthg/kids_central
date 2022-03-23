@@ -1,7 +1,8 @@
 <template>
 <nav>
   <ul>
-  <li id = "KidsCentral"><router-link to = "/">Kids Central</router-link></li>
+  <li v-if = "$store.state.user" id = "KidsCentral"><router-link to = "/home">Kids Central</router-link></li>
+  <li v-else id = "KidsCentral"><router-link to = "/">Kids Central</router-link></li>
   <button  v-if= "$store.state.user" @click = "$store.dispatch('logout')" id = "logout" >Log out</button> 
   <div v-else>
 <li id = "login"><router-link to = "/login">Login</router-link></li>

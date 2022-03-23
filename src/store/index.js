@@ -209,29 +209,7 @@ export default createStore({
         }
       });
     },
-    //uploading image
-    // async uploadImage({ context }, details) {
-    //   console.log(context);
-    //   const tempUrl =
-    //     "images/" +
-    //     details.location +
-    //     String(Math.random()) +
-    //     details.image.name;
-    //   const imageRef = ref(storage, tempUrl);
-    //   uploadBytes(imageRef, details.image)
-    //     .then((snapshot) => {
-    //       // Let's get a download URL for the file.
-    //       getDownloadURL(snapshot.ref).then((url) => {
-    //         //set image url here --> insert into post object
-    //         const imageUrl = url;
-    //         console.log("File available at", imageUrl);
-    //         return imageUrl;
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.error("Upload failed", error);
-    //     });
-    // },
+    
     //getting list of posts
     async getPosts({context},){
       const postsList = [];
