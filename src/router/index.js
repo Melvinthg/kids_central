@@ -11,6 +11,7 @@ import ForumDisplay from "@/pages/ForumDisplay.vue";
 import ForumCreatePost from "@/pages/ForumCreatePost.vue";
 import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
+import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
 
 
 const routes = [
@@ -71,7 +72,12 @@ const routes = [
     path: "/editclassdashboard",
     name: "EditClassDashboard",
     component: EditClassDashboard,
-  }
+  },
+  {
+    path: "/HealthAndInjuries",
+    name: "HealthAndInjuries",
+    component: HealthAndInjuries,
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),
