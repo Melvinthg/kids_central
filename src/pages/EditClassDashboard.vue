@@ -1,0 +1,160 @@
+<template> 
+    <div>
+        <div id="topbar">
+            <div id="firstgroup">
+                <el-button type="primary" @click="$router.push('home')"> <el-icon><Back /></el-icon> </el-button>
+            </div>
+            <div id="secondgroup">
+                <h1> <strong> Manage Dashboard</strong></h1>
+            </div>
+        </div>
+        <br><br><br>
+
+        <el-row :gutter="20">
+            <el-col :span="8">
+                <el-card shadow = "hover" :body-style="{ padding: '0px' }">
+                    <img
+                    src="https://images.unsplash.com/photo-1584650000640-a70adafd062e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpbGQlMjB0ZW1wZXJhdHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
+                    class="image"
+                    />
+                    <div style="padding: 10px">
+                    <h5><strong> Update Child Temperature </strong> </h5>
+                    <!-- <span> Enter Student ID </span>
+                    <el-input
+                        id="studentID"
+                        ref="type"
+                        v-model="message"
+                        :rows="1"
+                        v-on:keydown="typing()"
+                        type="textarea"
+                        placeholder="Enter Student ID..."
+                        /> -->
+                    <div class="bottom">
+                        <!-- push to next update temperature page -->
+                        <el-button @click="$router.push('home')"> Proceed </el-button>
+                    </div>
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="8">
+                <el-card shadow = "hover" :body-style="{ padding: '0px' }">
+                    <img
+                    src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHVwZGF0ZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
+                    class="image"
+                    />
+                    <div style="padding: 10px">
+                    <h5> <strong> Update Child Report </strong> </h5>
+                    <!-- <el-button @click="$router.push('home')"> Proceed </el-button> -->
+                    <!-- <h5> <strong> Update Temperature </strong> </h5>
+                    <el-input
+                        v-model="input1"
+                        class="w-50 m-2"
+                        size="medium"
+                        placeholder="Enter daily temperature here..."
+                        /> -->
+                    <div class="bottom">
+                        <!-- push to update report page -->
+                        <el-button @click="$router.push('home')"> Proceed </el-button>
+                    </div>
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="8">
+                <el-card shadow = "hover" :body-style="{ padding: '0px' }">
+                    <img
+                    src="https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NzZ8fHNjb3JlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
+                    class="image"
+                    />
+                    <div style="padding: 10px">
+                    <h5><strong> Update Child Gradebook </strong> </h5>
+                    <div class="bottom">
+                        <!-- push to update gradebook page -->
+                        <el-button @click="$router.push('home')"> Proceed </el-button>
+                    </div>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+
+  </div>
+</template>
+
+<script>
+import { getAuth } from "firebase/auth";
+const auth = getAuth();
+import { Back } from "@element-plus/icons-vue";
+// import { ref } from 'vue'
+// const num = ref(1)
+
+export default {
+  name: "EditClassDashboard",
+  data() {
+    return {
+      studentID: '',
+      user: auth.currentUser,
+      
+    };
+  },
+  components: {
+    Back,
+  },
+
+  methods: {
+    //proceed method to 
+    // proceed() {
+
+    // }
+  }
+};
+
+</script>
+
+<style scoped>
+#topbar {
+    overflow: hidden;
+    background-color: whitesmoke;
+    display: block;
+    margin: 0%;
+    padding: 5px;
+    width: 100%;
+}
+
+#firstgroup {
+  float: left;
+  width: 10%;
+  color: blue;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+  font-size: 20px;
+  line-height: 80px;
+}
+
+#secondgroup {
+    float: center;
+    width: 90%;
+    text-align: center;
+    color: Black;
+    padding: 20px ;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  padding: 0;
+  min-height: auto;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+
+
+</style>

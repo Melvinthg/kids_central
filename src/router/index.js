@@ -10,7 +10,12 @@ import ContactTeacher from "@/pages/ContactTeacher.vue"
 import ForumDisplay from "@/pages/ForumDisplay.vue";
 import ForumCreatePost from "@/pages/ForumCreatePost.vue";
 import ChildrenInfo from '@/pages/ChildrenInfo.vue'
-import Dashboard from '@/pages/Dashboard.vue'
+
+// import Dashboard from '@/pages/Dashboard.vue'
+
+import EditClassDashboard from '@/pages/EditClassDashboard.vue'
+
+
 
 const routes = [
   {
@@ -66,10 +71,18 @@ const routes = [
     name: "ChildrenInfo",
     component: ChildrenInfo
   },
+//   {
+//     path: "/dashboard",
+//     name: "Dashboard",
+//     component: Dashboard
+//   }
+
+
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    component: Dashboard
+    path: "/editclassdashboard",
+    name: "EditClassDashboard",
+    component: EditClassDashboard,
+
   }
 ];
 const router = createRouter({
@@ -88,7 +101,5 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-
 router.forward()
-
 export default router;

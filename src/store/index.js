@@ -225,6 +225,17 @@ export default createStore({
       });
       return postsList
     },
+    async getForumPosts({context},){
+      const postsList = [];
+      console.log(context);
+      const postsRef = collection(db, "forumposts",);
+      const postSnap = await getDocs(postsRef);
+      postSnap.forEach((e) => {
+        const x = e.data();
+        postsList.push(x);
+      });
+      return postsList
+    },
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
       console.log(context);
@@ -263,21 +274,43 @@ export default createStore({
         });
     },
 
-    async forumCreatePost({ context }, details) {
-      //  console.log(commit)
-      //  console.log(state)
 
-      const { title, text } = details;
-
-      const forumpost = {
-        title: title,
-        text: text,
-        uid: context.state.user.uid,
-        time: Date.now(),
-      };
-
-      const docRef = await addDoc(collection(db, "forumposts"), forumpost);
-      console.log("Document written with ID: ", docRef.id);
+    async createForumPost({ context }, details) {
+      console.log(context);
+      console.log(details);
+      const tempUrl =
+        "images/" +
+        details.location +
+        String(Math.random()) +
+        details.image.name;
+      const imageRef = ref(storage, tempUrl);
+      uploadBytes(imageRef, details.image)
+        .then((snapshot) => {
+          // Let's get a download URL for the file.
+          getDownloadURL(snapshot.ref).then((url) => {
+            //set image url here --> insert into post object
+            const forumpost = {
+              location: details.location,
+              title: details.title,
+              text: details.text,
+              imageUrl: url,
+              date: details.time,
+              uid: details.uid,
+              class: details.class
+            };
+            addDoc(collection(db, "forumposts"), forumpost)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            console.log("File available at", url);
+          });
+        })
+        .catch((error) => {
+          console.error("Upload failed", error);
+        });
     },
   },
 });

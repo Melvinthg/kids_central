@@ -48,7 +48,6 @@ import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
 // const db = getFirestore(app);
 //const messagesCollection = getFirestore(app).collection("messages")
 const auth = getAuth();
-
 export default {
     data() {
          return {
@@ -63,9 +62,7 @@ export default {
     mounted() {
       this.getUserList();
     },
-
     methods: {
-
       selectUser(user) {
         console.log('user was selected');
         var currentUser = user;
@@ -77,10 +74,8 @@ export default {
         // var userNames = [];
         const q = await getDocs(collection(db, "users"))
         console.log(q);
-
         //const querySnapshot = await getDocs(q);
         q.forEach((doc) => {
-
           // need to filter out against current type (auth):Teacher
           // need to filter out MY own name via getAUTH
           var data = doc.data();
@@ -95,7 +90,6 @@ export default {
         // console.log(userNames);
         // this.userList = userNames;
       },
-
       send() {
           const msg = {
               message: this.message,
@@ -117,23 +111,17 @@ export default {
       click1() {
           this.$refs.input1.click()
       },
-
       typing() {
         this.$refs.type.value = this.message;
       },
-
     }
 }
-
 </script>
 <style>
-
 .back1 {
   float: left;
   font-size: 20px;
   text-align: center;
   color: blue;
 }
-
 </style>
-
