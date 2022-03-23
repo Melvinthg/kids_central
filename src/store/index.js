@@ -225,7 +225,7 @@ export default createStore({
       });
       return postsList
     },
-    async getForumPosts({context},){
+    async getForumPosts({context},className){
       const postsList = [];
       console.log(context);
       const postsRef = collection(db, "forumposts",);
@@ -234,7 +234,8 @@ export default createStore({
         const x = e.data();
         postsList.push(x);
       });
-      return postsList
+      const filteredPosts = postsList.filter(post => post.class == className)
+      return filteredPosts
     },
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
