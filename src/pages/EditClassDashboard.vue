@@ -12,7 +12,7 @@
 
         <el-row :gutter="20">
             <el-col :span="8">
-                <el-card shadow = "hover" :body-style="{ padding: '0px' }">
+                <el-card class ="card"  :body-style="{ padding: '0px' , margin: '16px'} ">
                     <img
                     src="https://images.unsplash.com/photo-1584650000640-a70adafd062e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpbGQlMjB0ZW1wZXJhdHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
                     class="image"
@@ -37,7 +37,7 @@
                 </el-card>
             </el-col>
             <el-col :span="8">
-                <el-card shadow = "hover" :body-style="{ padding: '0px' }">
+                <el-card class ="card"  :body-style="{ padding: '0px' , margin: '16px'} ">
                     <img
                     src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHVwZGF0ZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
                     class="image"
@@ -60,7 +60,7 @@
                 </el-card>
             </el-col>
             <el-col :span="8">
-                <el-card shadow = "hover" :body-style="{ padding: '0px' }">
+                <el-card class ="card"  :body-style="{ padding: '0px' , margin: '16px'} ">
                     <img
                     src="https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NzZ8fHNjb3JlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
                     class="image"
@@ -110,6 +110,11 @@ export default {
 </script>
 
 <style scoped>
+.card:hover {
+ 
+     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+}
 #topbar {
     overflow: hidden;
     background-color: whitesmoke;
@@ -150,6 +155,7 @@ export default {
   padding: 0;
   min-height: auto;
 }
+
 
 .image {
   width: 100%;
