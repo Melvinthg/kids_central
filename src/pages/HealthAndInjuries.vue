@@ -20,7 +20,7 @@
 
 </div>
 <table id = "table">
-            <!-- need to fix the repeat and styling to span across-->
+            <!-- need to fix the double forloop -->
             <ul v-for="report in Reports" :key="report.id">
             <ul v-for="name in  reportNames" :key="name.id">
                 <div id = "nameAssessment"><b> {{name}}</b></div>
@@ -61,7 +61,7 @@ export default {
                 this.Reports.push(doc.data())
                 this.reportNames.push(doc.id)
             })
-            console.log(this.Reports.length);
+            // console.log(this.Reports.length);
              if (this.reportNames.length > 0) {
                     this.boo = true;
                     this.displayName = document.getElementById("name").value;
@@ -70,8 +70,6 @@ export default {
                 this.displayName = "Invalid Name, please try again";
             }
             document.getElementById("name").value = "";
-            // console.log(this.reportNames);
-            // console.log(this.reportNames);
         }
     },// methods bracket  
 
