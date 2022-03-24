@@ -4,6 +4,7 @@
         <router-link to = "/home" className='text-link'>Back</router-link>
      </div>
      <div id="secondgroup">
+         <img id = "pic" src="@/assets/Cognitive.png" alt="">
          <h1>Cognitive Abilities page</h1><br>
      </div>
 </div>
@@ -47,7 +48,7 @@ export default {
             let name = document.getElementById("name").value
             this.Reports = [];
             this.reportNames = [];
-            const q = query(collection(db, "HealthAndInjuries"), where("Id", "==", name))
+            const q = query(collection(db, "CognitiveAbilities"), where("Id", "==", name))
             const querySnapshot = await getDocs(q)
             querySnapshot.forEach((doc) => {
                 console.log(doc.id, " => ", doc.data());
@@ -125,6 +126,11 @@ export default {
 
 #header {
     text-align: center;
+}
+
+#pic {
+    float: right;
+    width: 10%;
 }
 
 </style>

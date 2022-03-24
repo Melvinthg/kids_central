@@ -4,7 +4,8 @@
         <router-link to = "/home" className='text-link'>Back</router-link>
      </div>
      <div id="secondgroup">
-         <h1>HealthAndInjuries page</h1><br>
+         <img id = "pic" src="@/assets/HealthAndInjuries.png" alt="">
+         <h1>HealthAndInjuries page</h1><br> 
      </div>
 </div>
         <input type="text" id = "name" placeholder = "input student name...">
@@ -126,5 +127,8 @@ export default {
 #header {
     text-align: center;
 }
-
+#pic {
+    float:right;
+    width:100px;
+}
 </style>
