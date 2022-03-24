@@ -1,7 +1,7 @@
 <template>
 <div id = "header">Register as a Teacher</div>
 <form  class="register" @submit.prevent = "register">
-    <div class="rows">
+    <div class="rows" id = "rows">
       <div class="column">
   <input class = "textField" type = "text" placeholder = "Email" v-model = "register_form.email"/>
     <input class = "textField" type = "password" placeholder = "Password" v-model = "register_form.password"/>
@@ -173,7 +173,7 @@ input:focus {
 }
 
 @media only screen and (max-width: 1500px) {
-  .rows {
+  #rows {
     flex-direction: column;
     align-items: center;
   }
