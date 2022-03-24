@@ -8,11 +8,19 @@
      </div>
 </div>
  <div>
-      <input type="text" id = "name" placeholder = "input student id...">
+      <input type="text" id = "name" placeholder = "input student name...">
       <button button @click = "getReport()">Get Reports</button>
+      <br>
+      <div id = "header">
+        <div id = "h1" v-if = "boo"><h2><b>Currently Viewing: </b></h2></div>
+        <div id = "h2"><h2><b>{{displayName}}</b></h2></div>
+      </div>
+
+
+
 </div>
 <table id = "table">
-            <!-- need to fix the repeat and styling to span across-->
+            <!-- need to fix the double forloop -->
             <ul v-for="report in Reports" :key="report.id">
             <ul v-for="name in  reportNames" :key="name.id">
                 <div id = "nameAssessment"><b> {{name}}</b></div>
@@ -34,6 +42,8 @@ export default {
         return {
         Reports: [],
         reportNames: [],
+        boo : false,
+        displayName: "",
         }
     },
  
@@ -51,10 +61,17 @@ export default {
                 this.Reports.push(doc.data())
                 this.reportNames.push(doc.id)
             })
-            // console.log(this.reportNames);
-            // console.log(this.reportNames);
+            // console.log(this.Reports.length);
+             if (this.reportNames.length > 0) {
+                    this.boo = true;
+                    this.displayName = document.getElementById("name").value;
+            } else {
+                this.boo = false;
+                this.displayName = "Invalid Name, please try again";
+            }
+            document.getElementById("name").value = "";
         }
-    },     
+    },// methods bracket  
 
 }
 
@@ -111,6 +128,10 @@ export default {
 
 #date {
     background-color: lightyellow;
+}
+
+#header {
+    text-align: center;
 }
 
 </style>
