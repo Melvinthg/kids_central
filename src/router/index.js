@@ -15,6 +15,7 @@ import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
 import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
+import CognitiveAbilities from '@/pages/CognitiveAbilities.vue'
 
 
 
@@ -88,6 +89,11 @@ const routes = [
     path: "/HealthAndInjuries",
     name: "HealthAndInjuries",
     component: HealthAndInjuries,
+  },
+  {
+    path: "/CognitiveAbilities",
+    name: "CognitiveAbilities",
+    component: CognitiveAbilities,
   },
 ];
 const router = createRouter({

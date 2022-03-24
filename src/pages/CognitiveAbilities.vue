@@ -4,7 +4,7 @@
         <router-link to = "/home" className='text-link'>Back</router-link>
      </div>
      <div id="secondgroup">
-         <h1>HealthAndInjuries page</h1><br>
+         <h1>Cognitive Abilities page</h1><br>
      </div>
 </div>
         <input type="text" id = "name" placeholder = "input student name...">

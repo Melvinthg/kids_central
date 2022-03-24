@@ -46,7 +46,9 @@
               >
             </el-menu-item>
              <!-- using this line to test -->
-              <span><router-link to="/HealthAndInjuries" className="sidebarLinks">testingforHealthinjuries</router-link></span>
+              <span><router-link to="/HealthAndInjuries" className="sidebarLinks">testingforHealthinjuries</router-link></span><br>
+              <span><router-link to="/CognitiveAbilities" className="sidebarLinks">CognitiveAbilities</router-link></span>
+
           </el-menu>
         </el-aside>
         <el-main>
