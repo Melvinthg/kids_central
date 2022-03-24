@@ -14,6 +14,7 @@ import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 // import Dashboard from '@/pages/Dashboard.vue'
 
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
+import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
 
 
 
@@ -82,8 +83,12 @@ const routes = [
     path: "/editclassdashboard",
     name: "EditClassDashboard",
     component: EditClassDashboard,
-
-  }
+  },
+  {
+    path: "/HealthAndInjuries",
+    name: "HealthAndInjuries",
+    component: HealthAndInjuries,
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),

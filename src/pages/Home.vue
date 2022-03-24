@@ -24,7 +24,7 @@
             <el-menu-item index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/home" className="sidebarLinks"
+                ><router-link to="/ChildrenInfo" className="sidebarLinks"
                   >Manage Class Info</router-link
                 ></span
               >
@@ -45,6 +45,8 @@
                 ></span
               >
             </el-menu-item>
+             <!-- using this line to test -->
+              <span><router-link to="/HealthAndInjuries" className="sidebarLinks">testingforHealthinjuries</router-link></span>
           </el-menu>
         </el-aside>
         <el-main>
