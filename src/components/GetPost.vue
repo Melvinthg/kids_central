@@ -1,16 +1,18 @@
 <template>
   <el-row>
-    <el-col :span="8">
+    <el-col>
       <el-card
         v-for="post in posts"
         :key="post.id"
-        :body-style="{ padding: '0px' }"
+        :body-style="{ padding: '0px', width: auto}"
+
       >
         <img v-bind:src="'{{post.imageURL}}'" class="image" />
         <div style="padding: 14px">
-          <span>{{ post.caption }}</span>
+          <span>{{post.poster}} shared with you  </span>
+        <time class="time">{{ post.date }}</time>       
           <div class="bottom">
-            <time class="time">{{ post.date }}</time>
+          <span>{{ post.caption }}</span>  
           </div>
         </div>
       </el-card>
@@ -38,7 +40,8 @@ export default {
         this.posts.push({
           id: d.id,
           caption: d.data().caption,
-          date: d.data().date,
+          //date: new Date(d.data().date.seconds*1000),
+          date: d.data().date.toDate().toString().slice(4,21),
           imageUrl: d.data().imageUrl,
           location: d.data().location,
           poster: d.data().poster,

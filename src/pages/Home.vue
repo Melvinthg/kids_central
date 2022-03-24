@@ -14,7 +14,9 @@
             <el-menu-item v-if="this.homeType == 'teacher'" index="1">
               <el-icon><Edit /></el-icon>
               <span
+
                 ><router-link to="/editclassdashboard" className="sidebarLinks"
+
                   >Edit Class Dashboard</router-link
                 ></span
               >
@@ -30,7 +32,7 @@
             <el-menu-item v-if="this.homeType == 'teacher'" index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/home" className="sidebarLinks"
+                ><router-link to="/ChildrenInfo" className="sidebarLinks"
                   >Manage Class Info</router-link
                 ></span
               >
@@ -67,6 +69,8 @@
                 ></span
               >
             </el-menu-item>
+             <!-- using this line to test -->
+              <span><router-link to="/HealthAndInjuries" className="sidebarLinks">testingforHealthinjuries</router-link></span>
           </el-menu>
         </el-aside>
         <el-main>
@@ -102,7 +106,7 @@ export default {
   data() {
     return {
       user: auth.currentUser,
-      homeType: this.$store.state.userModel.type,
+      homeType: ""
     };
   },
   components: {
@@ -114,6 +118,7 @@ export default {
     GetPost,
   },
   created: function () {
+    this.homeType = this.$store.state.userModel.type,
     console.log(this.homeType);
   },
 };

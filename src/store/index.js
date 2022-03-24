@@ -209,29 +209,7 @@ export default createStore({
         }
       });
     },
-    //uploading image
-    // async uploadImage({ context }, details) {
-    //   console.log(context);
-    //   const tempUrl =
-    //     "images/" +
-    //     details.location +
-    //     String(Math.random()) +
-    //     details.image.name;
-    //   const imageRef = ref(storage, tempUrl);
-    //   uploadBytes(imageRef, details.image)
-    //     .then((snapshot) => {
-    //       // Let's get a download URL for the file.
-    //       getDownloadURL(snapshot.ref).then((url) => {
-    //         //set image url here --> insert into post object
-    //         const imageUrl = url;
-    //         console.log("File available at", imageUrl);
-    //         return imageUrl;
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.error("Upload failed", error);
-    //     });
-    // },
+    
     //getting list of posts
     async getPosts({context},){
       const postsList = [];
@@ -247,7 +225,7 @@ export default createStore({
       });
       return postsList
     },
-    async getForumPosts({context},){
+    async getForumPosts({context},className){
       const postsList = [];
       console.log(context);
       const postsRef = collection(db, "forumposts",);
@@ -256,7 +234,8 @@ export default createStore({
         const x = e.data();
         postsList.push(x);
       });
-      return postsList
+      const filteredPosts = postsList.filter(post => post.class == className)
+      return filteredPosts
     },
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
