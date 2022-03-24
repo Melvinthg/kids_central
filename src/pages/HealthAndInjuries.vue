@@ -15,7 +15,7 @@
             <!-- need to fix the repeat and styling to span across-->
             <ul v-for="report in Reports" :key="report.id">
             <ul v-for="name in  reportNames" :key="name.id">
-                <div id = "nameAssessment"><b>{{report.Id}}: {{name}}</b></div>
+                <div id = "nameAssessment"><b> {{name}}</b></div>
                 <div id = "date">{{report.date}}</div> <br>
                 <div ><h3>{{report.Report}}</h3></div>
                 <br><br>
