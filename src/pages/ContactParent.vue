@@ -38,7 +38,7 @@
       </el-container>
     </el-container>
   </div>
-
+<button @click = "test">get</button>
   <router-view></router-view>
 </template>
 
@@ -76,6 +76,9 @@ export default {
       this.getUserList();
     },
     methods: {
+      test(){
+        
+      },
       selectUser(user) {
         console.log('user was selected');
         var receipientUser = user;
