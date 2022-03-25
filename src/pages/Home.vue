@@ -8,17 +8,14 @@
 
           <header style="text-align:center; size=18px">{{ user.email }}</header>
 
-          <header style="text-align:center; size=18px">{{user.email}}</header>
-
           <br />
           <el-menu
             active-text-color="steelblue"
             background-color="dodgerblue"
             textcolor="white"
           >
-            <el-menu-item v-if="this.homeType == 'teacher'" index="1">
 
-            <el-menu-item index="1">
+            <el-menu-item v-if="this.homeType == 'teacher'" index="1">
 
               <el-icon><Edit /></el-icon>
               <span
@@ -37,12 +34,7 @@
                 ></span
               >
             </el-menu-item>
-            <el-menu-item v-if="this.homeType == 'teacher'" index="2">
-              <el-icon><Notebook /></el-icon>
-              <span
-                ><router-link to="/ChildrenInfo" className="sidebarLinks"></span
-              >
-            </el-menu-item>
+            
             <el-menu-item index="2">
               <el-icon><Notebook /></el-icon>
               <span
@@ -72,8 +64,6 @@
             </el-menu-item>
 
             <el-menu-item v-if="this.homeType == 'teacher'" index="4">
-
-            <el-menu-item index="4">
               <el-icon><Cellphone /></el-icon>
               <span
                 ><router-link to="/contactparent" className="sidebarLinks"
