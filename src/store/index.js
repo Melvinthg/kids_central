@@ -97,12 +97,8 @@ export default createStore({
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
       commit("SET_USER", auth.currentUser);
-      if (user.data().type == "parent") {
-        router.push("/homeparent");  
-      } else {
-        router.push("/hometeacher");
-      }
-      
+
+      router.push("/home");
     },
 
     async registerParent({ commit }, details) {
@@ -151,7 +147,7 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
       commit("SET_USER_MODEL", user);
-      router.push("/homeparent");
+      router.push("/home");
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -192,7 +188,7 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
       commit("SET_USER_MODEL", user);
-      router.push("/hometeacher");
+      router.push("/home");
     },
 
     async logout({ commit }) {
@@ -208,21 +204,17 @@ export default createStore({
         } else {
           commit("SET_USER", user);
           if (router.isReady() && router.currentRoute.value.path === "/login") {
-            if (this.$store.state.userModel.type == "parent") {
-              router.push("/homeparent")
-            } else {
-              router.push("/hometeacher");
-            }
+            router.push("/home");
           }
         }
       });
     },
-    
+
     //getting list of posts
-    async getPosts({context},){
+    async getPosts({ context }) {
       const postsList = [];
       console.log(context);
-      const postsRef = collection(db, "posts",);
+      const postsRef = collection(db, "posts");
       const postSnap = await getDocs(postsRef);
       // console.log(postSnap.docs);
       //console.log(classSnap.)
@@ -231,19 +223,19 @@ export default createStore({
         const x = e.data();
         postsList.push(x);
       });
-      return postsList
+      return postsList;
     },
-    async getForumPosts({context},className){
+    async getForumPosts({ context }, className) {
       const postsList = [];
       console.log(context);
-      const postsRef = collection(db, "forumposts",);
+      const postsRef = collection(db, "forumposts");
       const postSnap = await getDocs(postsRef);
       postSnap.forEach((e) => {
         const x = e.data();
         postsList.push(x);
       });
-      const filteredPosts = postsList.filter(post => post.class == className)
-      return filteredPosts
+      const filteredPosts = postsList.filter((post) => post.class == className);
+      return filteredPosts;
     },
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
@@ -283,7 +275,6 @@ export default createStore({
         });
     },
 
-
     async createForumPost({ context }, details) {
       console.log(context);
       console.log(details);
@@ -305,7 +296,7 @@ export default createStore({
               imageUrl: url,
               date: details.time,
               uid: details.uid,
-              class: details.class
+              class: details.class,
             };
             addDoc(collection(db, "forumposts"), forumpost)
               .then((response) => {

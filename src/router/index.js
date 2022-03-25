@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { auth } from "../firebase.js";
 import HomeTeacher from "@/pages/HomeTeacher.vue";
 import HomeParent from "@/pages/HomeParent.vue";
+import Home from "@/pages/HomeParent.vue";
 import Login from "@/pages/Login.vue";
 import SignupParent from "@/pages/SignupParent.vue";
 import SignupTeacher from "@/pages/SignupTeacher.vue";
@@ -26,6 +27,14 @@ const routes = [
     path: "/hometeacher",
     name: "HomeTeacher",
     component: HomeTeacher,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/home",
+    name: "Home",
+    component: Home,
     meta: {
       requiresAuth: true
     }
