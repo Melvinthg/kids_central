@@ -21,7 +21,6 @@
         <el-container>
           <el-main> <h3>  messages to be displayed here  </h3>
           <!-- :data="messageData"  -->
-          
           </el-main>
           <el-footer>
                 <el-input
@@ -76,13 +75,7 @@ export default {
     mounted() {
       this.getUserList();
     },
-
-    components: {
-      Back,
-    },
-
     methods: {
-
       selectUser(user) {
         console.log('user was selected');
         var receipientUser = user;
@@ -102,7 +95,6 @@ export default {
         });
         // console.log(userNames);
       },
-
       async send() {
           const msg = {
               message: this.message,
@@ -123,6 +115,7 @@ export default {
           this.$ref.type.reset();
       },
     
+<<<<<<< HEAD
       // click1() {
       //     this.$refs.input1.click()
       // },
@@ -149,33 +142,11 @@ export default {
     }
 }
 </script>
-
 <style>
-#topbar {
-    overflow: hidden;
-    background-color: rgb(0, 238, 255);
-    display: block;
-    margin: 0%;
-    padding: 5px;
-    width: 100%;
-}
-
-#btn {
+.back1 {
   float: left;
-  width: 10%;
-  color: blue;
+  font-size: 20px;
   text-align: center;
-  padding: 10px 10px;
-  text-decoration: none;
+  color: blue;
 }
-
-#selecteduser {
-
-    width: 90%;
-    text-align: center;
-    color: Black;
-    padding: 10px ;
-}
-
 </style>
-

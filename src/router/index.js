@@ -11,7 +11,14 @@ import ContactTeacher from "@/pages/ContactTeacher.vue"
 import ForumDisplay from "@/pages/ForumDisplay.vue";
 import ForumCreatePost from "@/pages/ForumCreatePost.vue";
 import ChildrenInfo from '@/pages/ChildrenInfo.vue'
+
+// import Dashboard from '@/pages/Dashboard.vue'
+
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
+import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
+import CognitiveAbilities from '@/pages/CognitiveAbilities.vue'
+
+
 
 const routes = [
   {
@@ -71,15 +78,32 @@ const routes = [
     component: ForumCreatePost,
   },
   {
-    path: "/ChildrenInfo",
+    path: "/childreninfo",
     name: "ChildrenInfo",
-    component: ChildrenInfo,
+    component: ChildrenInfo
   },
+//   {
+//     path: "/dashboard",
+//     name: "Dashboard",
+//     component: Dashboard
+//   }
+
+
   {
     path: "/editclassdashboard",
     name: "EditClassDashboard",
     component: EditClassDashboard,
-  }
+  },
+  {
+    path: "/HealthAndInjuries",
+    name: "HealthAndInjuries",
+    component: HealthAndInjuries,
+  },
+  {
+    path: "/CognitiveAbilities",
+    name: "CognitiveAbilities",
+    component: CognitiveAbilities,
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),
@@ -97,7 +121,5 @@ router.beforeEach((to, from, next) => {
   }
   next()
 })
-
 router.forward()
-
 export default router;
