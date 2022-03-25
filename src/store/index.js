@@ -321,5 +321,24 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
+    async createReport({ context }, details) {
+      console.log(context);
+      console.log(details);
+            const report = {
+              studentid: details.studentid,
+              title: details.title,
+              category: details.category,
+              text: details.text,
+              date: details.time,
+              uid: details.uid,
+            };
+            addDoc(collection(db, "reports"), report)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });    
+    }
   },
 });
