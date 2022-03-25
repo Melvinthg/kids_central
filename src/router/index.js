@@ -14,7 +14,8 @@ import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 // import Dashboard from '@/pages/Dashboard.vue'
 
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
-
+import ForumReply from '@/pages/ForumReply.vue'
+import CaregiverUploadReport from '@/pages/CaregiverUploadReport.vue'
 
 
 const routes = [
@@ -83,7 +84,18 @@ const routes = [
     name: "EditClassDashboard",
     component: EditClassDashboard,
 
-  }
+  },
+  {
+    path: "/forumreply",
+    name: "ForumReply",
+    component: ForumReply,
+  },
+  {
+    path: "/caregiveruploadreport",
+    name: "CaregiverUploadReport",
+    component: CaregiverUploadReport,
+  },
+  
 ];
 const router = createRouter({
   history: createWebHistory(),
