@@ -1,4 +1,3 @@
-
 <template>
   <div class="common-layout" style="background-color: ">
     <el-container>
@@ -15,9 +14,7 @@
             <el-menu-item index="1">
               <el-icon><Edit /></el-icon>
               <span
-
                 ><router-link to="/editclassdashboard" className="sidebarLinks"
-
                   >Edit Class Dashboard</router-link
                 ></span
               >
@@ -25,7 +22,7 @@
             <el-menu-item index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/caregiveruploadreport" className="sidebarLinks"
+                ><router-link to="/home" className="sidebarLinks"
                   >Manage Class Info</router-link
                 ></span
               >
@@ -41,8 +38,8 @@
             <el-menu-item index="4">
               <el-icon><Cellphone /></el-icon>
               <span
-                ><router-link to="/contactparent" className="sidebarLinks"
-                  >Contact Parents</router-link
+                ><router-link to="/contactteacher" className="sidebarLinks"
+                  >Contact Teachers</router-link
                 ></span
               >
             </el-menu-item>
@@ -74,12 +71,14 @@ import {
 import { getAuth } from "firebase/auth";
 const auth = getAuth();
 //import {Location,Document,Menu as IconMenu,Setting} from '@element-plus/icons-vue'
+
 // import firebaseApp from "../firebase.js";
 // import { getFirestore } from "firebase/firestore";
 // import { doc } from "firebase/firestore";
 // const db = getFirestore(firebaseApp);
+
 export default {
-  name: "Home",
+  name: "HomeParent",
   data() {
     return {
       user: auth.currentUser,
@@ -98,15 +97,18 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+
 .sidebarLinks {
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   text-decoration: none;
 }
+
 .text-link:hover {
   padding-left: 5px;
 }
+
 .content {
   position: fixed;
   margin-left: 30%;
@@ -117,6 +119,7 @@ export default {
   height: auto;
   background: #eeeeee;
 }
+
 .feed {
   margin-left: 25%;
   width: fit-content;
@@ -127,4 +130,3 @@ export default {
   text-align: center;
 }
 </style>
-

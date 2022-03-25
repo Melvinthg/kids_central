@@ -50,8 +50,10 @@ export default {
     z-index: -99;
 }
 .welcomemsg {
-    margin: 20px auto;
-    left: 350px;
+    margin-left:auto;
+    margin-right:auto;
+    left: 0;
+    right:0;
     position: absolute;
     text-align: center;
     color: rgb(0, 0, 0);

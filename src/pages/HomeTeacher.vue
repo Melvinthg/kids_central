@@ -1,4 +1,3 @@
-
 <template>
   <div class="common-layout" style="background-color: ">
     <el-container>
@@ -25,7 +24,7 @@
             <el-menu-item index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/caregiveruploadreport" className="sidebarLinks"
+                ><router-link to="/ChildrenInfo" className="sidebarLinks"
                   >Manage Class Info</router-link
                 ></span
               >
@@ -46,6 +45,10 @@
                 ></span
               >
             </el-menu-item>
+             <!-- using this line to test -->
+              <span><router-link to="/HealthAndInjuries" className="sidebarLinks">testingforHealthinjuries</router-link></span><br>
+              <span><router-link to="/CognitiveAbilities" className="sidebarLinks">CognitiveAbilities</router-link></span>
+
           </el-menu>
         </el-aside>
         <el-main>
@@ -79,7 +82,7 @@ const auth = getAuth();
 // import { doc } from "firebase/firestore";
 // const db = getFirestore(firebaseApp);
 export default {
-  name: "Home",
+  name: "HomeTeacher",
   data() {
     return {
       user: auth.currentUser,
@@ -127,4 +130,3 @@ export default {
   text-align: center;
 }
 </style>
-

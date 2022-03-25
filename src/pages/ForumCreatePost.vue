@@ -1,7 +1,7 @@
 <template>
-<div class ="forumtopbar">
+  <div class="forumtopbar">
     <ForumCreatePostTopBar></ForumCreatePostTopBar>
-</div>
+  </div>
 
 <div>
     <h1 style="margin-left:1%">Create a new Discussion Thread</h1>
@@ -15,7 +15,7 @@
     style="margin-left:1%">
 </div> <br>
 
-<div>
+  <div>
     <input
     type= "text"
     v-model= "text"
@@ -46,6 +46,9 @@
     <button @click="create" style="margin-left:1%">Post</button>
 </div>
 
+  <div>
+    <button @click="create" style="margin-left: 1%">post</button>
+  </div>
 </template>
 
 
@@ -64,12 +67,12 @@ import { ref } from "vue";
 
 
 export default {
-    name:'ForumCreatePost',
-    components: {
-        ForumCreatePostTopBar
-    },
+  name: "ForumCreatePost",
+  components: {
+    ForumCreatePostTopBar,
+  },
 
-    data () {
+  data() {
     return {
       title: '',
       text: '',
@@ -116,5 +119,4 @@ export default {
 }
 </script>
 <style>
-
 </style>
