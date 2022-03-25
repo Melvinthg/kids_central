@@ -114,8 +114,6 @@ export default {
             });
           this.$ref.type.reset();
       },
-    
-<<<<<<< HEAD
       // click1() {
       //     this.$refs.input1.click()
       // },
