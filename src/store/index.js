@@ -1,5 +1,9 @@
 import { createStore } from "vuex";
 import router from "../router";
+<<<<<<< HEAD
+import { auth, db } from "../firebase.js";
+import {doc, setDoc, addDoc, collection, getDoc} from "firebase/firestore"
+=======
 import { auth, db, storage } from "../firebase.js";
 import createPersistedState from "vuex-persistedstate";
 import {
@@ -10,6 +14,7 @@ import {
   addDoc,
   collection,
 } from "firebase/firestore";
+>>>>>>> main
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -92,6 +97,21 @@ export default createStore({
 
         return;
       }
+<<<<<<< HEAD
+
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const user = await getDoc(userRef);
+      commit("SET_USER_MODEL", user.data());
+      commit("SET_USER", auth.currentUser);
+
+      if (user.data().type == "parent") {
+        router.push("/homeparent");
+      } else {
+        router.push("hometeacher");
+      }
+
+
+=======
       const userRef = doc(db, "users", auth.currentUser.uid);
       const user = await getDoc(userRef);
       //console.log(user.data())
@@ -99,6 +119,7 @@ export default createStore({
       commit("SET_USER", auth.currentUser);
 
       router.push("/home");
+>>>>>>> main
     },
 
     async registerParent({ commit }, details) {
@@ -146,8 +167,13 @@ export default createStore({
       await setDoc(doc(db, "users", uid), user);
 
       commit("SET_USER", auth.currentUser);
+<<<<<<< HEAD
+      commit("SET_USER_MODEL", user)
+      router.push("/homeparent");
+=======
       commit("SET_USER_MODEL", user);
       router.push("/home");
+>>>>>>> main
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -187,8 +213,13 @@ export default createStore({
       console.log(ref);
 
       commit("SET_USER", auth.currentUser);
+<<<<<<< HEAD
+      commit("SET_USER_MODEL", user)
+      router.push("/hometeacher");
+=======
       commit("SET_USER_MODEL", user);
       router.push("/home");
+>>>>>>> main
     },
 
     async logout({ commit }) {
@@ -204,7 +235,11 @@ export default createStore({
         } else {
           commit("SET_USER", user);
           if (router.isReady() && router.currentRoute.value.path === "/login") {
-            router.push("/home");
+            if (this.$store.state.userModel.type == "parent") {
+              router.push("/homeparent")
+            } else {
+              router.push("/hometeacher");
+            }
           }
         }
       });
