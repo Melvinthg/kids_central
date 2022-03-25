@@ -69,12 +69,6 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-
-.button {
-  padding: 0;
-  min-height: auto;
-}
-
 .image {
   width: 100%;
   display: block;

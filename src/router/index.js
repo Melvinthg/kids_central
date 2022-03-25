@@ -15,6 +15,7 @@ import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
 import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
+import GradesDisplay from '@/pages/GradesDisplay.vue'
 
 
 
@@ -88,7 +89,12 @@ const routes = [
     path: "/HealthAndInjuries",
     name: "HealthAndInjuries",
     component: HealthAndInjuries,
+  },{
+    path: "/gradesDisplay",
+    name: "GradesDisplay",
+    component: GradesDisplay,
   },
+
 ];
 const router = createRouter({
   history: createWebHistory(),
