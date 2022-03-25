@@ -76,8 +76,11 @@ export default {
       this.getUserList();
     },
     methods: {
-      test(){
-        
+      async test(){
+        const q = await getDocs(collection(db, "users"))
+        q.forEach(
+          (doc) => console.log(doc.data().type)
+        )
       },
       selectUser(user) {
         console.log('user was selected');
@@ -115,7 +118,7 @@ export default {
             .catch((err) => {
               console.log(err);
             });
-          this.$ref.type.reset();
+          //this.$ref.type.reset();
       },
     
 
