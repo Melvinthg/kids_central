@@ -1,26 +1,31 @@
+
 <template>
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
+
           <header style="text-align:center; size=18px">{{ user.email }}</header>
+
           <br />
           <el-menu
             active-text-color="steelblue"
             background-color="dodgerblue"
             textcolor="white"
           >
+
             <el-menu-item v-if="this.homeType == 'teacher'" index="1">
+
               <el-icon><Edit /></el-icon>
               <span
 
                 ><router-link to="/editclassdashboard" className="sidebarLinks"
-
                   >Edit Class Dashboard</router-link
                 ></span
               >
             </el-menu-item>
+
             <el-menu-item v-if="this.homeType == 'parent'" index="1a">
               <el-icon><Edit /></el-icon>
               <span
@@ -29,14 +34,16 @@
                 ></span
               >
             </el-menu-item>
-            <el-menu-item v-if="this.homeType == 'teacher'" index="2">
+            
+            <el-menu-item index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/ChildrenInfo" className="sidebarLinks"
+                ><router-link to="/caregiveruploadreport" className="sidebarLinks"
                   >Manage Class Info</router-link
                 ></span
               >
             </el-menu-item>
+
             <el-menu-item v-if="this.homeType == 'parent'" index="2a">
               <el-icon><Notebook /></el-icon>
               <span
@@ -45,6 +52,8 @@
                 ></span
               >
             </el-menu-item>
+
+
             <el-menu-item index="3">
               <el-icon><ChatLineSquare /></el-icon>
               <span
@@ -53,6 +62,7 @@
                 ></span
               >
             </el-menu-item>
+
             <el-menu-item v-if="this.homeType == 'teacher'" index="4">
               <el-icon><Cellphone /></el-icon>
               <span
@@ -61,6 +71,7 @@
                 ></span
               >
             </el-menu-item>
+
             <el-menu-item v-if="this.homeType == 'parent'" index="4a">
               <el-icon><Cellphone /></el-icon>
               <span
@@ -76,6 +87,7 @@
           </el-menu>
         </el-aside>
         <el-main>
+
           <div v-if="this.homeType == 'teacher'" class="writepost">
             <WritePost></WritePost>
           </div>
@@ -94,6 +106,7 @@
 <script>
 import WritePost from "@/components/WritePost.vue";
 import GetPost from "@/components/GetPost.vue";
+
 import {
   Edit,
   Notebook,
@@ -108,7 +121,8 @@ export default {
   data() {
     return {
       user: auth.currentUser,
-      homeType: ""
+
+      homeType: "",
     };
   },
   components: {
@@ -120,8 +134,8 @@ export default {
     GetPost,
   },
   created: function () {
-    this.homeType = this.$store.state.userModel.type,
-    console.log(this.homeType);
+    (this.homeType = this.$store.state.userModel.type),
+      console.log(this.homeType);
   },
 };
 </script>

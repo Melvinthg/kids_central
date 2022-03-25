@@ -217,12 +217,12 @@ export default createStore({
         }
       });
     },
-    
+
     //getting list of posts
-    async getPosts({context},){
+    async getPosts({ context }) {
       const postsList = [];
       console.log(context);
-      const postsRef = collection(db, "posts",);
+      const postsRef = collection(db, "posts");
       const postSnap = await getDocs(postsRef);
       // console.log(postSnap.docs);
       //console.log(classSnap.)
@@ -231,19 +231,19 @@ export default createStore({
         const x = e.data();
         postsList.push(x);
       });
-      return postsList
+      return postsList;
     },
-    async getForumPosts({context},className){
+    async getForumPosts({ context }, className) {
       const postsList = [];
       console.log(context);
-      const postsRef = collection(db, "forumposts",);
+      const postsRef = collection(db, "forumposts");
       const postSnap = await getDocs(postsRef);
       postSnap.forEach((e) => {
         const x = e.data();
         postsList.push(x);
       });
-      const filteredPosts = postsList.filter(post => post.class == className)
-      return filteredPosts
+      const filteredPosts = postsList.filter((post) => post.class == className);
+      return filteredPosts;
     },
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
@@ -283,7 +283,6 @@ export default createStore({
         });
     },
 
-
     async createForumPost({ context }, details) {
       console.log(context);
       console.log(details);
@@ -305,7 +304,7 @@ export default createStore({
               imageUrl: url,
               date: details.time,
               uid: details.uid,
-              class: details.class
+              class: details.class,
             };
             addDoc(collection(db, "forumposts"), forumpost)
               .then((response) => {
@@ -321,5 +320,24 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
+    async createReport({ context }, details) {
+      console.log(context);
+      console.log(details);
+            const report = {
+              studentid: details.studentid,
+              title: details.title,
+              category: details.category,
+              text: details.text,
+              date: details.time,
+              uid: details.uid,
+            };
+            addDoc(collection(db, "reports"), report)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });    
+    }
   },
 });

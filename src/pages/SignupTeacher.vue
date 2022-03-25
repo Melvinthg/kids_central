@@ -163,11 +163,13 @@ input:focus {
 }
 #redirectButton:hover,
 #redirectButton:focus {
+  cursor:pointer;
   opacity: 0.9;
         filter: alpha(opacity=100);
 }
 #submitButton:hover,
 #submitButton:focus {
+  cursor:pointer;
   opacity: 0.9;
         filter: alpha(opacity=100);
 }

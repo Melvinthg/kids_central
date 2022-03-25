@@ -1,8 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { auth } from "../firebase.js";
-import HomeTeacher from "@/pages/HomeTeacher.vue";
-import HomeParent from "@/pages/HomeParent.vue";
 import Login from "@/pages/Login.vue";
+import Home from "@/pages/Home.vue";
 import SignupParent from "@/pages/SignupParent.vue";
 import SignupTeacher from "@/pages/SignupTeacher.vue";
 import Landing from "@/pages/Landing.vue";
@@ -15,9 +14,14 @@ import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 // import Dashboard from '@/pages/Dashboard.vue'
 
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
+
+import ForumReply from '@/pages/ForumReply.vue'
+import CaregiverUploadReport from '@/pages/CaregiverUploadReport.vue'
+
 import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
 import CognitiveAbilities from '@/pages/CognitiveAbilities.vue'
 import GradesDisplay from '@/pages/GradesDisplay.vue'
+
 
 
 
@@ -96,6 +100,16 @@ const routes = [
     component: EditClassDashboard,
   },
   {
+    path: "/forumreply",
+    name: "ForumReply",
+    component: ForumReply,
+  },
+  {
+    path: "/caregiveruploadreport",
+    name: "CaregiverUploadReport",
+    component: CaregiverUploadReport,
+  },
+  {
     path: "/HealthAndInjuries",
     name: "HealthAndInjuries",
     component: HealthAndInjuries,
@@ -109,6 +123,7 @@ const routes = [
     name: "CognitiveAbilities",
     component: CognitiveAbilities,
   },
+
 ];
 const router = createRouter({
   history: createWebHistory(),
