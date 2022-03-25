@@ -21,6 +21,7 @@
   </el-select>
 
   <line-chart class="user" width="500px" :data="chartdata"></line-chart>
+  <line-chart class="user" width="500px" :data="chartdata"></line-chart>
 </template>
 <script>
 import { db } from "../firebase.js";
