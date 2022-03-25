@@ -32,14 +32,39 @@ import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default {
+  data() {
+    return {
+      Reports: [],
+      reportNames: [],
+      boo: false,
+      displayName: "",
+    };
+  },
 
-    data() {
-        return {
-        Reports: [],
-        reportNames: [],
-        boo : false,
-        displayName: "",
-        }
+  methods: {
+    async getReport() {
+      let name = document.getElementById("name").value;
+      this.Reports = [];
+      this.reportNames = [];
+      const q = query(
+        collection(db, "HealthAndInjuries"),
+        where("Id", "==", name)
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        this.Reports.push(doc.data());
+        this.reportNames.push(doc.id);
+      });
+      // console.log(this.Reports.length);
+      if (this.reportNames.length > 0) {
+        this.boo = true;
+        this.displayName = document.getElementById("name").value;
+      } else {
+        this.boo = false;
+        this.displayName = "Invalid Name, please try again";
+      }
+      document.getElementById("name").value = "";
     },
  
     methods: {
@@ -68,17 +93,18 @@ export default {
     },// methods bracket  
 
 }
+}
 
 </script>
 
 <style scoped>
 #wholegroup {
-    overflow: hidden;
-    background-color: whitesmoke;
-    display: block;
-    margin: 0%;
-    padding: 5px;
-    width: 100%;
+  overflow: hidden;
+  background-color: whitesmoke;
+  display: block;
+  margin: 0%;
+  padding: 5px;
+  width: 100%;
 }
 
 #firstgroup {
@@ -93,11 +119,11 @@ export default {
 }
 
 #secondgroup {
-    float: left;
-    width: 50%;
-    text-align: center;
-    color: black;
-    padding: 20px;
+  float: left;
+  width: 50%;
+  text-align: center;
+  color: black;
+  padding: 20px;
 }
 
 #firstgroup:hover {
@@ -112,20 +138,20 @@ export default {
 }
 
 #table {
-    background-color: lightblue;
-    width:100%;
+  background-color: lightblue;
+  width: 100%;
 }
 
 #nameAssessment {
-    background-color: lightskyblue;
+  background-color: lightskyblue;
 }
 
 #date {
-    background-color: lightyellow;
+  background-color: lightyellow;
 }
 
 #header {
-    text-align: center;
+  text-align: center;
 }
 #pic {
     float:right;
