@@ -78,7 +78,7 @@ const auth = getAuth();
 // const db = getFirestore(firebaseApp);
 
 export default {
-  name: "Home",
+  name: "HomeTeacher",
   data() {
     return {
       user: auth.currentUser,

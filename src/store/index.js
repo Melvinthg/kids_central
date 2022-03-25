@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import router from "../router";
 import { auth, db } from "../firebase.js";
-import {doc, setDoc, addDoc, collection} from "firebase/firestore"
+import {doc, setDoc, addDoc, collection, getDoc} from "firebase/firestore"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -72,8 +72,19 @@ export default createStore({
         }
         return;
       }
+
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const user = await getDoc(userRef);
+      commit("SET_USER_MODEL", user.data());
       commit("SET_USER", auth.currentUser);
-      router.push("/home");
+
+      if (user.data().type == "parent") {
+        router.push("/homeparent");
+      } else {
+        router.push("hometeacher");
+      }
+
+
     },
 
     async registerParent({ commit }, details) {
@@ -139,7 +150,7 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
       commit("SET_USER_MODEL", user)
-      router.push("/home");
+      router.push("/homeparent");
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -194,7 +205,7 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
       commit("SET_USER_MODEL", user)
-      router.push("/home");
+      router.push("/hometeacher");
     },
 
     async logout({ commit }) {
@@ -210,7 +221,11 @@ export default createStore({
         } else {
           commit("SET_USER", user);
           if (router.isReady() && router.currentRoute.value.path === "/login") {
-            router.push("/home");
+            if (this.$store.state.userModel.type == "parent") {
+              router.push("/homeparent")
+            } else {
+              router.push("/hometeacher");
+            }
           }
         }
       });
