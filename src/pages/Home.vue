@@ -24,7 +24,6 @@
               <span
 
                 ><router-link to="/editclassdashboard" className="sidebarLinks"
-
                   >Edit Class Dashboard</router-link
                 ></span
               >
@@ -41,8 +40,9 @@
             <el-menu-item v-if="this.homeType == 'teacher'" index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/ChildrenInfo" className="sidebarLinks"
-
+                ><router-link to="/ChildrenInfo" className="sidebarLinks"></span
+              >
+            </el-menu-item>
             <el-menu-item index="2">
               <el-icon><Notebook /></el-icon>
               <span
@@ -97,21 +97,14 @@
           </el-menu>
         </el-aside>
         <el-main>
-          <div v-if="this.homeType == 'teacher'" class="writepost">
 
-          </el-menu>
-        </el-aside>
-        <el-main>
-          <div class="writepost">
+          <div v-if="this.homeType == 'teacher'" class="writepost">
             <WritePost></WritePost>
           </div>
           <br /><br />
           <div class="feed">
             <h1>feed</h1>
-
             <GetPost></GetPost>
-
-
           </div>
         </el-main>
       </el-container>
@@ -133,22 +126,13 @@ import {
 import { getAuth } from "firebase/auth";
 const auth = getAuth();
 
-
-
-//import {Location,Document,Menu as IconMenu,Setting} from '@element-plus/icons-vue'
-// import firebaseApp from "../firebase.js";
-// import { getFirestore } from "firebase/firestore";
-// import { doc } from "firebase/firestore";
-// const db = getFirestore(firebaseApp);
-
 export default {
   name: "Home",
   data() {
     return {
       user: auth.currentUser,
 
-      homeType: ""
-
+      homeType: "",
     };
   },
   components: {
@@ -160,10 +144,8 @@ export default {
     GetPost,
   },
   created: function () {
-    this.homeType = this.$store.state.userModel.type,
-    console.log(this.homeType);
-
-
+    (this.homeType = this.$store.state.userModel.type),
+      console.log(this.homeType);
   },
 };
 </script>
@@ -198,8 +180,6 @@ export default {
   padding-right: 25px;
   text-align: center;
 }
-
-</style>
 </style>
 
 
