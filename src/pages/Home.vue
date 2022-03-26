@@ -25,7 +25,7 @@
             <el-menu-item index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/caregiveruploadreport" className="sidebarLinks"
+                ><router-link to="/home" className="sidebarLinks"
                   >Manage Class Info</router-link
                 ></span
               >
@@ -60,7 +60,6 @@
       </el-container>
     </el-container>
   </div>
-  <router-view></router-view>
 </template>
 
 <script>

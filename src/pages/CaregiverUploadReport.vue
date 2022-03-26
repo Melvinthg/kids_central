@@ -1,7 +1,8 @@
 <template>
+<div>
     <div id="header">
         <div id="firstgroup">
-            <router-link to = "/home" className='text-link' style='color:white'>Manage Dashboard</router-link>
+            <router-link to = "/editclassdashboard" className='text-link' style='color:white'>Manage Dashboard</router-link>
         </div>
         <div id="secondgroup">
             <h1>Upload Report</h1><br>
@@ -61,6 +62,7 @@
     <div>
         <button @click="create" style="margin-left:2%">Upload</button>
     </div>
+</div>
 </template>
 
 <script>
@@ -99,11 +101,12 @@ export default {
         }
         await this.createReport(details)
         this.goBack()
+        },
+        goBack(){
+        this.$router.push('/editclassdashboard'); 
         }
     },
-    goBack(){
-        this.$router.push('/home'); 
-    }
+    
 }
 </script>
 

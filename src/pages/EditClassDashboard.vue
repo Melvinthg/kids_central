@@ -56,7 +56,7 @@
                         /> -->
             <div class="bottom">
               <!-- push to update report page -->
-              <el-button @click="$router.push('home')"> Proceed </el-button>
+              <el-button @click="$router.push('caregiveruploadreport')"> Proceed </el-button>
             </div>
           </div>
         </el-card>

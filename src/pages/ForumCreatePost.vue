@@ -1,54 +1,52 @@
 <template>
+<div>
   <div class="forumtopbar">
     <ForumCreatePostTopBar></ForumCreatePostTopBar>
   </div>
 
-<div>
-    <h1 style="margin-left:1%">Create a new Discussion Thread</h1>
-</div> <br>
-
-<div>
-    <input
-    type= "text"
-    v-model= "title"
-    placeholder="Enter Title of Post..."
-    style="margin-left:1%">
-</div> <br>
+  <div>
+      <h1 style="margin-left:1%">Create a new Discussion Thread</h1>
+  </div> <br>
 
   <div>
-    <input
-    type= "text"
-    v-model= "text"
-    placeholder="Type your post here..."
-    size="100" 
-    style="white-space: pre-line; margin-left:1%">
-</div> <br>
+      <input
+      type= "text"
+      v-model= "title"
+      placeholder="Enter Title of Post..."
+      style="margin-left:1%">
+  </div> <br>
 
+    <div>
+      <input
+      type= "text"
+      v-model= "text"
+      placeholder="Type your post here..."
+      size="100" 
+      style="white-space: pre-line; margin-left:1%">
+  </div> <br>
 
-<div>
-    <input
-      type="file"
-      name="image"
-      @change="this.previewImage"
-      style="margin-left:1%">             
-</div>
-
-
-<div v-if="image!=null">                     
-    <img class="preview" style="margin-left:1%" height="200" width="300" :src="preview"><br>
-</div>
-
-<!-- <div>
-    <button @click="onUpload" style="margin-left:1%">upload</button>
-</div> -->
-
-<div>
-    <button @click="create" style="margin-left:1%">Post</button>
-</div>
 
   <div>
-    <button @click="create" style="margin-left: 1%">post</button>
+      <input
+        type="file"
+        name="image"
+        @change="this.previewImage"
+        style="margin-left:1%">             
   </div>
+
+
+  <div v-if="image!=null">                     
+      <img class="preview" style="margin-left:1%" height="200" width="300" :src="preview"><br>
+  </div>
+
+  <!-- <div>
+      <button @click="onUpload" style="margin-left:1%">upload</button>
+  </div> -->
+
+  <div>
+      <button @click="create" style="margin-left:1%">Post</button>
+  </div>
+</div>
 </template>
 
 
