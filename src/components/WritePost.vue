@@ -52,7 +52,6 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import { db, storage } from "../firebase.js";
-//import {uploadBytes, getDownloadURL, ref as reference} from "firebase/storage"
 import { collection, getDocs} from "firebase/firestore";
 import { ref } from "vue";
 // eslint-disable-next-line no-unused-vars
@@ -82,13 +81,6 @@ export default {
     async create() {
       // i do not know what this is for so i will not touch it
       var today = new Date();
-      // const post = {
-      //   photo: this.image.name,
-      //   caption: this.caption,
-      //   date: today,
-      //   receiver: this.recipient,
-      //   poster: store.state.userModel.email
-      // };
       
       const details = {
         location: "post",
@@ -114,21 +106,17 @@ export default {
       this.uploadValue = 0;
       this.preview = null;
       this.image = event.target.files[0];
-      
-      //this.onUpload();
+    
     },
 
     async onUpload() {
       this.preview = null;
       const details = {location: "post", image: this.image}
       this.imageUrl = await this.uploadImage(details)
-
-      
     },
 
     async getOptions() {
       let value = await getDocs(collection(db, "students"));
-      console.log("hello");
       value.forEach((d) => {
         this.options.push({
           value: d.id,

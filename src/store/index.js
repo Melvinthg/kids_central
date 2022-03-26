@@ -1,9 +1,23 @@
 import { createStore } from "vuex";
 import router from "../router";
+<<<<<<< HEAD
 import {doc, setDoc, getDocs, addDoc, collection, getDoc} from "firebase/firestore"
 import { auth, db, storage } from "../firebase.js";
 import createPersistedState from "vuex-persistedstate";
 import {
+=======
+import { auth, db, storage } from "../firebase.js";
+import createPersistedState from "vuex-persistedstate";
+import {
+  doc,
+  setDoc,
+  getDocs,
+  getDoc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
+import {
+>>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -87,6 +101,7 @@ export default createStore({
       }
       const userRef = doc(db, "users", auth.currentUser.uid);
       const user = await getDoc(userRef);
+<<<<<<< HEAD
       commit("SET_USER_MODEL", user.data());
       commit("SET_USER", auth.currentUser);
 
@@ -96,6 +111,13 @@ export default createStore({
         router.push("hometeacher");
       }
 
+=======
+      //console.log(user.data())
+      commit("SET_USER_MODEL", user.data());
+      commit("SET_USER", auth.currentUser);
+
+      router.push("/home");
+>>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     },
 
     async registerParent({ commit }, details) {
@@ -143,9 +165,14 @@ export default createStore({
       await setDoc(doc(db, "users", uid), user);
 
       commit("SET_USER", auth.currentUser);
+<<<<<<< HEAD
 
       commit("SET_USER_MODEL", user)
       router.push("/homeparent");
+=======
+      commit("SET_USER_MODEL", user);
+      router.push("/home");
+>>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -185,9 +212,14 @@ export default createStore({
       console.log(ref);
 
       commit("SET_USER", auth.currentUser);
+<<<<<<< HEAD
       commit("SET_USER_MODEL", user)
       router.push("/hometeacher");
 
+=======
+      commit("SET_USER_MODEL", user);
+      router.push("/home");
+>>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     },
 
     async logout({ commit }) {
@@ -203,15 +235,12 @@ export default createStore({
         } else {
           commit("SET_USER", user);
           if (router.isReady() && router.currentRoute.value.path === "/login") {
-            if (this.$store.state.userModel.type == "parent") {
-              router.push("/homeparent")
-            } else {
-              router.push("/hometeacher");
-            }
+            router.push("/home");
           }
         }
       });
     },
+<<<<<<< HEAD
     //uploading image
     // async uploadImage({ context }, details) {
     //   console.log(context);
@@ -235,11 +264,14 @@ export default createStore({
     //       console.error("Upload failed", error);
     //     });
     // },
+=======
+
+>>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     //getting list of posts
-    async getPosts({context},){
+    async getPosts({ context }) {
       const postsList = [];
       console.log(context);
-      const postsRef = collection(db, "posts",);
+      const postsRef = collection(db, "posts");
       const postSnap = await getDocs(postsRef);
       // console.log(postSnap.docs);
       //console.log(classSnap.)
@@ -248,8 +280,23 @@ export default createStore({
         const x = e.data();
         postsList.push(x);
       });
-      return postsList
+      return postsList;
     },
+<<<<<<< HEAD
+=======
+    async getForumPosts({ context }, className) {
+      const postsList = [];
+      console.log(context);
+      const postsRef = collection(db, "forumposts");
+      const postSnap = await getDocs(postsRef);
+      postSnap.forEach((e) => {
+        const x = e.data();
+        postsList.push(x);
+      });
+      const filteredPosts = postsList.filter((post) => post.class == className);
+      return filteredPosts;
+    },
+>>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
       console.log(context);
@@ -288,6 +335,7 @@ export default createStore({
         });
     },
 
+<<<<<<< HEAD
     async forumCreatePost({ context }, details) {
       //  console.log(commit)
       //  console.log(state)
@@ -303,6 +351,63 @@ export default createStore({
 
       const docRef = await addDoc(collection(db, "forumposts"), forumpost);
       console.log("Document written with ID: ", docRef.id);
+=======
+    async createForumPost({ context }, details) {
+      console.log(context);
+      console.log(details);
+      const tempUrl =
+        "images/" +
+        details.location +
+        String(Math.random()) +
+        details.image.name;
+      const imageRef = ref(storage, tempUrl);
+      uploadBytes(imageRef, details.image)
+        .then((snapshot) => {
+          // Let's get a download URL for the file.
+          getDownloadURL(snapshot.ref).then((url) => {
+            //set image url here --> insert into post object
+            const forumpost = {
+              location: details.location,
+              title: details.title,
+              text: details.text,
+              imageUrl: url,
+              date: details.time,
+              uid: details.uid,
+              class: details.class,
+            };
+            addDoc(collection(db, "forumposts"), forumpost)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+            console.log("File available at", url);
+          });
+        })
+        .catch((error) => {
+          console.error("Upload failed", error);
+        });
+>>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     },
+    async createReport({ context }, details) {
+      console.log(context);
+      console.log(details);
+            const report = {
+              studentid: details.studentid,
+              title: details.title,
+              category: details.category,
+              text: details.text,
+              date: details.time,
+              uid: details.uid,
+            };
+            addDoc(collection(db, "reports"), report)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });    
+    }
   },
 });

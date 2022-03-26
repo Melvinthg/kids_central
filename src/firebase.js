@@ -3,7 +3,7 @@
 
 import * as firebase from "firebase/app";
 
-import {getFirestore} from '@firebase/firestore'
+import { getFirestore } from '@firebase/firestore'
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getStorage, } from "firebase/storage";

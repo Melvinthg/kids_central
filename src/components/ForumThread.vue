@@ -1,4 +1,4 @@
-<template>
+<template :post = "post">
 
 <div id="threadheader">
     <div id="postername">
@@ -32,23 +32,54 @@
 <div id="threadreplies">
     <!-- call number of replies -->
     <h5>{{numreplies}} replies</h5>
+    <!-- <router-link to="/forumreply" className="linktoreplies">{{numreplies}} replies</router-link> -->
 </div>
+
+
+
 </template>
 
 <script>
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../firebase.js";
+
+
 export default {
+    
     name: 'ForumThread',
     data(){
     return{
-      postername: "Joshua Tan",
-      timestamp: "2/21/21 9.00AM",
-      imgsrc: "@/assets/logo.png",
-      title: "Covered shoes please",
-      text: "Dear parents, please remind your children to wear covered shoes. Wearing slides will be dangerous when they play at the playground.",
-      numreplies: "3",
-      classname: this.$store.state.userModel.childClass,
+      postername: "",
+      timestamp: "",
+      imgsrc: "",
+      title: "",
+      text: "",
+      numreplies: "",
     }
-  }
+    },
+    props: {
+        post: { type:Object }
+    },
+    methods: {
+        async displaythread(fpid){
+            const docRef = doc(db, "forumposts", fpid);
+            const docSnap = await getDoc(docRef);
+            // if (docSnap.exists()) {
+            // console.log("Document data:", docSnap.data());
+            // } else {
+            //     // doc.data() will be undefined in this case
+            //     console.log("No such document!");
+            // }
+            let docdata = docSnap.data();
+
+            this.postername = this.$store.state.userModel.first + " " + this.$store.state.userModel.last
+            //must change
+            this.timestamp = docdata.date
+            this.imgsrc = docdata.imageUrl
+            this.title = docdata.title
+            this.text = docdata.text  
+        }
+    }
 }
 </script>
 
