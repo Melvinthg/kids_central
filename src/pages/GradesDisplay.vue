@@ -40,8 +40,10 @@
   </el-select>
   <button @click="createGraphStudent">click me</button>
 
+<!-- chart to use -->
   <line-chart v-if="this.homeType == 'teacher'" width="500px" :data="chartdata"></line-chart>
   <column-chart v-if="this.homeType == 'parent'" :data="chartdata"></column-chart>
+
 </template>
 <script>
 import { db } from "../firebase.js";
@@ -107,7 +109,7 @@ export default {
         // let value = getDocs(
         //   collection(db, "studentsResult", d, "studentsResults")
         // );
-        const testRef = collection(db, "studentsResult", d, "studentsResults");
+        const testRef = collection(db, "studentsResult", d.value, "studentsResults");
         console.log(testRef)
         const q = query(testRef, where("studentId", "==", s));
         const querySnapshot = getDocs(q);

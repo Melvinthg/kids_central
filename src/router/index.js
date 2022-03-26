@@ -27,25 +27,13 @@ import GradesDisplay from '@/pages/GradesDisplay.vue'
 
 const routes = [
   {
-    path: "/hometeacher",
-    name: "HomeTeacher",
-    component: HomeTeacher,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/homeparent",
-    name: "HomeParent",
-    component: HomeParent,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/login",
     name: "Login",
     component: Login,
+  },{
+    path: "/home",
+    name: "Home",
+    component: Home,
   },
   {
     path: "/signupparent",
