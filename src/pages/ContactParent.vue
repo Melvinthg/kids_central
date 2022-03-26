@@ -38,7 +38,7 @@
       </el-container>
     </el-container>
   </div>
-
+<button @click = "test">get</button>
   <router-view></router-view>
 </template>
 
@@ -76,6 +76,12 @@ export default {
       this.getUserList();
     },
     methods: {
+      async test(){
+        const q = await getDocs(collection(db, "users"))
+        q.forEach(
+          (doc) => console.log(doc.data().type)
+        )
+      },
       selectUser(user) {
         console.log('user was selected');
         var receipientUser = user;
@@ -112,10 +118,10 @@ export default {
             .catch((err) => {
               console.log(err);
             });
-          this.$ref.type.reset();
+          //this.$ref.type.reset();
       },
     
-<<<<<<< HEAD
+
       // click1() {
       //     this.$refs.input1.click()
       // },
