@@ -36,7 +36,7 @@
               >
             </el-menu-item>
             
-            <el-menu-item index="2" v-if="this.homeType === 'teacher'">
+            <el-menu-item v-if="this.homeType == 'teacher'" index="2">
               <el-icon><Notebook /></el-icon>
               <span
                 ><router-link to="/caregiveruploadreport" className="sidebarLinks"
@@ -101,9 +101,6 @@
       </el-container>
     </el-container>
   </div>
-  
-  <router-view></router-view>
-  
 </template>
 
 <script>
