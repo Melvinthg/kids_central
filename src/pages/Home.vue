@@ -39,7 +39,7 @@
             <el-menu-item v-if="this.homeType == 'teacher'" index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/caregiveruploadreport" className="sidebarLinks"
+                ><router-link to="/home" className="sidebarLinks"
                   >Manage Class Info</router-link
                 ></span
               >
