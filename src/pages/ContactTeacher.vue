@@ -4,7 +4,7 @@
     <el-container>
       <el-header id = "topbar">
         <div id = "btn">
-          <el-button type="primary" @click="$router.push('home')"> <el-icon><Back /></el-icon> </el-button>
+          <el-button type="primary" @click="$router.push('hometeacher')"> <el-icon><Back /></el-icon> </el-button>
         </div>
         <div id = "selecteduser">
           <h3>  Talking to: {{receipientSelectedUserFirstName}}  </h3>

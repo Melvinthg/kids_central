@@ -1,20 +1,8 @@
 import { createStore } from "vuex";
 import router from "../router";
-<<<<<<< HEAD
-import { auth, db } from "../firebase.js";
-import {doc, setDoc, addDoc, collection, getDoc} from "firebase/firestore"
-=======
+import {doc, setDoc, getDocs, addDoc, collection, getDoc} from "firebase/firestore"
 import { auth, db, storage } from "../firebase.js";
 import createPersistedState from "vuex-persistedstate";
-import {
-  doc,
-  setDoc,
-  getDocs,
-  getDoc,
-  addDoc,
-  collection,
-} from "firebase/firestore";
->>>>>>> main
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
