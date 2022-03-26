@@ -4,7 +4,7 @@
     <el-container>
       <el-header id = "topbar">
         <div id = "btn">
-          <el-button type="primary" @click="$router.push('homeparent')"> <el-icon><Back /></el-icon> </el-button>
+          <el-button type="primary" @click="$router.push('home')"> <el-icon><Back /></el-icon> </el-button>
         </div>
         <div id = "selecteduser">
           <h3>  Talking to: {{receipientSelectedUserFirstName}}  </h3>
@@ -57,10 +57,8 @@ import { Back} from "@element-plus/icons-vue";
 //const messagesCollection = getFirestore(app).collection("messages")
 // const app = firebase.initializeApp(firebaseConfig);
 //const auth = getAuth();
-
 export default {
     name: "ContactParent",
-
     data() {
          return {
             userList : [],
@@ -74,10 +72,6 @@ export default {
     },
     mounted() {
       this.getUserList();
-    },
-
-    components: {
-      Back,
     },
     methods: {
       async test(){
@@ -114,7 +108,6 @@ export default {
               time: new Date()
               // time: serverTimestamp()
           };
-
           addDoc(collection(db, "messages"), msg)
             .then((response) => {
               console.log(response);
@@ -124,19 +117,13 @@ export default {
             });
           //this.$ref.type.reset();
       },
-<<<<<<< HEAD
-=======
     
-
->>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
       // click1() {
       //     this.$refs.input1.click()
       // },
-
       // typing() {
       //   this.$refs.type.value = this.message;
       // },
-
       //have yet to sort out the display function
       async displaychat() {
         var query = getDocs(collection(db, "messages"));
