@@ -1,11 +1,5 @@
 import { createStore } from "vuex";
 import router from "../router";
-<<<<<<< HEAD
-import {doc, setDoc, getDocs, addDoc, collection, getDoc} from "firebase/firestore"
-import { auth, db, storage } from "../firebase.js";
-import createPersistedState from "vuex-persistedstate";
-import {
-=======
 import { auth, db, storage } from "../firebase.js";
 import createPersistedState from "vuex-persistedstate";
 import {
@@ -17,7 +11,6 @@ import {
   collection,
 } from "firebase/firestore";
 import {
->>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
@@ -101,23 +94,12 @@ export default createStore({
       }
       const userRef = doc(db, "users", auth.currentUser.uid);
       const user = await getDoc(userRef);
-<<<<<<< HEAD
-      commit("SET_USER_MODEL", user.data());
-      commit("SET_USER", auth.currentUser);
 
-      if (user.data().type == "parent") {
-        router.push("/homeparent");
-      } else {
-        router.push("hometeacher");
-      }
-
-=======
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
       commit("SET_USER", auth.currentUser);
 
       router.push("/home");
->>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     },
 
     async registerParent({ commit }, details) {
@@ -165,14 +147,10 @@ export default createStore({
       await setDoc(doc(db, "users", uid), user);
 
       commit("SET_USER", auth.currentUser);
-<<<<<<< HEAD
 
-      commit("SET_USER_MODEL", user)
-      router.push("/homeparent");
-=======
       commit("SET_USER_MODEL", user);
       router.push("/home");
->>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
+
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -212,14 +190,10 @@ export default createStore({
       console.log(ref);
 
       commit("SET_USER", auth.currentUser);
-<<<<<<< HEAD
-      commit("SET_USER_MODEL", user)
-      router.push("/hometeacher");
 
-=======
       commit("SET_USER_MODEL", user);
       router.push("/home");
->>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
+
     },
 
     async logout({ commit }) {
@@ -240,33 +214,7 @@ export default createStore({
         }
       });
     },
-<<<<<<< HEAD
-    //uploading image
-    // async uploadImage({ context }, details) {
-    //   console.log(context);
-    //   const tempUrl =
-    //     "images/" +
-    //     details.location +
-    //     String(Math.random()) +
-    //     details.image.name;
-    //   const imageRef = ref(storage, tempUrl);
-    //   uploadBytes(imageRef, details.image)
-    //     .then((snapshot) => {
-    //       // Let's get a download URL for the file.
-    //       getDownloadURL(snapshot.ref).then((url) => {
-    //         //set image url here --> insert into post object
-    //         const imageUrl = url;
-    //         console.log("File available at", imageUrl);
-    //         return imageUrl;
-    //       });
-    //     })
-    //     .catch((error) => {
-    //       console.error("Upload failed", error);
-    //     });
-    // },
-=======
 
->>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     //getting list of posts
     async getPosts({ context }) {
       const postsList = [];
@@ -282,8 +230,7 @@ export default createStore({
       });
       return postsList;
     },
-<<<<<<< HEAD
-=======
+
     async getForumPosts({ context }, className) {
       const postsList = [];
       console.log(context);
@@ -296,7 +243,6 @@ export default createStore({
       const filteredPosts = postsList.filter((post) => post.class == className);
       return filteredPosts;
     },
->>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
       console.log(context);
@@ -335,23 +281,6 @@ export default createStore({
         });
     },
 
-<<<<<<< HEAD
-    async forumCreatePost({ context }, details) {
-      //  console.log(commit)
-      //  console.log(state)
-
-      const { title, text } = details;
-
-      const forumpost = {
-        title: title,
-        text: text,
-        uid: context.state.user.uid,
-        time: Date.now(),
-      };
-
-      const docRef = await addDoc(collection(db, "forumposts"), forumpost);
-      console.log("Document written with ID: ", docRef.id);
-=======
     async createForumPost({ context }, details) {
       console.log(context);
       console.log(details);
@@ -388,7 +317,6 @@ export default createStore({
         .catch((error) => {
           console.error("Upload failed", error);
         });
->>>>>>> 175f7ebec92a34b933a202a5bd716d7adb29500b
     },
     async createReport({ context }, details) {
       console.log(context);
