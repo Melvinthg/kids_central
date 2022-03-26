@@ -35,12 +35,18 @@ export default createStore({
     CLEAR_USER(state) {
       state.user = null;
     },
+    CLEAR_USER_MODEL(state) {
+      state.userModel = null;
+    },
   },
 
   //to use getters call store.getters.<getterName>
   getters: {
     getName(state) {
       return state.userModel.name;
+    },
+    getType(state) {
+      return state.userModel.type;
     },
   },
   //HOW TO USE ACTIONS example:
@@ -96,9 +102,11 @@ export default createStore({
       const user = await getDoc(userRef);
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
+      console.log(user.data())
       commit("SET_USER", auth.currentUser);
 
       router.push("/home");
+      
     },
 
     async registerParent({ commit }, details) {
@@ -148,6 +156,7 @@ export default createStore({
       commit("SET_USER", auth.currentUser);
       commit("SET_USER_MODEL", user);
       router.push("/home");
+      
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -189,11 +198,13 @@ export default createStore({
       commit("SET_USER", auth.currentUser);
       commit("SET_USER_MODEL", user);
       router.push("/home");
+      
     },
 
     async logout({ commit }) {
       await signOut(auth);
       commit("CLEAR_USER");
+      commit("CLEAR_USER_MODEL");
       router.push("/login");
     },
 
@@ -205,6 +216,7 @@ export default createStore({
           commit("SET_USER", user);
           if (router.isReady() && router.currentRoute.value.path === "/login") {
             router.push("/home");
+            
           }
         }
       });
