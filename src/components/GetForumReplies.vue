@@ -39,6 +39,7 @@ export default {
     data() {
 
     },
+    props: ['forumpost'],
     methods: {
         async getForumPost({context}, fpid){
             const postData = [];
