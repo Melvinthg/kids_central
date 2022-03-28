@@ -242,7 +242,9 @@ export default createStore({
         const x = e.data();
         postsList.push(x);
       });
-      const filteredPosts = postsList.filter(post => post.class == className)
+      const filteredPosts = postsList.filter(post => post.class == className).sort((a,b) => {
+        return new Date(b.date) - new Date(a.date);
+      })
       return filteredPosts
     },
     //CREATING NON FORUM POST USE THIS
@@ -305,6 +307,7 @@ export default createStore({
               imageUrl: url,
               date: details.time,
               uid: details.uid,
+              poster: details.poster,
               class: details.class
             };
             addDoc(collection(db, "forumposts"), forumpost)

@@ -56,6 +56,7 @@
         v-model= "text"
         placeholder="Type your report here..."
         cols="90"
+        rows="6"
         style="margin-left:2%">
         </textarea>
     </div> <br>
@@ -78,14 +79,7 @@ import {useStore, mapActions, mapState} from "vuex"
 import { ref } from "vue";
 export default {
     name: "CaregiverUploadReport",
-    // data () {
-    //     return {
-    //     title: '',
-    //     text: '',
-    //     image: null,
 
-    //     }
-    // },
     methods: {
         ...mapActions({createReport: "createReport"}),
         async create() {
