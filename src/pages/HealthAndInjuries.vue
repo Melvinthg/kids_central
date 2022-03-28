@@ -67,30 +67,30 @@ export default {
       document.getElementById("name").value = "";
     },
  
-    methods: {
+    // methods: {
 
-        async getReport() {
-            let name = document.getElementById("name").value
-            this.Reports = [];
-            this.reportNames = [];
-            const q = query(collection(db, "HealthAndInjuries"), where("Id", "==", name))
-            const querySnapshot = await getDocs(q)
-            querySnapshot.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data());
-                this.Reports.push(doc.data())
-                this.reportNames.push(doc.id)
-            })
-            // console.log(this.Reports.length);
-             if (this.reportNames.length > 0) {
-                    this.boo = true;
-                    this.displayName = document.getElementById("name").value;
-            } else {
-                this.boo = false;
-                this.displayName = "Invalid Name, please try again";
-            }
-            document.getElementById("name").value = "";
-        }
-    },// methods bracket  
+    //     async getReport() {
+    //         let name = document.getElementById("name").value
+    //         this.Reports = [];
+    //         this.reportNames = [];
+    //         const q = query(collection(db, "HealthAndInjuries"), where("Id", "==", name))
+    //         const querySnapshot = await getDocs(q)
+    //         querySnapshot.forEach((doc) => {
+    //             console.log(doc.id, " => ", doc.data());
+    //             this.Reports.push(doc.data())
+    //             this.reportNames.push(doc.id)
+    //         })
+    //         // console.log(this.Reports.length);
+    //          if (this.reportNames.length > 0) {
+    //                 this.boo = true;
+    //                 this.displayName = document.getElementById("name").value;
+    //         } else {
+    //             this.boo = false;
+    //             this.displayName = "Invalid Name, please try again";
+    //         }
+    //         document.getElementById("name").value = "";
+    //     }
+    // },// methods bracket  
 
 }
 }

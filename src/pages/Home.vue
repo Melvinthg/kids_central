@@ -1,28 +1,42 @@
 
 <template>
+<button @click = "test1">asdasd</button>
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
-          <header style="text-align:center; size=18px">{{user.email}}</header>
+
+          <header style="text-align:center; size=18px">{{ user.email }}</header>
+
           <br />
           <el-menu
             active-text-color="steelblue"
             background-color="dodgerblue"
             textcolor="white"
           >
-            <el-menu-item index="1">
+
+            <el-menu-item v-if="this.homeType === 'teacher'" index="1">
+
               <el-icon><Edit /></el-icon>
               <span
 
                 ><router-link to="/editclassdashboard" className="sidebarLinks"
-
                   >Edit Class Dashboard</router-link
                 ></span
               >
             </el-menu-item>
-            <el-menu-item index="2">
+
+            <el-menu-item v-else index="1a">
+              <el-icon><Edit /></el-icon>
+              <span
+                ><router-link to="/editclassdashboard" className="sidebarLinks"
+                  >View Child Dashboard</router-link
+                ></span
+              >
+            </el-menu-item>
+            
+            <el-menu-item v-if="this.homeType == 'teacher'" index="2">
               <el-icon><Notebook /></el-icon>
               <span
                 ><router-link to="/home" className="sidebarLinks"
@@ -30,6 +44,17 @@
                 ></span
               >
             </el-menu-item>
+
+            <el-menu-item v-else index="2a">
+              <el-icon><Notebook /></el-icon>
+              <span
+                ><router-link to="/home" className="sidebarLinks"
+                  >View Child Info</router-link
+                ></span
+              >
+            </el-menu-item>
+
+
             <el-menu-item index="3">
               <el-icon><ChatLineSquare /></el-icon>
               <span
@@ -38,7 +63,8 @@
                 ></span
               >
             </el-menu-item>
-            <el-menu-item index="4">
+
+            <el-menu-item v-if="this.homeType === 'teacher'" index="4">
               <el-icon><Cellphone /></el-icon>
               <span
                 ><router-link to="/contactparent" className="sidebarLinks"
@@ -46,15 +72,30 @@
                 ></span
               >
             </el-menu-item>
+
+            <el-menu-item v-else index="4a">
+              <el-icon><Cellphone /></el-icon>
+              <span
+                ><router-link to="/contactteacher" className="sidebarLinks"
+                  >Contact Teacher</router-link
+                ></span
+              >
+            </el-menu-item>
+             <!-- using this line to test -->
+              <span><router-link to="/HealthAndInjuries" className="sidebarLinks">testingforHealthinjuries</router-link></span><br>
+              <span><router-link to="/CognitiveAbilities" className="sidebarLinks">CognitiveAbilities</router-link></span>
+
           </el-menu>
         </el-aside>
         <el-main>
-          <div class="writepost">
+
+          <div v-if="this.homeType == 'teacher'" class="writepost">
             <WritePost></WritePost>
           </div>
           <br /><br />
           <div class="feed">
             <h1>feed</h1>
+            <GetPost></GetPost>
           </div>
         </el-main>
       </el-container>
@@ -64,6 +105,9 @@
 
 <script>
 import WritePost from "@/components/WritePost.vue";
+import GetPost from "@/components/GetPost.vue";
+import {store} from '@/store';
+
 import {
   Edit,
   Notebook,
@@ -71,18 +115,18 @@ import {
   Cellphone,
 } from "@element-plus/icons-vue";
 import { getAuth } from "firebase/auth";
+import {  db,  } from "../firebase.js";
+import { mapGetters } from 'vuex'
+import {doc, getDoc} from "firebase/firestore"
 const auth = getAuth();
-//import {Location,Document,Menu as IconMenu,Setting} from '@element-plus/icons-vue'
-// import firebaseApp from "../firebase.js";
-// import { getFirestore } from "firebase/firestore";
-// import { doc } from "firebase/firestore";
-// const db = getFirestore(firebaseApp);
+
 export default {
   name: "Home",
   data() {
     return {
       user: auth.currentUser,
-      
+      count: 0,
+      homeType: "",
     };
   },
   components: {
@@ -91,7 +135,46 @@ export default {
     Notebook,
     ChatLineSquare,
     Cellphone,
+    GetPost,
   },
+
+  async mounted(){
+    const userRef = doc(db, "users", auth.currentUser.uid);
+      const user = await getDoc(userRef);
+      this.homeType = user.data().type
+
+  },
+
+  // created(){
+  //   this.test()
+  //   console.log("beforeMount")
+  // },
+  // beforeMount(){
+  //   this.test()
+  //   console.log("beforeMount")
+  // },
+
+  //  mounted() {
+  //   this.reload()
+  // },
+  // mounted:  function () {
+  //   (this.homeType = this.$store.state.userModel.type),
+  //     console.log(this.homeType);
+  // },
+  methods: {
+    // test(){
+    //   this.homeType = this.$store.getters.getType;
+    // },
+    // test1(){
+    //   console.log(this.$store.state.userModel.type)
+    // }
+    // ,reload(){
+    //   if (this.count > 0) {
+    //     this.$forceUpdate()
+    //     this.count++
+    //   }
+    // }
+  }
 };
 </script>
 
@@ -126,4 +209,5 @@ export default {
   text-align: center;
 }
 </style>
+
 

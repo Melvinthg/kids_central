@@ -35,12 +35,18 @@ export default createStore({
     CLEAR_USER(state) {
       state.user = null;
     },
+    CLEAR_USER_MODEL(state) {
+      state.userModel = null;
+    },
   },
 
   //to use getters call store.getters.<getterName>
   getters: {
     getName(state) {
       return state.userModel.name;
+    },
+    getType(state) {
+      return state.userModel.type;
     },
   },
   //HOW TO USE ACTIONS example:
@@ -96,12 +102,10 @@ export default createStore({
       const user = await getDoc(userRef);
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
+      console.log(user.data())
       commit("SET_USER", auth.currentUser);
-      if (user.data().type == "parent") {
-        router.push("/homeparent");  
-      } else {
-        router.push("/hometeacher");
-      }
+
+      router.push("/home");
       
     },
 
@@ -151,7 +155,8 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
       commit("SET_USER_MODEL", user);
-      router.push("/homeparent");
+      router.push("/home");
+      
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -192,12 +197,14 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
       commit("SET_USER_MODEL", user);
-      router.push("/hometeacher");
+      router.push("/home");
+      
     },
 
     async logout({ commit }) {
       await signOut(auth);
       commit("CLEAR_USER");
+      commit("CLEAR_USER_MODEL");
       router.push("/login");
     },
 
@@ -208,21 +215,18 @@ export default createStore({
         } else {
           commit("SET_USER", user);
           if (router.isReady() && router.currentRoute.value.path === "/login") {
-            if (this.$store.state.userModel.type == "parent") {
-              router.push("/homeparent")
-            } else {
-              router.push("/hometeacher");
-            }
+            router.push("/home");
+            
           }
         }
       });
     },
-    
+
     //getting list of posts
-    async getPosts({context},){
+    async getPosts({ context }) {
       const postsList = [];
       console.log(context);
-      const postsRef = collection(db, "posts",);
+      const postsRef = collection(db, "posts");
       const postSnap = await getDocs(postsRef);
       // console.log(postSnap.docs);
       //console.log(classSnap.)
@@ -231,12 +235,12 @@ export default createStore({
         const x = e.data();
         postsList.push(x);
       });
-      return postsList
+      return postsList;
     },
-    async getForumPosts({context},className){
+    async getForumPosts({ context }, className) {
       const postsList = [];
       console.log(context);
-      const postsRef = collection(db, "forumposts",);
+      const postsRef = collection(db, "forumposts");
       const postSnap = await getDocs(postsRef);
       postSnap.forEach((e) => {
         const x = e.data();
@@ -245,7 +249,7 @@ export default createStore({
       const filteredPosts = postsList.filter(post => post.class == className).sort((a,b) => {
         return new Date(b.date) - new Date(a.date);
       })
-      return filteredPosts
+      return filteredPosts;
     },
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
@@ -284,7 +288,6 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
-
 
     async createForumPost({ context }, details) {
       console.log(context);
