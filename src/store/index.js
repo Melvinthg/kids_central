@@ -251,6 +251,20 @@ export default createStore({
       })
       return filteredPosts;
     },
+
+    async getUsers({ context }, className) {
+      const usersList = [];
+      console.log(context);
+      const usersRef = collection(db, "users");
+      const userSnap = await getDocs(usersRef);
+      userSnap.forEach((e) => {
+        const x = e.data();
+        usersList.push(x);
+      });
+      const usersInClass = usersList.filter(user => user.childClass == className || user.teacherClass == className);
+      return usersInClass;
+    },
+
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
       console.log(context);
@@ -327,6 +341,25 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
+    // async createReply({ context }, fpid, details) {
+    //         console.log(context)
+    //         const reply = {
+    //           reply: details.reply,
+    //           date: details.time,
+    //           uid: details.uid,
+    //           replyer: details.replyer,
+    //         };
+    //         const docRef = doc(db, "forumposts", fpid);
+    //         const docSnap = await getDoc(docRef);
+
+    //         addDoc(collection(db, "reports"), report)
+    //           .then((response) => {
+    //             console.log(response);
+    //           })
+    //           .catch((err) => {
+    //             console.log(err);
+    //           });    
+    // },
     async createReport({ context }, details) {
       console.log(context);
       console.log(details);
@@ -336,9 +369,30 @@ export default createStore({
               category: details.category,
               text: details.text,
               date: details.time,
+              uploader: details.uploader,
               uid: details.uid,
             };
             addDoc(collection(db, "reports"), report)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });    
+    },
+
+    async createGradebook({ context }, details) {
+      console.log(context);
+      console.log(details);
+            const gradebook = {
+              studentid: details.studentid,
+              title: details.title,
+              score: details.score,
+              date: details.date,
+              uploader: details.uploader,
+              uid: details.uid,
+            };
+            addDoc(collection(db, "gradebook"), gradebook)
               .then((response) => {
                 console.log(response);
               })

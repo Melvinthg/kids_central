@@ -18,10 +18,10 @@
                     </div>
 
                     <div class="text">
-                        <span>{{ forumpost.text }}</span>  
+                        <p style="white-space: pre-line">{{ forumpost.text }}</p>  
                     </div>
                 </div>
-                
+              
                 <router-link to = "/forumreply" class="replies" style="float:right">{{numReplies}} Replies</router-link>
                 <!-- should route to reply page -->
             </el-card>

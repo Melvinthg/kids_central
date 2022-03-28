@@ -71,7 +71,7 @@
             <h5><strong> Update Child Gradebook </strong></h5>
             <div class="bottom">
               <!-- push to update gradebook page -->
-              <el-button @click="$router.push('gradesDisplay')">
+              <el-button @click="$router.push('caregiveruploadgrade')">
                 Proceed
               </el-button>
             </div>

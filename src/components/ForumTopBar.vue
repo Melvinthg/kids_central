@@ -1,8 +1,7 @@
 <template>
  <div id="wholegroup">
      <div id="firstgroup">
-        <router-link to = "/hometeacher" className='text-link' style='color:white' v-if="this.$store.state.userModel.type == 'teacher'">Back</router-link>
-        <router-link to = "/homeparent" className='text-link' style='color:white' v-if="this.$store.state.userModel.type == 'parent'">Back</router-link>
+        <router-link to = "/home" className='text-link' style='color:white'>Back</router-link>
      </div>
 
      <div id="secondgroup">
@@ -17,14 +16,27 @@
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
+import {useStore, mapActions, mapState} from "vuex"
+
 export default {
   name: 'ForumTopBar',
   data(){
     return{
-      number: "1",
+      number: 0,
       classname: this.$store.state.userModel.childClass || this.$store.state.userModel.teacherClass,
     }
-  }
+  },
+  methods: {
+    ...mapActions({getUsers: "getUsers"}),
+      async display(){
+          var usersInClass = await this.getUsers(this.$store.state.userModel.childClass || this.$store.state.userModel.teacherClass);
+          this.number = usersInClass.length;
+      },
+  },
+  mounted() {
+    this.display()
+  },
 }
 </script>
 
