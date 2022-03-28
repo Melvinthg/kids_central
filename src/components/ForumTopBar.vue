@@ -1,8 +1,10 @@
 <template>
  <div id="wholegroup">
      <div id="firstgroup">
-        <router-link to = "/home" className='text-link' style='color:white'>Back</router-link>
+        <router-link to = "/hometeacher" className='text-link' style='color:white' v-if="this.$store.state.userModel.type == 'teacher'">Back</router-link>
+        <router-link to = "/homeparent" className='text-link' style='color:white' v-if="this.$store.state.userModel.type == 'parent'">Back</router-link>
      </div>
+
      <div id="secondgroup">
          <h1>CLASS {{classname}} FORUM</h1><br>
          <!-- query number of parents in the class -->
@@ -53,7 +55,7 @@ export default {
     width: 50%;
     text-align: center;
     color: white;
-    padding: 10px;
+    padding: 20px;
 }
 
 #thirdgroup {

@@ -53,18 +53,8 @@ export default {
     width: 50%;
     text-align: center;
     color: white;
-    padding: 10px;
+    padding: 20px;
 }
-
-/* #thirdgroup {
-  float: right;
-  width: 25%;
-  padding: 10px 10px;
-  font-size: 20px;
-  text-align: center;
-  color: white;
-  line-height: 80px;
-} */
 
 #firstgroup:hover {
   background-color: black;

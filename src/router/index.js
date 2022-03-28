@@ -14,10 +14,8 @@ import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 // import Dashboard from '@/pages/Dashboard.vue'
 
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
-
 import ForumReply from '@/pages/ForumReply.vue'
 import CaregiverUploadReport from '@/pages/CaregiverUploadReport.vue'
-
 import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
 import CognitiveAbilities from '@/pages/CognitiveAbilities.vue'
 import GradesDisplay from '@/pages/GradesDisplay.vue'
