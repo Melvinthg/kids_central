@@ -48,7 +48,7 @@
             <el-menu-item v-else index="2a">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/home" className="sidebarLinks"
+                ><router-link to="/ChildrenInfo" className="sidebarLinks"
                   >View Child Info</router-link
                 ></span
               >
