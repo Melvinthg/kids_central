@@ -1,9 +1,0 @@
-template
-<div id="header">
-        <div id="firstgroup">
-            <router-link to = "/editclassdashboard" className='text-link' style='color:white'>Manage Dashboard</router-link>
-        </div>
-        <div id="secondgroup">
-            <h1>{{name}}'s profile</h1><br>
-        </div>
-    </div>
