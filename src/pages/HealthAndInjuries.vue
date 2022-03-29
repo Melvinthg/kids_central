@@ -56,7 +56,7 @@ export default {
         this.Reports.push(doc.data());
         this.reportNames.push(doc.id);
       });
-      // console.log(this.Reports.length);
+      console.log(this.Reports.length);
       if (this.reportNames.length > 0) {
         this.boo = true;
         this.displayName = document.getElementById("name").value;
