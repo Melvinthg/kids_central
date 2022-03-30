@@ -19,13 +19,15 @@
                 <label for = "DOB">Date of Birth:</label>
                 <input type = "text" id = "DOB" required placeholder = "Enter Date of birth DD/MM/YYYY"> <br><br>
                 <label for = "Nationality">Nationality:</label>
-                <input type = "text" id = "Nationality" required placeholder = "Enter Nationality"> <br><br>
+                <input type = "text" id = "Nationality" placeholder = "Enter Nationality" required> <br><br>
                 <label for = "Allergies">Allergies:</label>
                 <input type = "text" id = "Allergies" placeholder = "Enter Allergies / nil" required> <br><br>
-                 <!-- <el-select v-model = "formInline.Gender" placeholder="Gender">
-                    <el-option label="Male" value = "male"/>
-                    <el-option label="Female" value = "female"/>
-                 </el-select>  -->
+                <!-- <label for = "Gender">Gender:</label>
+                <select name="Gender" id="Gender" required>
+                <option value="">None</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                </select><br><br> -->
                 <div class = "save">
                     <el-button  input type ="submit" plain @click="save()">Update</el-button>
                 </div>
@@ -38,11 +40,6 @@
 import { db } from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
-// import { reactive } from 'vue'
-
-// const formInline = reactive({
-//     Gender: "",
-// })
 
 export default {
 
@@ -66,6 +63,7 @@ export default {
                  Nationality : document.getElementById("Nationality").value,
                  Allergies : document.getElementById("Allergies").value,
             }
+            if (this.checkfilled()) {
                 const docRef = await setDoc(doc(db, "students", this.name), details)
                 .then((response) => {
                     console.log(response);
@@ -73,9 +71,22 @@ export default {
                 .catch((error) => {
                     console.log(error);
                 })
-            document.getElementById('myform').reset();
-            alert("Details Successfully added")
-        }
+                document.getElementById('myform').reset();
+                alert("Details Successfully added")
+            } else {
+                alert("Form not filled properly, please fill in all required fields")
+            }
+                
+        },
+
+        checkfilled() {
+            return document.getElementById("NRIC").value.length >= 1
+            && document.getElementById("Address").value.length >= 1
+            && document.getElementById("Gender").value.length >= 1
+            && document.getElementById("DOB").value.length >= 1
+            && document.getElementById("Nationality").value.length >= 1
+            && document.getElementById("Allergies").value.length >= 1
+        },
     }
 }
 </script>
@@ -94,5 +105,8 @@ form {
 
 .save {
     text-align: center;
+}
+#gender {
+    float:center;
 }
 </style>
