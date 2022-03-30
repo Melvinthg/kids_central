@@ -100,6 +100,7 @@ export default createStore({
       }
       const userRef = doc(db, "users", auth.currentUser.uid);
       const user = await getDoc(userRef);
+
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
       console.log(user.data())
@@ -154,9 +155,10 @@ export default createStore({
       await setDoc(doc(db, "users", uid), user);
 
       commit("SET_USER", auth.currentUser);
+
       commit("SET_USER_MODEL", user);
       router.push("/home");
-      
+
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -196,9 +198,10 @@ export default createStore({
       console.log(ref);
 
       commit("SET_USER", auth.currentUser);
+
       commit("SET_USER_MODEL", user);
       router.push("/home");
-      
+
     },
 
     async logout({ commit }) {
@@ -237,6 +240,7 @@ export default createStore({
       });
       return postsList;
     },
+
     async getForumPosts({ context }, className) {
       const postsList = [];
       console.log(context);
