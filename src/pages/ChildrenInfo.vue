@@ -19,6 +19,7 @@
     </template>
     <ul v-if = "boo">
       <li><h3>NRIC : {{NRIC}}</h3></li>
+      <li><h3>Class : {{Class}}</h3></li>
       <li><h3>Address : {{Address}}</h3></li>
       <li><h3>Gender : {{Gender}}</h3></li>
       <li><h3>DOB : {{DOB}}</h3></li>
@@ -51,6 +52,7 @@ export default {
       Gender: "",
       DOB: "",
       Nationality: "",
+      Class: "",
     }
   },
 
@@ -67,13 +69,20 @@ export default {
         this.Gender = doc.data().Gender;
         this.DOB = doc.data().DOB;
         this.Nationality = doc.data().Nationality;
+        this.Class = doc.data().Class;
       })
-      if (this.Address.length >= 1 && this.Allergies.length >= 1 && this.NRIC.length >= 1
-      && this.Gender.length >= 1 && this.DOB.length >= 1 && this.Nationality.length >= 1) {
+      if (this.checkInfo()) {
         this.boo = true;
       }
     },
+
+    checkInfo() {
+      return this.Address.length >= 1 && this.Allergies.length >= 1 && this.NRIC.length >= 1
+      && this.Gender.length >= 1 && this.DOB.length >= 1 && this.Nationality.length >= 1 && this.Class.length >= 1
+    },
   },
+
+  
 
     created: function() {
        this.getInfos();
