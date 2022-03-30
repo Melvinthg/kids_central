@@ -12,22 +12,30 @@
             <div class = "formli">
                 <label for = "NRIC">NRIC:</label>
                 <input type = "text" id = "NRIC" required placeholder = "Enter NRIC"> <br><br>
+                <!-- <label for = "Class">Class:</label>
+                <input type = "text" id = "Class" placeholder = "Enter Class" required> <br><br> -->
                 <label for = "Address">Address:</label>
                 <input type = "text" id = "Address" required placeholder = "Enter Adress"> <br><br>
-                <label for = "Gender">Gender:</label>
-                <input type = "text" id = "Gender" required placeholder = "Enter gender"> <br><br>
+                <!-- <label for = "Gender">Gender:</label>
+                <input type = "text" id = "Gender" required placeholder = "Enter gender"> <br><br> -->
                 <label for = "DOB">Date of Birth:</label>
                 <input type = "text" id = "DOB" required placeholder = "Enter Date of birth DD/MM/YYYY"> <br><br>
                 <label for = "Nationality">Nationality:</label>
                 <input type = "text" id = "Nationality" placeholder = "Enter Nationality" required> <br><br>
                 <label for = "Allergies">Allergies:</label>
                 <input type = "text" id = "Allergies" placeholder = "Enter Allergies / nil" required> <br><br>
-                <!-- <label for = "Gender">Gender:</label>
-                <select name="Gender" id="Gender" required>
-                <option value="">None</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                </select><br><br> -->
+                <label for="Class" style="float:middle">Class:</label>
+                <select id="Class" name = "Class"> 
+                <option value ="K1a">K1a</option>
+                <option value ="K2a">K2a</option>
+                </select>
+                <label for="Gender" style="margin-left:20px;">Gender:</label>
+                <select id="Gender" name = "Gender"> 
+                <option value ="Male">Male</option>
+                <option value ="Female">Female</option>
+                </select>
+                <br><br>
+                
                 <div class = "save">
                     <el-button  input type ="submit" plain @click="save()">Update</el-button>
                 </div>
@@ -62,6 +70,7 @@ export default {
                  DOB : document.getElementById("DOB").value,
                  Nationality : document.getElementById("Nationality").value,
                  Allergies : document.getElementById("Allergies").value,
+                 Class : document.getElementById("Class").value,
             }
             if (this.checkfilled()) {
                 const docRef = await setDoc(doc(db, "students", this.name), details)
@@ -72,6 +81,7 @@ export default {
                     console.log(error);
                 })
                 document.getElementById('myform').reset();
+                console.log("Added Successfully");
                 alert("Details Successfully added")
             } else {
                 alert("Form not filled properly, please fill in all required fields")
@@ -82,11 +92,12 @@ export default {
         checkfilled() {
             return document.getElementById("NRIC").value.length >= 1
             && document.getElementById("Address").value.length >= 1
-            && document.getElementById("Gender").value.length >= 1
             && document.getElementById("DOB").value.length >= 1
             && document.getElementById("Nationality").value.length >= 1
             && document.getElementById("Allergies").value.length >= 1
         },
+
+        
     }
 }
 </script>
@@ -105,8 +116,5 @@ form {
 
 .save {
     text-align: center;
-}
-#gender {
-    float:center;
 }
 </style>
