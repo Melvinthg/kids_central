@@ -30,6 +30,7 @@
       <ul v-for="x in Reports" :key="x">
          <li><h3>Name : {{x.Name}}</h3></li>
          <li><h3>NRIC : {{x.NRIC}}</h3></li>
+         <li><h3>Student Id : {{x.Id}}</h3></li>
          <li><h3>Class : {{x.Class}}</h3></li>
          <li><h3>Address : {{x.Address}}</h3></li>
          <li><h3>Gender : {{x.Gender}}</h3></li>

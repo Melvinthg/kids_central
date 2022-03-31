@@ -12,6 +12,8 @@
             <div class = "formli">
                 <label for = "NRIC">NRIC:</label>
                 <input type = "text" id = "NRIC" required placeholder = "Enter NRIC"> <br><br>
+                <label for = "Id">Id:</label>
+                <input type = "Id" id = "Id" required placeholder = "Enter student Id"> <br><br>
                 <!-- <label for = "Class">Class:</label>
                 <input type = "text" id = "Class" placeholder = "Enter Class" required> <br><br> -->
                 <label for = "Address">Address:</label>
@@ -64,6 +66,7 @@ export default {
 
             const details = {
                  Name : this.name,
+                 Id : document.getElementById("Id").value, 
                  NRIC : document.getElementById("NRIC").value,
                  Address : document.getElementById("Address").value,
                  Gender : document.getElementById("Gender").value,
