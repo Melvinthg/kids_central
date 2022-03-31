@@ -6,7 +6,7 @@
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
 
-          <header style="text-align:center; size=18px">{{ user.email }}</header>
+          <header style="text-align:center; size=18px"> <strong> {{ username }} </strong></header>
 
           <br />
           <el-menu
@@ -75,7 +75,7 @@
             <el-menu-item v-if="this.homeType == 'parent'" index="4a">
               <el-icon><Cellphone /></el-icon>
               <span
-                ><router-link to="/contactparent" className="sidebarLinks"
+                ><router-link to="/contactteacher" className="sidebarLinks"
                   >Contact Teacher</router-link
                 ></span
               >
@@ -120,6 +120,7 @@ export default {
   data() {
     return {
       user: auth.currentUser,
+      username: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
 
       homeType: "",
     };
