@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="forumtopbar">
-    <ForumCreatePostTopBar></ForumCreatePostTopBar>
+      <ForumCreatePostTopBar></ForumCreatePostTopBar>
   </div>
 
   <div>

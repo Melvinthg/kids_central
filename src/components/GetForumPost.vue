@@ -24,6 +24,7 @@
               
                 <router-link to = "/forumreply" class="replies" style="float:right">{{numReplies}} Replies</router-link>
                 <!-- should route to reply page -->
+                <!-- <GetForumReplies fpost="wphiPcPtMS1SjoRSxkBb" /> -->
             </el-card>
             
         </el-col>
@@ -36,10 +37,13 @@ import {useStore, mapActions, mapState} from "vuex"
 // eslint-disable-next-line no-unused-vars
 import { auth, db, storage } from "../firebase.js";
 import { getDoc, doc } from "firebase/firestore";
-import GetForumReplies from '@/components/GetForumReplies.vue'
+// import GetForumReplies from '@/components/GetForumReplies.vue'
 
 export default {
   name: "GetForumPost",
+  // components: {
+  //   GetForumReplies
+  // },
   data() {
     return {
       forumposts: [],

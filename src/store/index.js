@@ -9,6 +9,8 @@ import {
   getDoc,
   addDoc,
   collection,
+  query,
+  where
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -252,6 +254,21 @@ export default createStore({
       return filteredPosts;
     },
 
+    async getReplies({ context }, fpid) {
+      const repliesList = [];
+      console.log(context);
+      const repliesRef = collection(db, "forumposts", fpid, "replies");
+      const repliesSnap = await getDocs(repliesRef);
+      repliesSnap.forEach((e) => {
+        const x = e.data();
+        repliesList.push(x);
+      });
+      const replies = repliesList.sort((a,b) => {
+        return new Date(b.date) - new Date(a.date);
+      })
+      return replies;
+    },
+
     async getUsers({ context }, className) {
       const usersList = [];
       console.log(context);
@@ -263,6 +280,20 @@ export default createStore({
       });
       const usersInClass = usersList.filter(user => user.childClass == className || user.teacherClass == className);
       return usersInClass;
+    },
+
+    async getChildName({ context }, childID ) {
+      const childrenList = [];
+      console.log(context);
+      const userRef = collection(db, "users");
+      const userSnap = await getDocs(userRef);
+      userSnap.forEach((e) => {
+        const x = e.data();
+        childrenList.push(x);
+      });
+      const child = childrenList.filter(user => user.childID == childID);
+      const childvalues = child[0];
+      return childvalues.first + " " + childvalues.last;
     },
 
     //CREATING NON FORUM POST USE THIS
@@ -341,25 +372,24 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
-    // async createReply({ context }, fpid, details) {
-    //         console.log(context)
-    //         const reply = {
-    //           reply: details.reply,
-    //           date: details.time,
-    //           uid: details.uid,
-    //           replyer: details.replyer,
-    //         };
-    //         const docRef = doc(db, "forumposts", fpid);
-    //         const docSnap = await getDoc(docRef);
-
-    //         addDoc(collection(db, "reports"), report)
-    //           .then((response) => {
-    //             console.log(response);
-    //           })
-    //           .catch((err) => {
-    //             console.log(err);
-    //           });    
-    // },
+    async createReply({ context }, fpid, details) {
+            console.log(context)
+            console.log(details);
+            const reply = {
+              replycontent: details.replycontent,
+              date: details.time,
+              uid: details.uid,
+              replier: details.replier,
+            };
+            const replyRef = doc(db, "forumposts", fpid, "replies");
+            await setDoc(replyRef, reply)
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => {
+                console.log(err);
+              });    
+    },
     async createReport({ context }, details) {
       console.log(context);
       console.log(details);
