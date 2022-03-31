@@ -1,7 +1,7 @@
 <template>
       <div id="header">
         <div id="firstgroup">
-            <router-link to = "/editclassdashboard" className='text-link' style='color:white'>Manage Dashboard</router-link>
+            <router-link to = "/Home" className='text-link' style='color:white'>Home</router-link>
         </div>
         <div id="secondgroup">
             <h1>{{name}}'s profile</h1><br>

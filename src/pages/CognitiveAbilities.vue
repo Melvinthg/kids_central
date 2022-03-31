@@ -7,7 +7,7 @@
          <img id = "pic" src="@/assets/Cognitive.png" alt="">
          <h1>Cognitive Abilities page</h1><br>
      </div>
-</div>
+    </div>
         <input type="text" id = "name" placeholder = "input student name...">
         <button button @click = "getReport()">Get Reports</button>
         <div id = "header">
