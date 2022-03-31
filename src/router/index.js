@@ -21,6 +21,7 @@ import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
 import CognitiveAbilities from '@/pages/CognitiveAbilities.vue'
 import GradesDisplay from '@/pages/GradesDisplay.vue'
 import AddChildInfo from '@/pages/AddChildInfo.vue'
+import ClassInfo from '@/pages/ClassInfo.vue'
 
 
 
@@ -123,6 +124,11 @@ const routes = [
     path: "/AddChildInfo",
     name: "AddChildInfo",
     component: AddChildInfo,
+  },
+  {
+    path: "/ClassInfo",
+    name: "ClassInfo",
+    component: ClassInfo,
   },
 
 ];
