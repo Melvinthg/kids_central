@@ -1,5 +1,4 @@
 <template>
-
   <div class="layout">
     <el-container>
       <el-header id = "topbar">
@@ -7,21 +6,30 @@
           <el-button type="primary" @click="$router.push('home')"> <el-icon><Back /></el-icon> </el-button>
         </div>
         <div id = "selecteduser">
-          <h3>  Talking to: {{receipientSelectedUserFirstName}}  </h3>
+          <h3>  Chatting with: {{receipientSelectedUserFirstName}}  </h3>
         </div>
       </el-header>
       <el-container>
         <el-aside width="200px">
         <h3> ChatList </h3>
           <el-table :data="userList" @current-change="selectUser">
-            <el-table-column prop="first" label="Teachers:"> </el-table-column>
+            <el-table-column prop="first" label="Parents:"> </el-table-column>
           </el-table>
         </el-aside>
 
         <el-container>
-          <el-main> <h3>  messages to be displayed here  </h3>
-          <!-- :data="messageData"  -->
-          
+          <el-main>
+          <ul>
+              <Message
+                v-for="{ senderID, receiverID, message, time } in messageList"
+                v-bind:key="time"
+                :name="receiverID"
+                :sender="senderID"
+                :message="message"
+                :time="time"
+                :senderId2="$store.state.userModel.first"
+              />
+            </ul>
           </el-main>
           <el-footer>
                 <el-input
@@ -39,34 +47,21 @@
       </el-container>
     </el-container>
   </div>
-
-  <router-view></router-view>
 </template>
 
 <script>
+import Message from '../components/Message.vue'
 import { db } from "../firebase.js";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, where, query } from "firebase/firestore";
 import { Back} from "@element-plus/icons-vue";
-// ignore all these, can uncomment if need to use
-// import { db, app } from "../firebase.js";
-//import { getAuth } from "firebase/auth";
-// import {serverTimestamp} from "firebase/firestore";
-//import { addDoc, getFirestore, collection, getDocs, Timestamp } from "firebase/firestore";
-// import { ref } from 'vue'
-// import { doc, setDoc } from "firebase/firestore";
-// const db = getFirestore(app);
-//const messagesCollection = getFirestore(app).collection("messages")
-// const app = firebase.initializeApp(firebaseConfig);
-//const auth = getAuth();
 
 export default {
-    name: "ContactTeacher",
-
+    name: "ContactParent",
     data() {
          return {
             userList : [],
             message: null,
-            messageData: [],
+            messageList: [],
             receipientSelectedUserFirstName : '',
             currentSelectedUserFirstName: '',
             senderID: this.$store.state.userModel.first,
@@ -76,19 +71,18 @@ export default {
     mounted() {
       this.getUserList();
     },
-
-    components: {
-      Back,
+    components : {
+      Message,
+      Back
     },
-
     methods: {
 
       selectUser(user) {
-        console.log('user was selected');
+        console.log('user was selected', user);
         var receipientUser = user;
         this.receiverID = receipientUser.first;
         this.receipientSelectedUserFirstName = receipientUser.first + ' '  + receipientUser.last;
-        // this.messageData = displaychat();
+        this.displaychat(user);
         },
         
       async getUserList() {
@@ -99,7 +93,6 @@ export default {
             this.userList.push(data);
           }
         });
-        // console.log(userNames);
       },
 
       async send() {
@@ -107,10 +100,9 @@ export default {
               message: this.message,
               senderID: this.senderID,
               receiverID: this.receiverID,
-              //idk whether use date or Timestamp btr
-              time: new Date()
-              // time: serverTimestamp()
+              time: Date.now()
           };
+          this.messageList.push(msg);
 
           addDoc(collection(db, "messages"), msg)
             .then((response) => {
@@ -119,35 +111,36 @@ export default {
             .catch((err) => {
               console.log(err);
             });
+            this.message = "";
+
       },
-    
-      // click1() {
-      //     this.$refs.input1.click()
-      // },
 
-      // typing() {
-      //   this.$refs.type.value = this.message;
-      // },
+      async displaychat(user) {
+        console.log('displaycahr called')
+        const userSendQuery = query(collection(db, "messages"),
+        where("senderID", "==", this.senderID),
+        where('receiverID', '==', user.first));
+        const querySend = await getDocs(userSendQuery);             
+        
+        const userReceiveQuery = query(collection(db, "messages"),
+        where("senderID", "==", user.first),
+        where('receiverID', '==', this.senderID));
 
-      //have yet to sort out the display function
-      async displaychat() {
-        var query = getDocs(collection(db, "messages"));
-        // query = query.where("receiverID", "==", this.currentSelectedUserFirstName)
-        // query = query.where("senderID", "==", this.auth.currentUser.first)
-        this.messageData = [];
-        query.forEach((doc) => {
-          var data = doc.data();
-          if (data.receiverID == String(this.currentSelectedUserFirstName) && data.receiverID == String(this.auth.currentUser.first)) {
-            this.messageData.push(data);
-            this.messageData.orderBy('time');
-          }
-        })
-        console.log(this.messageData);
+        const queryReceive = await getDocs(userReceiveQuery);
+        var messageList = [];
+        querySend.forEach((doc) => {
+          messageList.push(doc.data());
+          console.log(doc.id, " => ", doc.data());
+        });
+        queryReceive.forEach((doc) => {
+          messageList.push(doc.data());
+          console.log(doc.id, " => ", doc.data());
+        });
+        this.messageList = messageList.sort((a,b)=>a.time > b.time ? 1 : -1);
       }
     }
 }
 </script>
-
 <style>
 #topbar {
     overflow: hidden;
@@ -175,4 +168,10 @@ export default {
     padding: 10px ;
 }
 
+.back1 {
+  float: left;
+  font-size: 20px;
+  text-align: center;
+  color: blue;
+}
 </style>
