@@ -81,9 +81,22 @@
                 ></span
               >
             </el-menu-item>
-             <!-- using this line to test -->
-              <span><router-link to="/HealthAndInjuries" className="sidebarLinks">testingforHealthinjuries</router-link></span><br>
-              <span><router-link to="/CognitiveAbilities" className="sidebarLinks">CognitiveAbilities</router-link></span>
+
+             <el-menu-item v-if="this.homeType != 'teacher'">
+              <el-icon><Edit /></el-icon>
+              <span
+                ><router-link to="/HealthAndInjuries" className="sidebarLinks"
+                  >Health And Injuries</router-link
+                ></span>
+            </el-menu-item>
+
+            <el-menu-item v-if="this.homeType != 'teacher'">
+              <el-icon><Edit /></el-icon>
+              <span
+                ><router-link to="/CognitiveAbilities" className="sidebarLinks"
+                  >CognitiveAbilities</router-link
+                ></span>
+            </el-menu-item>
 
           </el-menu>
         </el-aside>

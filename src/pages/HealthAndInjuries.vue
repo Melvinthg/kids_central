@@ -16,7 +16,6 @@
          <hr>
          <li><h3>{{x.text}}</h3></li>
          <li id = "time"><h5>{{x.date.toDate().toString().slice(4,16)}}</h5></li>
-         <div id = "testing"></div>
          <br>
      </ul>
   </el-card>
