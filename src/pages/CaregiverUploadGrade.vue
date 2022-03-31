@@ -13,10 +13,10 @@
     <div id="block1">
         <div id="inputs">
             <div id="enterid">
-                <h3 style="margin-left:2%">Enter Student ID:</h3>
+                <h3 style="margin-left:2%">Enter Child ID:</h3>
                 <input
                 type= "text"
-                v-model= "studentid"
+                v-model= "childid"
                 placeholder="Enter ID here..."
                 style="margin-left:2%; width:300px;">
             </div><br>
@@ -54,7 +54,6 @@
     <div>
         <button @click="create" style="margin-left:2%">Upload</button>
     </div>
-        
 </div>
 </template>
 
@@ -71,27 +70,25 @@ import {useStore, mapActions, mapState} from "vuex"
 import { ref } from "vue";
 export default {
     name: "CaregiverUploadGrade",
-
     methods: {
         ...mapActions({createGradebook: "createGradebook"}),
         async create() {
         
-        const details = {
-            studentid: this.studentid,
-            title: this.title,
-            score: this.score,
-            date: this.date,
-            uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
-            uid: auth.currentUser.uid,
-        }
-        await this.createGradebook(details)
-        this.goBack()
+            const details = {
+                childid: this.childid,
+                title: this.title,
+                score: this.score,
+                date: this.date,
+                uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
+                uid: auth.currentUser.uid,
+            }
+            await this.createGradebook(details)
+            this.goBack()
         },
         goBack(){
-        this.$router.push('/editclassdashboard'); 
-        }
+            this.$router.push('/editclassdashboard'); 
+        },
     },
-    
 }
 </script>
 
