@@ -18,7 +18,7 @@
             <button button @click = "getClass()">Get Class Info</button>
         </div>
 
-            <div v-if = "boo" id = "cv"><h2><b>{{displayText}}</b></h2>
+            <div v-if = "boo" id = "cv"><h1><b>{{displayText}}</b></h1>
         </div>
         <el-card class="box-card" v-if="classBoo">
     <template #header>
@@ -30,6 +30,7 @@
       <ul v-for="x in Reports" :key="x">
          <li><h3>Name : {{x.Name}}</h3></li>
          <li><h3>NRIC : {{x.NRIC}}</h3></li>
+         <li><h3>Student Id : {{x.Id}}</h3></li>
          <li><h3>Class : {{x.Class}}</h3></li>
          <li><h3>Address : {{x.Address}}</h3></li>
          <li><h3>Gender : {{x.Gender}}</h3></li>
@@ -40,11 +41,6 @@
      </ul>
     </ul>
   </el-card>
-        <!-- <ul>
-            <li v-for="index in Reports.length" :key="index"></li>
-            {{Reports[index].Name}}
-        </ul> -->
-        
 
 </template>
 
@@ -84,15 +80,9 @@ export default {
                 querySnapshot.forEach((doc) => {
                     console.log(doc.id, " => ", doc.data());
                     this.Reports.push(doc.data())
+                    //Reports of array with objects to access loop it / Reports[num] to access specific element .element
                 })
             }
-            // for (let i = 0; i < this.Reports.length; i ++) {
-
-            // }
-            // console.log(this.Reports[0].Name);
-            // console.log(typeof(this.Reports));
-            // console.log(this.Reports[0].DOB);
-            // console.log(this.Reports.length);
 
         }
     }
@@ -111,5 +101,15 @@ button {
 }
 #cv {
     float:middle;
+    margin-left: 30px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  margin-bottom:10px;
+
 }
 </style>

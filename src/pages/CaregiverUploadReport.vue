@@ -95,6 +95,7 @@ export default {
             time: new Date(),
             uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
             uid: auth.currentUser.uid,
+            name: auth.currentUser.displayName,
         }
         await this.createReport(details)
         this.goBack()
