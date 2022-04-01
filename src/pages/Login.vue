@@ -151,7 +151,7 @@ input {
   margin-top: 60px;
   background-color: #2470B7;
   border: 1px solid #2470B7;
-  width: 45%
+  width: 45.4%
 }
 .textField {
   border-style: solid;
@@ -184,6 +184,7 @@ input:focus {
   flex-direction: column;
 }
 #header{
+  background-color: white;
   margin-top: 30px;
   margin-bottom: 106px;
   font-size: 48px;
