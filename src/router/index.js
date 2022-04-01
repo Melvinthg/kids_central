@@ -1,9 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { auth } from "../firebase.js";
-import HomeTeacher from "@/pages/HomeTeacher.vue";
-import HomeParent from "@/pages/HomeParent.vue";
-import Home from "@/pages/HomeParent.vue";
 import Login from "@/pages/Login.vue";
+import Home from "@/pages/Home.vue";
 import SignupParent from "@/pages/SignupParent.vue";
 import SignupTeacher from "@/pages/SignupTeacher.vue";
 import Landing from "@/pages/Landing.vue";
@@ -16,38 +14,22 @@ import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 // import Dashboard from '@/pages/Dashboard.vue'
 
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
-
 import ForumReply from '@/pages/ForumReply.vue'
 import CaregiverUploadReport from '@/pages/CaregiverUploadReport.vue'
-
+import CaregiverUploadGrade from '@/pages/CaregiverUploadGrade.vue'
 import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
 import CognitiveAbilities from '@/pages/CognitiveAbilities.vue'
 import GradesDisplay from '@/pages/GradesDisplay.vue'
-
+import AddChildInfo from '@/pages/AddChildInfo.vue'
+import ClassInfo from '@/pages/ClassInfo.vue'
 
 
 
 const routes = [
   {
-    path: "/hometeacher",
-    name: "HomeTeacher",
-    component: HomeTeacher,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/home",
     name: "Home",
     component: Home,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: "/homeparent",
-    name: "HomeParent",
-    component: HomeParent,
     meta: {
       requiresAuth: true
     }
@@ -120,6 +102,11 @@ const routes = [
     component: CaregiverUploadReport,
   },
   {
+    path: "/caregiveruploadgrade",
+    name: "CaregiverUploadGrade",
+    component: CaregiverUploadGrade,
+  },
+  {
     path: "/HealthAndInjuries",
     name: "HealthAndInjuries",
     component: HealthAndInjuries,
@@ -132,6 +119,16 @@ const routes = [
     path: "/CognitiveAbilities",
     name: "CognitiveAbilities",
     component: CognitiveAbilities,
+  },
+  {
+    path: "/AddChildInfo",
+    name: "AddChildInfo",
+    component: AddChildInfo,
+  },
+  {
+    path: "/ClassInfo",
+    name: "ClassInfo",
+    component: ClassInfo,
   },
 
 ];

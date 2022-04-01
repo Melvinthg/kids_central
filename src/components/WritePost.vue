@@ -46,7 +46,7 @@
     </el-row>
       
   </div>
-  <button @click = "this.posts()">wzzuppp</button>
+  
 </template>
 
 <script>

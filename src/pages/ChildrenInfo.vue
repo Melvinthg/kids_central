@@ -1,167 +1,143 @@
 <template>
+      <div id="header">
+        <div id="firstgroup">
+            <router-link to = "/Home" className='text-link' style='color:white'>Home</router-link>
+        </div>
+        <div id="secondgroup">
+            <h1>{{name}}'s profile</h1><br>
+        </div>
+        <div id = "thirdgroup" v-if ="boo">
+             <router-link to ="/AddChildInfo"> <h3 id = "btn"><u><b>Update Info</b></u></h3> </router-link>          
+        </div>
+      </div>
 
- <div id="wholegroup">
-     <div id="firstgroup">
-        <router-link to = "/home" className='text-link'>Back</router-link>
-     </div>
-     <div id="secondgroup">
-         <h1>Children info page</h1><br>
-         <h1>STILL IN THE MIDST OF DOING</h1>
-     </div>
- </div>
+     <el-card class="box-card">
+    <template #header>
+      <div class="card-header">
+        <span><h1><b>My Child's Information</b></h1></span>
+      </div>
+    </template>
+    <ul v-if = "boo">
+      <li><h3>NRIC : {{NRIC}}</h3></li>
+      <li><h3>Id : {{Id}}</h3></li>
+      <li><h3>Class : {{Class}}</h3></li>
+      <li><h3>Address : {{Address}}</h3></li>
+      <li><h3>Gender : {{Gender}}</h3></li>
+      <li><h3>DOB : {{DOB}}</h3></li>
+      <li><h3>Nationality : {{Nationality}}</h3></li>
+      <li><h3>Allergies : {{Allergies}}</h3></li>
+    </ul>
+    <div v-else>
+       <h3>Missing information, please click on following link to update info</h3>
+       <el-button type="primary" round>
+         <router-link to ="/AddChildInfo"> <h3 id = "btn">Update Info</h3> </router-link>
+        </el-button> 
+    </div>
 
-  <div>
-    <h2 id = "head"><b> Search for students results</b></h2>
-    <br>
-      <input type="text" placeholder = "input student id...">
-      <button button @click = "getStudentGrades('Bob')">Submit</button>
-      <button button @click = "test()">test for add</button>
-            <button button @click = "test2('')">test2 for retreive ctryn</button>
-
-
-      <div>{{List}}{{List2}}</div>
-  </div>
+  </el-card>
 </template>
 
 <script>
 import { db } from "../firebase.js";
-import { collection, getDocs, query, setDoc, doc, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default {
 
   data() {
-      return {
-        List: [],
-        List2: [],
+    return {
+      name : this.$store.state.userModel.childName,
+      boo: false,
+      Address: "",
+      Allergies: "",
+      NRIC: "",
+      Gender: "",
+      DOB: "",
+      Nationality: "",
+      Class: "",
+      Id: "",
+    }
+  },
+
+  methods: {
+
+    async getInfos() {
+      this.boo = false;
+      const q = query(collection(db, "students"), where("Name", "==", this.name));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        this.Address = doc.data().Address;
+        this.Allergies = doc.data().Allergies;
+        this.NRIC = doc.data().NRIC;
+        this.Gender = doc.data().Gender;
+        this.DOB = doc.data().DOB;
+        this.Nationality = doc.data().Nationality;
+        this.Class = doc.data().Class;
+        this.Id = doc.data().Id;
+      })
+      if (this.checkInfo()) {
+        this.boo = true;
       }
     },
 
-    mounted() {
-      this.getList;
+    checkInfo() {
+      return this.Address.length >= 1 && this.Allergies.length >= 1 && this.NRIC.length >= 1
+      && this.Gender.length >= 1 && this.DOB.length >= 1 && this.Nationality.length >= 1 
+      && this.Class.length >= 1 && this.Id.length >= 1
     },
+  },
 
-    methods: {
-      async getStudentGrades() {
-        this.List = [];
-        this.List2 = [];
-        const q = query(collection(db, "studentsResult"), where("Id", "==", "Bob"), where("test1", "==", "8"));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        this.List.push((doc.id));
-        this.List2.push(doc.data())
-    });
-      console.log(this.List2.filter(x => x == "Bob"));
-      }, 
-      
-      async test() {
-            const citiesRef = collection(db, "cities");
+  
 
-        await setDoc(doc(citiesRef, "SF"), {
-            name: "San Francisco", state: "CA", country: "USA",
-            capital: false, population: 860000,
-            regions: ["west_coast", "norcal"] });
-        await setDoc(doc(citiesRef, "LA"), {
-            name: "Los Angeles", state: "CA", country: "USA",
-            capital: false, population: 3900000,
-            regions: ["west_coast", "socal"] });
-        await setDoc(doc(citiesRef, "DC"), {
-            name: "Washington, D.C.", state: null, country: "USA",
-            capital: true, population: 680000,
-            regions: ["east_coast"] });
-        await setDoc(doc(citiesRef, "TOK"), {
-            name: "Tokyo", state: null, country: "Japan",
-            capital: true, population: 9000000,
-            regions: ["kanto", "honshu"] });
-        await setDoc(doc(citiesRef, "BJ"), {
-            name: "Beijing", state: null, country: "China",
-            capital: true, population: 21500000,
-            regions: ["jingjinji", "hebei"] });
-      },
-
-      async test2() {
-        this.List2 = [];
-        const q = query(collection(db, "cities"), where("country", "==", "Japan"));
-
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        this.List2.push(doc.data())
-        console.log(this.List2)
-      });
-      console.log(this.List2.length)
-      },
-    
-    //   async getStudentGrades() {
-    //   const q = await getDocs(collection(db, "studentsResult"))
-    //   console.log(q)
-    //   q.forEach((doc) => {
-    //     var data = doc.data();
-    //     console.log(data);
-    //     this.List.push(data);
-    //   })
-    // },
-    // async getStudentsInClass(context, className) {
-    //   //console.log(password)
-    //   const studentsList = [];
-    //   console.log(context);
-    //   const classRef = collection(db, "classes", className, "students");
-    //   const classSnap = await getDocs(classRef);
-    //   console.log(classSnap.docs);
-    //   //console.log(classSnap.)
-    //   //const classesCollection = await getDocs(collection(db, "classes"))
-    //   classSnap.forEach((e) => {
-    //     const x = e.data();
-    //     studentsList.push(x);
-    //   });
-
-    //   return studentsList;
-    // },
-
-  }
+    created() {
+       this.getInfos();
+    },
 }
 </script>
 
 <style scoped>
-
-#wholegroup {
+#header {
     overflow: hidden;
-    background-color: whitesmoke;
+    background-color: rgb(7, 119, 172);
     display: block;
     margin: 0%;
     padding: 5px;
     width: 100%;
 }
-
-#firstgroup {
+#title {
   float: left;
   width: 25%;
   color: white;
   text-align: center;
   padding: 10px 10px;
   text-decoration: none;
-  font-size: 20px;
-  line-height: 80px;
+  font-size: 15px;
+  line-height: 50px;
 }
-
-#secondgroup {
+#secondgroup{
     float: left;
     width: 50%;
     text-align: center;
-    color: black;
-    padding: 20px;
+    color: white;
+    padding: 10px;
+    line-height: 0px;
 }
 
-#firstgroup:hover {
-  background-color: whitesmoke;
+/* i cant get this to align properly */
+#thirdgroup {
+  padding:10px;
+  text-align:right;
+}
+ul {
+  list-style-type: none;
 }
 
-#head {
-  text-align: center;
-  float: middle;
-  color: black;
-  padding: 20px;
+ul li {
+  margin-bottom:10px;
+
+}
+
+#btn {
+  color: white;
+  font-size: 20px;
 }
 </style>

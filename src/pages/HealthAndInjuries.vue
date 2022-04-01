@@ -1,30 +1,25 @@
 <template>
-<div id="wholegroup">
-     <div id="firstgroup">
-        <router-link to = "/home" className='text-link'>Back</router-link>
-     </div>
-     <div id="secondgroup">
-         <img id = "pic" src="@/assets/HealthAndInjuries.png" alt="">
-         <h1>HealthAndInjuries page</h1><br> 
-     </div>
+<div id="header">
+        <div id="firstgroup">
+            <router-link to = "/Home" className='text-link' style='color:white'>Home</router-link>
+        </div>
+        <div id="secondgroup">
+            <img id = "pic" src="@/assets/HealthAndInjuries.png" alt="">
+            <h1 id = "title">Health and Injuries page</h1><br>
+        </div>
 </div>
-        <input type="text" id = "name" placeholder = "input student name...">
-        <button button @click = "getReport()">Get Reports</button>
-        <div id = "header">
-        <div v-if = "boo"><h2><b>Currently Viewing: </b></h2></div>
-        <div ><h2><b>{{displayName}}</b></h2></div>
-      </div>
-<table id = "table">
-            <!-- need to fix the double forloop -->
-            <ul v-for="report in Reports" :key="report.id">
-            <ul v-for="name in  reportNames" :key="name.id">
-                <div id = "nameAssessment"><b> {{name}}</b></div>
-                <div id = "date">{{report.date}}</div> <br>
-                <div ><h3>{{report.Report}}</h3></div>
-                <br><br>
-            </ul>
-            </ul>
-</table>
+<div id="mainContent">
+          <div id = "text"><h1><b>{{displaytext}}</b></h1></div>
+          <el-card class="box-card" v-if="boo">
+           <ul v-for="x in Reports" :key="x">
+         <div id = "title2"><li><h2><b>{{x.title}}</b></h2></li></div>
+         <hr>
+         <li><h3>{{x.text}}</h3></li>
+         <li id = "time"><h5>{{x.date.toDate().toString().slice(4,16)}}</h5></li>
+         <br>
+     </ul>
+  </el-card>
+</div>
 </template>
 
 <script>
@@ -32,129 +27,107 @@ import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default {
+
   data() {
     return {
       Reports: [],
-      reportNames: [],
       boo: false,
       displayName: "",
-    };
+      displaytext: "No Reports at the moment",
+      name: this.$store.state.userModel.childName,
+      Id: "",
+    }
   },
 
   methods: {
-    async getReport() {
-      let name = document.getElementById("name").value;
-      this.Reports = [];
-      this.reportNames = [];
-      const q = query(
-        collection(db, "HealthAndInjuries"),
-        where("Id", "==", name)
-      );
+
+    //search for student id wrt to name of user then get corresponding report
+    async getInfo() {
+      const q = query(collection(db, "students"), where("Name", "==", this.name));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
+        this.Id = doc.data().Id;
+        console.log(this.Id)
+      })
+      const x = query(collection(db, "reports"), where("studentid", "==", this.Id), where("category", "==", "injuriesandhealth"));
+      const y = await getDocs(x);
+      y.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
         this.Reports.push(doc.data());
-        this.reportNames.push(doc.id);
-      });
-      // console.log(this.Reports.length);
-      if (this.reportNames.length > 0) {
+      })
+      if (this.Reports.length > 0) {
         this.boo = true;
-        this.displayName = document.getElementById("name").value;
-      } else {
-        this.boo = false;
-        this.displayName = "Invalid Name, please try again";
+        this.displaytext = "Viewing: " + this.name + "'s reports";
       }
-      document.getElementById("name").value = "";
     },
- 
-    methods: {
+  },
 
-        async getReport() {
-            let name = document.getElementById("name").value
-            this.Reports = [];
-            this.reportNames = [];
-            const q = query(collection(db, "HealthAndInjuries"), where("Id", "==", name))
-            const querySnapshot = await getDocs(q)
-            querySnapshot.forEach((doc) => {
-                console.log(doc.id, " => ", doc.data());
-                this.Reports.push(doc.data())
-                this.reportNames.push(doc.id)
-            })
-            // console.log(this.Reports.length);
-             if (this.reportNames.length > 0) {
-                    this.boo = true;
-                    this.displayName = document.getElementById("name").value;
-            } else {
-                this.boo = false;
-                this.displayName = "Invalid Name, please try again";
-            }
-            document.getElementById("name").value = "";
-        }
-    },// methods bracket  
+  created() {
+    this.getInfo();
+  },
 
-}
+  
 }
 
 </script>
 
 <style scoped>
-#wholegroup {
-  overflow: hidden;
-  background-color: whitesmoke;
-  display: block;
-  margin: 0%;
-  padding: 5px;
-  width: 100%;
-}
-
-#firstgroup {
-  float: left;
-  width: 25%;
-  color: white;
-  text-align: center;
-  padding: 10px 10px;
-  text-decoration: none;
-  font-size: 20px;
-  line-height: 80px;
-}
-
-#secondgroup {
-  float: left;
-  width: 50%;
-  text-align: center;
-  color: black;
-  padding: 20px;
-}
-
-#firstgroup:hover {
-  background-color: whitesmoke;
-}
-
-#head {
-  text-align: center;
-  float: middle;
-  color: black;
-  padding: 20px;
-}
-
-#table {
-  background-color: lightblue;
-  width: 100%;
-}
-
-#nameAssessment {
-  background-color: lightskyblue;
-}
-
-#date {
-  background-color: lightyellow;
-}
-
 #header {
-  text-align: center;
+    overflow: hidden;
+    background-color: rgb(7, 119, 172);
+    display: block;
+    margin: 0%;
+    padding: 5px;
+    width: 100%;
+}
+#title {
+  float:middle;
+  text-align:center;
+  padding:30px;
+}
+#firstgroup {
+  font-size: 25px;
+  padding:40px
+}
+#secondgroup{
+    float: left;
+    width: 50%;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    line-height: 0px;
+}
+
+#btn {
+  color: white;
+  font-size: 20px;
 }
 #pic {
     float:right;
-    width:100px;
+    width:80px;
+    margin-top: 10px;
+} 
+#text {
+  text-align: center;
+  margin-right: 50px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  margin-bottom:10px;
+}
+#time {
+  text-align: right;
+}
+.box-card {
+  /* background: lightsteelblue; */
+
+}
+#title2 {
+  /* background:rgb(122, 141, 223); */
+  /* text-align:center; */
 }
 </style>
