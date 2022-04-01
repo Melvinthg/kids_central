@@ -54,7 +54,6 @@ import Message from '../components/Message.vue'
 import { db } from "../firebase.js";
 import { addDoc, collection, getDocs, where, query } from "firebase/firestore";
 import { Back} from "@element-plus/icons-vue";
-
 export default {
     name: "ContactParent",
     data() {
@@ -76,7 +75,6 @@ export default {
       Back
     },
     methods: {
-
       selectUser(user) {
         console.log('user was selected', user);
         var receipientUser = user;
@@ -94,7 +92,6 @@ export default {
           }
         });
       },
-
       async send() {
           const msg = {
               message: this.message,
@@ -103,7 +100,6 @@ export default {
               time: Date.now()
           };
           this.messageList.push(msg);
-
           addDoc(collection(db, "messages"), msg)
             .then((response) => {
               console.log(response);
@@ -112,9 +108,7 @@ export default {
               console.log(err);
             });
             this.message = "";
-
       },
-
       async displaychat(user) {
         console.log('displaycahr called')
         const userSendQuery = query(collection(db, "messages"),
@@ -125,7 +119,6 @@ export default {
         const userReceiveQuery = query(collection(db, "messages"),
         where("senderID", "==", user.first),
         where('receiverID', '==', this.senderID));
-
         const queryReceive = await getDocs(userReceiveQuery);
         var messageList = [];
         querySend.forEach((doc) => {
@@ -150,7 +143,6 @@ export default {
     padding: 5px;
     width: 100%;
 }
-
 #btn {
   float: left;
   width: 10%;
@@ -159,15 +151,12 @@ export default {
   padding: 10px 10px;
   text-decoration: none;
 }
-
 #selecteduser {
-
     width: 90%;
     text-align: center;
     color: Black;
     padding: 10px ;
 }
-
 .back1 {
   float: left;
   font-size: 20px;

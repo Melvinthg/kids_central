@@ -40,9 +40,7 @@
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
-
 export default {
-
   data() {
     return {
       name : this.$store.state.userModel.childName,
@@ -57,9 +55,7 @@ export default {
       Id: "",
     }
   },
-
   methods: {
-
     async getInfos() {
       this.boo = false;
       const q = query(collection(db, "students"), where("Name", "==", this.name));
@@ -78,16 +74,13 @@ export default {
         this.boo = true;
       }
     },
-
     checkInfo() {
       return this.Address.length >= 1 && this.Allergies.length >= 1 && this.NRIC.length >= 1
       && this.Gender.length >= 1 && this.DOB.length >= 1 && this.Nationality.length >= 1 
       && this.Class.length >= 1 && this.Id.length >= 1
     },
   },
-
   
-
     created() {
        this.getInfos();
     },
@@ -121,7 +114,6 @@ export default {
     padding: 10px;
     line-height: 0px;
 }
-
 /* i cant get this to align properly */
 #thirdgroup {
   padding:10px;
@@ -130,12 +122,9 @@ export default {
 ul {
   list-style-type: none;
 }
-
 ul li {
   margin-bottom:10px;
-
 }
-
 #btn {
   color: white;
   font-size: 20px;

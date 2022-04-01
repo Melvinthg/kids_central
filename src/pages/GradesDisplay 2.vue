@@ -28,6 +28,7 @@ import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
 //import { getDocs, query, where } from "firebase/firestore";
 import { ref } from "vue";
+
 export default {
   name: "GradesDisplay",
   data() {

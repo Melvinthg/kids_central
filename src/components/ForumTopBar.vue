@@ -18,7 +18,6 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import {useStore, mapActions, mapState} from "vuex"
-
 export default {
   name: 'ForumTopBar',
   data(){
@@ -41,7 +40,6 @@ export default {
 </script>
 
 <style scoped>
-
 #wholegroup {
     overflow: hidden;
     background-color: rgb(7, 119, 172);
@@ -50,7 +48,6 @@ export default {
     padding: 5px;
     width: 100%;
 }
-
 #firstgroup {
   float: left;
   width: 25%;
@@ -61,7 +58,6 @@ export default {
   font-size: 20px;
   line-height: 100px;
 }
-
 #secondgroup {
     float: left;
     width: 50%;
@@ -69,7 +65,6 @@ export default {
     color: white;
     padding: 20px;
 }
-
 #thirdgroup {
   float: right;
   width: 25%;
@@ -79,13 +74,10 @@ export default {
   color: white;
   line-height: 100px;
 }
-
 #firstgroup:hover {
   background-color: black;
 }
-
 #thirdgroup:hover {
   background-color: black; 
 }
-
 </style>

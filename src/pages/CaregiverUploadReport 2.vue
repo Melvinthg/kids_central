@@ -1,8 +1,7 @@
 <template>
-<div>
     <div id="header">
         <div id="firstgroup">
-            <router-link to = "/editclassdashboard" className='text-link' style='color:white'>Manage Dashboard</router-link>
+            <router-link to = "/home" className='text-link' style='color:white'>Manage Dashboard</router-link>
         </div>
         <div id="secondgroup">
             <h1>Upload Report</h1><br>
@@ -35,7 +34,6 @@
             <input
             type="radio"
             id="injuriesandhealth"
-            name ="radio"
             value="injuriesandhealth"
             v-model= "category"
             style="margin-left:2%">
@@ -44,7 +42,6 @@
             <input
             type="radio"
             id="cognitiveabilities"
-            name ="radio"
             value="cognitiveabilities"
             v-model= "category"
             style="margin-left:2%">
@@ -58,14 +55,12 @@
         v-model= "text"
         placeholder="Type your report here..."
         cols="90"
-        rows="6"
         style="margin-left:2%">
         </textarea>
     </div> <br>
     <div>
         <button @click="create" style="margin-left:2%">Upload</button>
     </div>
-</div>
 </template>
 
 <script>
@@ -81,28 +76,34 @@ import {useStore, mapActions, mapState} from "vuex"
 import { ref } from "vue";
 export default {
     name: "CaregiverUploadReport",
+    // data () {
+    //     return {
+    //     title: '',
+    //     text: '',
+    //     image: null,
+
+    //     }
+    // },
     methods: {
         ...mapActions({createReport: "createReport"}),
         async create() {
         
         const details = {
+
             studentid: this.studentid,
             title: this.title,
             category: this.category,
             text: this.text,
             time: new Date(),
-            uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
             uid: auth.currentUser.uid,
-            name: auth.currentUser.displayName,
         }
         await this.createReport(details)
         this.goBack()
-        },
-        goBack(){
-        this.$router.push('/editclassdashboard'); 
         }
     },
-    
+    goBack(){
+        this.$router.push('/home'); 
+    }
 }
 </script>
 
@@ -140,9 +141,11 @@ export default {
     display: block;
     line-height: 40px;
 }
+
 #typereport {
     display: block;
     float:left;
     line-height: 40px;
+
 }
 </style>
