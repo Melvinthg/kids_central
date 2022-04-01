@@ -96,6 +96,7 @@ export default createStore({
       const user = await getDoc(userRef);
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
+      console.log(user.data());
       commit("SET_USER", auth.currentUser);
 
       router.push("/home");
@@ -146,7 +147,7 @@ export default createStore({
       await setDoc(doc(db, "users", uid), user);
 
       commit("SET_USER", auth.currentUser);
-      commit("SET_USER_MODEL", user);
+      commit("SET_USER_MODEL", user.data());
       router.push("/home");
     },
     async registerTeacher({ commit }, details) {
@@ -187,7 +188,7 @@ export default createStore({
       console.log(ref);
 
       commit("SET_USER", auth.currentUser);
-      commit("SET_USER_MODEL", user);
+      commit("SET_USER_MODEL", user.data());
       router.push("/home");
     },
 
@@ -315,21 +316,21 @@ export default createStore({
     async createReport({ context }, details) {
       console.log(context);
       console.log(details);
-            const report = {
-              studentid: details.studentid,
-              title: details.title,
-              category: details.category,
-              text: details.text,
-              date: details.time,
-              uid: details.uid,
-            };
-            addDoc(collection(db, "reports"), report)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });    
-    }
+      const report = {
+        studentid: details.studentid,
+        title: details.title,
+        category: details.category,
+        text: details.text,
+        date: details.time,
+        uid: details.uid,
+      };
+      addDoc(collection(db, "reports"), report)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 });
