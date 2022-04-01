@@ -1,6 +1,6 @@
 
 <template>
-<button @click = "test1">asdasd</button>
+<!-- <button @click = "test1">asdasd</button> -->
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
@@ -141,7 +141,7 @@ export default {
     return {
       user: auth.currentUser,
       count: 0,
-      username: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
+      username: "",
       homeType: "",
     };
   },
@@ -158,6 +158,7 @@ export default {
     const userRef = doc(db, "users", auth.currentUser.uid);
       const user = await getDoc(userRef);
       this.homeType = user.data().type
+      this.username = user.data().first + " " + user.data().last
 
   },
 
