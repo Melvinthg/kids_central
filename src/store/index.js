@@ -105,6 +105,7 @@ export default createStore({
 
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
+
       console.log(user.data())
       commit("SET_USER", auth.currentUser);
 
@@ -158,7 +159,9 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
 
+
       commit("SET_USER_MODEL", user);
+
       router.push("/home");
 
     },
@@ -201,7 +204,9 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
 
+
       commit("SET_USER_MODEL", user);
+
       router.push("/home");
 
     },
@@ -397,6 +402,7 @@ export default createStore({
     async createReport({ context }, details) {
       console.log(context);
       console.log(details);
+
             const report = {
               studentid: details.studentid,
               title: details.title,
@@ -434,5 +440,6 @@ export default createStore({
                 console.log(err);
               });    
     }
+
   },
 });
