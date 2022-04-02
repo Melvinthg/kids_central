@@ -38,7 +38,6 @@ import {useStore, mapActions, mapState} from "vuex"
 import { auth, db, storage } from "../firebase.js";
 import { getDoc, doc } from "firebase/firestore";
 // import GetForumReplies from '@/components/GetForumReplies.vue'
-
 export default {
   name: "GetForumPost",
   // components: {
@@ -49,7 +48,6 @@ export default {
       forumposts: [],
       imgsrc: null,
       numReplies: 0,
-
     };
   },
   methods: {
@@ -76,7 +74,6 @@ export default {
   color: #999;
   float: right;
 }
-
 .title {
   margin-top: 0px;
   margin-left: 240px;

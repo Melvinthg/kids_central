@@ -14,9 +14,7 @@
 <script>
 import ForumTopBar from '@/components/ForumTopBar.vue'
 import GetForumPost from '@/components/GetForumPost.vue'
-
 export default {
-
     name: "ForumDisplay",
     components: {
         ForumTopBar,
@@ -26,5 +24,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -126,11 +126,9 @@ export default {
     display: block;
     line-height: 40px;
 }
-
 #typereport {
     display: block;
     float:left;
     line-height: 40px;
-
 }
 </style>

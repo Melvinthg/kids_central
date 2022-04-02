@@ -88,7 +88,6 @@ const auth = getAuth();
 import { Back } from "@element-plus/icons-vue";
 // import { ref } from 'vue'
 // const num = ref(1)
-
 export default {
   name: "EditClassDashboard",
   data() {
@@ -100,7 +99,6 @@ export default {
   components: {
     Back,
   },
-
   methods: {
     //proceed method to
     // proceed() {
@@ -123,7 +121,6 @@ export default {
   padding: 5px;
   width: 100%;
 }
-
 #firstgroup {
   float: left;
   width: 10%;
@@ -134,7 +131,6 @@ export default {
   font-size: 20px;
   line-height: 80px;
 }
-
 #secondgroup {
   float: center;
   width: 90%;
@@ -142,7 +138,6 @@ export default {
   color: Black;
   padding: 20px;
 }
-
 .bottom {
   margin-top: 13px;
   line-height: 12px;
@@ -150,12 +145,10 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-
 .button {
   padding: 0;
   min-height: auto;
 }
-
 .image {
   width: 100%;
   display: block;

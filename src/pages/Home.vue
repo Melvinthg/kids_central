@@ -1,4 +1,3 @@
-
 <template>
 <!-- <button @click = "test1">asdasd</button> -->
   <div class="common-layout" style="background-color: ">
@@ -7,7 +6,7 @@
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
 
-          <header style="text-align:center; size=18px"> <strong> {{ username }} </strong></header>
+          <header style="text-align:center; size=18px">{{ user.email }}</header>
 
           <br />
           <el-menu
@@ -122,7 +121,6 @@
 import WritePost from "@/components/WritePost.vue";
 import GetPost from "@/components/GetPost.vue";
 import {store} from '@/store';
-
 import {
   Edit,
   Notebook,
@@ -134,7 +132,6 @@ import {  db,  } from "../firebase.js";
 import { mapGetters } from 'vuex'
 import {doc, getDoc} from "firebase/firestore"
 const auth = getAuth();
-
 export default {
   name: "Home",
   data() {
@@ -153,15 +150,12 @@ export default {
     Cellphone,
     GetPost,
   },
-
   async mounted(){
     const userRef = doc(db, "users", auth.currentUser.uid);
       const user = await getDoc(userRef);
       this.homeType = user.data().type
       this.username = user.data().first + " " + user.data().last
-
   },
-
   // created(){
   //   this.test()
   //   console.log("beforeMount")
@@ -170,7 +164,6 @@ export default {
   //   this.test()
   //   console.log("beforeMount")
   // },
-
   //  mounted() {
   //   this.reload()
   // },
@@ -219,3 +212,4 @@ export default {
   text-align: center;
 }
 </style>
+
