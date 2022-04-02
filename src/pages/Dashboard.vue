@@ -57,30 +57,23 @@ export default {
 * {
   box-sizing: border-box;
 }
-
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
-
 /* Float four columns side by side */
 .column {
   float: left;
   width: 33.3%;
   padding: 0 10px;
 }
-
 /* Remove extra left and right margins, due to padding */
-.row {
-  margin: 0 -5px;
-}
-
+.row {margin: 0 -5px;}
 /* Clear floats after the columns */
 .row:after {
   content: "";
   display: table;
   clear: both;
 }
-
 /* Responsive columns */
 @media screen and (max-width: 720px) {
   .column {
@@ -89,13 +82,9 @@ body {
     margin-bottom: 20px;
   }
 }
-
-.card:hover {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+.card:hover{
+     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
-
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 16px;
@@ -114,7 +103,6 @@ body {
   width: 100%;
   text-align: center;
 }
-
 #firstgroup {
   float: left;
   width: 25%;
@@ -125,13 +113,11 @@ body {
   font-size: 20px;
   line-height: 80px;
 }
-
 #secondgroup {
   text-align: center;
   color: white;
   padding: 10px;
 }
-
 #thirdgroup {
   text-align: center;
   float: right;
@@ -142,11 +128,9 @@ body {
   color: white;
   line-height: 80px;
 }
-
 #firstgroup:hover {
   background-color: black;
 }
-
 #thirdgroup:hover {
   background-color: black;
 }

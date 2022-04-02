@@ -1,4 +1,3 @@
-
 <template>
   <!-- <button @click = "test1">asdasd</button> -->
   <div class="common-layout" style="background-color: ">
@@ -7,103 +6,92 @@
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
 
+
           <header style="text-align:center; size=18px">
             <strong> {{ username }} </strong>
           </header>
 
+
           <br />
           <el-menu
+            text-color="#fff"
             active-text-color="steelblue"
-            background-color="dodgerblue"
-            textcolor="white"
+            background-color="cornflowerblue"
           >
-            <el-menu-item v-if="this.homeType === 'teacher'" index="1">
+            <el-menu-item
+              v-if="this.homeType === 'teacher'"
+              index="1"
+              @click="this.$router.push('/editclassdashboard')"
+            >
               <el-icon><Edit /></el-icon>
-              <span
-                ><router-link to="/editclassdashboard" className="sidebarLinks"
-                  >Edit Class Dashboard</router-link
-                ></span
-              >
+              <span> Edit Class Dashboard ></span>
             </el-menu-item>
 
-            <el-menu-item v-else index="1a">
+            <el-menu-item
+              v-else
+              index="1a"
+              @click="this.$router.push('/editclassdashboard')"
+            >
               <el-icon><Edit /></el-icon>
-              <span
-                ><router-link to="/Dashboard" className="sidebarLinks"
-                  >View Child Dashboard</router-link
-                ></span
-              >
+              <span>View Child Dashboard</span>
             </el-menu-item>
 
-            <el-menu-item v-if="this.homeType == 'teacher'" index="2">
+            <el-menu-item
+              v-if="this.homeType == 'teacher'"
+              index="2"
+              @click="this.$router.push('/ClassInfo')"
+            >
               <el-icon><Notebook /></el-icon>
-              <span
-                ><router-link to="/ClassInfo" className="sidebarLinks"
-                  >Manage Class Info</router-link
-                ></span
-              >
+              <span> >Manage Class Info</span>
             </el-menu-item>
 
-            <el-menu-item v-else index="2a">
+            <el-menu-item
+              v-else
+              index="2a"
+              @click="this.$router.push('/ChildrenInfo')"
+            >
               <el-icon><Notebook /></el-icon>
-              <span
-                ><router-link to="/ChildrenInfo" className="sidebarLinks"
-                  >View Child Info</router-link
-                ></span
-              >
+              <span> View Child Info</span>
             </el-menu-item>
 
-            <el-menu-item index="3">
+            <el-menu-item index="3" @click="this.$router.push('/forumdisplay')">
               <el-icon><ChatLineSquare /></el-icon>
-              <span
-                ><router-link to="/forumdisplay" className="sidebarLinks"
-                  >Class Forum</router-link
-                ></span
-              >
+              <span> Class Forum </span>
             </el-menu-item>
 
-            <el-menu-item v-if="this.homeType === 'teacher'" index="4">
-              <el-icon><Cellphone /></el-icon>
-              <span
-                ><router-link to="/contactparent" className="sidebarLinks"
-                  >Contact Parents</router-link
-                ></span
-              >
-            </el-menu-item>
-
-            <el-menu-item v-else index="4a">
-              <el-icon><Cellphone /></el-icon>
-              <span
-                ><router-link to="/contactteacher" className="sidebarLinks"
-                  >Contact Teacher</router-link
-                ></span
-              >
-            </el-menu-item>
-
-            <el-menu-item v-if="this.homeType != 'teacher'">
-              <el-icon><Edit /></el-icon>
-              <span
-                ><router-link to="/HealthAndInjuries" className="sidebarLinks"
-                  >Health And Injuries</router-link
-                ></span
-              >
-            </el-menu-item>
-
-            <el-menu-item v-if="this.homeType != 'teacher'">
-              <el-icon><Edit /></el-icon>
-              <span
-                ><router-link to="/CognitiveAbilities" className="sidebarLinks"
-                  >CognitiveAbilities</router-link
-                ></span
-              >
-            </el-menu-item>
-            <router-link to="/GradesDisplayParent" className="sidebarLinks"
-              >GradesDisplayParent</router-link
+            <el-menu-item
+              v-if="this.homeType == 'teacher'"
+              @click="this.$router.push('/contactparent')"
+              index="4"
             >
-            <br />
-            <router-link to="/GradesDisplayTeacher" className="sidebarLinks"
-              >GradesDisplayTeacher</router-link
+              <el-icon><Cellphone /></el-icon>
+              <span> Contact Parents</span>
+            </el-menu-item>
+
+            <el-menu-item
+              v-else
+              index="4a"
+              @click="this.$router.push('/contactteacher')"
             >
+              <el-icon><Cellphone /></el-icon>
+              <span> Contact Teacher </span>
+            </el-menu-item>
+
+            <el-menu-item
+              v-if="this.homeType != 'teacher'"
+              @click="this.$router.push('/HealthAndInjuries')"
+            >
+              <el-icon><Edit /></el-icon>
+              <span> Health And Injuries</span>
+            </el-menu-item>
+
+            <el-menu-item
+              v-if="this.homeType != 'teacher'"
+              @click="this.$router.push('/CognitiveAbilities')"
+            >
+              <el-icon><Edit /></el-icon>
+              <span> CognitiveAbilities</span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main>
@@ -124,7 +112,9 @@
 <script>
 import WritePost from "@/components/WritePost.vue";
 import GetPost from "@/components/GetPost.vue";
+
 import { store } from "@/store";
+
 
 import {
   Edit,
@@ -137,15 +127,14 @@ import { db } from "../firebase.js";
 import { mapGetters } from "vuex";
 import { doc, getDoc } from "firebase/firestore";
 const auth = getAuth();
-
 export default {
   name: "Home",
   data() {
     return {
       user: auth.currentUser,
       count: 0,
-      username: "",
       homeType: "",
+      username: "",
     };
   },
   components: {
@@ -163,7 +152,6 @@ export default {
     this.homeType = user.data().type;
     this.username = user.data().first + " " + user.data().last;
   },
-
   // created(){
   //   this.test()
   //   console.log("beforeMount")
@@ -172,7 +160,6 @@ export default {
   //   this.test()
   //   console.log("beforeMount")
   // },
-
   //  mounted() {
   //   this.reload()
   // },
@@ -221,3 +208,4 @@ export default {
   text-align: center;
 }
 </style>
+

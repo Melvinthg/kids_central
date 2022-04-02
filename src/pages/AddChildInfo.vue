@@ -50,20 +50,15 @@
 import { db } from '../firebase.js';
 import { getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
-
 export default {
-
     name:"AddChildInfo", 
     data() {
         return {
             name : this.$store.state.userModel.childName, 
         }
     },
-
     methods: {
-
         async save() {
-
             const details = {
                  Name : this.name,
                  Id : document.getElementById("Id").value, 
@@ -91,7 +86,6 @@ export default {
             }
                 
         },
-
         checkfilled() {
             return document.getElementById("NRIC").value.length >= 1
             && document.getElementById("Address").value.length >= 1
@@ -99,7 +93,6 @@ export default {
             && document.getElementById("Nationality").value.length >= 1
             && document.getElementById("Allergies").value.length >= 1
         },
-
         
     }
 }
@@ -110,13 +103,11 @@ export default {
     display: inline-block;
     text-align: right;
 }
-
 form {
     text-align: center;
     align-items: center;
     margin: auto;
 }
-
 .save {
     text-align: center;
 }
