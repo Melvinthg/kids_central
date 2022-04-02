@@ -1,13 +1,15 @@
 
 <template>
-<!-- <button @click = "test1">asdasd</button> -->
+  <!-- <button @click = "test1">asdasd</button> -->
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
 
-          <header style="text-align:center; size=18px"> <strong> {{ username }} </strong></header>
+          <header style="text-align:center; size=18px">
+            <strong> {{ username }} </strong>
+          </header>
 
           <br />
           <el-menu
@@ -15,12 +17,9 @@
             background-color="dodgerblue"
             textcolor="white"
           >
-
             <el-menu-item v-if="this.homeType === 'teacher'" index="1">
-
               <el-icon><Edit /></el-icon>
               <span
-
                 ><router-link to="/editclassdashboard" className="sidebarLinks"
                   >Edit Class Dashboard</router-link
                 ></span
@@ -30,12 +29,12 @@
             <el-menu-item v-else index="1a">
               <el-icon><Edit /></el-icon>
               <span
-                ><router-link to="/editclassdashboard" className="sidebarLinks"
+                ><router-link to="/Dashboard" className="sidebarLinks"
                   >View Child Dashboard</router-link
                 ></span
               >
             </el-menu-item>
-            
+
             <el-menu-item v-if="this.homeType == 'teacher'" index="2">
               <el-icon><Notebook /></el-icon>
               <span
@@ -53,7 +52,6 @@
                 ></span
               >
             </el-menu-item>
-
 
             <el-menu-item index="3">
               <el-icon><ChatLineSquare /></el-icon>
@@ -82,12 +80,13 @@
               >
             </el-menu-item>
 
-             <el-menu-item v-if="this.homeType != 'teacher'">
+            <el-menu-item v-if="this.homeType != 'teacher'">
               <el-icon><Edit /></el-icon>
               <span
                 ><router-link to="/HealthAndInjuries" className="sidebarLinks"
                   >Health And Injuries</router-link
-                ></span>
+                ></span
+              >
             </el-menu-item>
 
             <el-menu-item v-if="this.homeType != 'teacher'">
@@ -95,13 +94,19 @@
               <span
                 ><router-link to="/CognitiveAbilities" className="sidebarLinks"
                   >CognitiveAbilities</router-link
-                ></span>
+                ></span
+              >
             </el-menu-item>
-
+            <router-link to="/GradesDisplayParent" className="sidebarLinks"
+              >GradesDisplayParent</router-link
+            >
+            <br />
+            <router-link to="/GradesDisplayTeacher" className="sidebarLinks"
+              >GradesDisplayTeacher</router-link
+            >
           </el-menu>
         </el-aside>
         <el-main>
-
           <div v-if="this.homeType == 'teacher'" class="writepost">
             <WritePost></WritePost>
           </div>
@@ -109,8 +114,6 @@
           <div class="feed">
             <h1>feed</h1>
             <GetPost></GetPost>
-
-            
           </div>
         </el-main>
       </el-container>
@@ -121,7 +124,7 @@
 <script>
 import WritePost from "@/components/WritePost.vue";
 import GetPost from "@/components/GetPost.vue";
-import {store} from '@/store';
+import { store } from "@/store";
 
 import {
   Edit,
@@ -130,9 +133,9 @@ import {
   Cellphone,
 } from "@element-plus/icons-vue";
 import { getAuth } from "firebase/auth";
-import {  db,  } from "../firebase.js";
-import { mapGetters } from 'vuex'
-import {doc, getDoc} from "firebase/firestore"
+import { db } from "../firebase.js";
+import { mapGetters } from "vuex";
+import { doc, getDoc } from "firebase/firestore";
 const auth = getAuth();
 
 export default {
@@ -154,12 +157,11 @@ export default {
     GetPost,
   },
 
-  async mounted(){
+  async mounted() {
     const userRef = doc(db, "users", auth.currentUser.uid);
-      const user = await getDoc(userRef);
-      this.homeType = user.data().type
-      this.username = user.data().first + " " + user.data().last
-
+    const user = await getDoc(userRef);
+    this.homeType = user.data().type;
+    this.username = user.data().first + " " + user.data().last;
   },
 
   // created(){
@@ -191,7 +193,7 @@ export default {
     //     this.count++
     //   }
     // }
-  }
+  },
 };
 </script>
 
