@@ -1,67 +1,56 @@
 <template>
 <div>
+    
     <div id="header">
         <div id="firstgroup">
             <router-link to = "/editclassdashboard" className='text-link' style='color:white'>Manage Dashboard</router-link>
         </div>
         <div id="secondgroup">
-            <h1>Upload Report</h1><br>
+            <h1>Upload Gradebook</h1><br>
         </div>
     </div>
+
     <div id="block1">
         <div id="inputs">
             <div id="enterid">
-                <h3 style="margin-left:2%">Enter Student ID:</h3>
+                <h3 style="margin-left:2%">Enter Child ID:</h3>
                 <input
                 type= "text"
-                v-model= "studentid"
-                placeholder="Enter Details..."
-                style="margin-left:2%">
+                v-model= "childid"
+                placeholder="Enter ID here..."
+                style="margin-left:2%; width:300px;">
             </div><br>
 
             <div id="entertitle">
-                <h3 style="margin-left:2%">Enter Title:</h3>
+                <h3 style="margin-left:2%">Enter Test Title:</h3>
                 <input
                 type= "text"
                 v-model= "title"
-                placeholder="Enter Details..."
-                style="margin-left:2%">
+                placeholder="Enter title here..."
+                style="margin-left:2%; width:300px;">
+            </div> <br>
+
+            <div id="enterscore">
+                <h3 style="margin-left:2%">Enter Score:</h3>
+                <input
+                type= "text"
+                v-model= "score"
+                placeholder="Enter score here..."
+                style="margin-left:2%; width:300px;">
+            </div> <br>
+
+            <div id="date">
+                <h3 style="margin-left:2%">Date of Test:</h3>
+                <input
+                type= "text"
+                v-model= "date"
+                placeholder="Enter date here in DD/MM/YY format..."
+                style="margin-left:2%; width:300px;">
             </div> <br>
         </div>
     
-
-        <div id="selectcategory">
-            <h3 style="margin-left:2%">Select Category:</h3>
-            <input
-            type="radio"
-            id="injuriesandhealth"
-            name ="radio"
-            value="injuriesandhealth"
-            v-model= "category"
-            style="margin-left:2%">
-            <label for="injuriesandhealth">Injuries and Health</label><br>
-
-            <input
-            type="radio"
-            id="cognitiveabilities"
-            name ="radio"
-            value="cognitiveabilities"
-            v-model= "category"
-            style="margin-left:2%">
-            <label for="cognitiveabilities">Cognitive Abilities</label>
-
-        </div>
     </div>
 
-    <div id="typereport">
-        <textarea
-        v-model= "text"
-        placeholder="Type your report here..."
-        cols="90"
-        rows="6"
-        style="margin-left:2%">
-        </textarea>
-    </div> <br>
     <div>
         <button @click="create" style="margin-left:2%">Upload</button>
     </div>
@@ -80,31 +69,26 @@ import {useStore, mapActions, mapState} from "vuex"
 // eslint-disable-next-line no-unused-vars
 import { ref } from "vue";
 export default {
-    name: "CaregiverUploadReport",
-
+    name: "CaregiverUploadGrade",
     methods: {
-        ...mapActions({createReport: "createReport"}),
+        ...mapActions({createGradebook: "createGradebook"}),
         async create() {
         
-        const details = {
-
-            studentid: this.studentid,
-            title: this.title,
-            category: this.category,
-            text: this.text,
-            time: new Date(),
-            uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
-            uid: auth.currentUser.uid,
-            name: auth.currentUser.displayName,
-        }
-        await this.createReport(details)
-        this.goBack()
+            const details = {
+                childid: this.childid,
+                title: this.title,
+                score: this.score,
+                date: this.date,
+                uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
+                uid: auth.currentUser.uid,
+            }
+            await this.createGradebook(details)
+            this.goBack()
         },
         goBack(){
-        this.$router.push('/editclassdashboard'); 
-        }
+            this.$router.push('/editclassdashboard'); 
+        },
     },
-    
 }
 </script>
 

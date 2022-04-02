@@ -1,5 +1,5 @@
 <template>
- <div id = "header">Register as a Parent</div>
+ <div id = "headerRegister">Register as a Parent</div>
 <form  class="register" @submit.prevent = "register">
   <div class = "rows">
   <div class = "column">
@@ -133,12 +133,13 @@ input:focus {
   width: 23%;
   flex-direction: column;
 }
-#header{
+#headerRegister{
   margin-top:70px;
   margin-bottom: 50px;
   font-size: 2.6vw;
   font-weight: 700;
   text-align: center;
+  background-color: white;
   
 }
 

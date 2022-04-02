@@ -1,13 +1,13 @@
 
 <template>
-<button @click = "test1">asdasd</button>
+<!-- <button @click = "test1">asdasd</button> -->
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
 
-          <header style="text-align:center; size=18px">{{ user.email }}</header>
+          <header style="text-align:center; size=18px"> <strong> {{ username }} </strong></header>
 
           <br />
           <el-menu
@@ -39,7 +39,7 @@
             <el-menu-item v-if="this.homeType == 'teacher'" index="2">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/caregiveruploadreport" className="sidebarLinks"
+                ><router-link to="/ClassInfo" className="sidebarLinks"
                   >Manage Class Info</router-link
                 ></span
               >
@@ -48,7 +48,7 @@
             <el-menu-item v-else index="2a">
               <el-icon><Notebook /></el-icon>
               <span
-                ><router-link to="/home" className="sidebarLinks"
+                ><router-link to="/ChildrenInfo" className="sidebarLinks"
                   >View Child Info</router-link
                 ></span
               >
@@ -81,9 +81,22 @@
                 ></span
               >
             </el-menu-item>
-             <!-- using this line to test -->
-              <span><router-link to="/HealthAndInjuries" className="sidebarLinks">testingforHealthinjuries</router-link></span><br>
-              <span><router-link to="/CognitiveAbilities" className="sidebarLinks">CognitiveAbilities</router-link></span>
+
+             <el-menu-item v-if="this.homeType != 'teacher'">
+              <el-icon><Edit /></el-icon>
+              <span
+                ><router-link to="/HealthAndInjuries" className="sidebarLinks"
+                  >Health And Injuries</router-link
+                ></span>
+            </el-menu-item>
+
+            <el-menu-item v-if="this.homeType != 'teacher'">
+              <el-icon><Edit /></el-icon>
+              <span
+                ><router-link to="/CognitiveAbilities" className="sidebarLinks"
+                  >CognitiveAbilities</router-link
+                ></span>
+            </el-menu-item>
 
           </el-menu>
         </el-aside>
@@ -96,6 +109,8 @@
           <div class="feed">
             <h1>feed</h1>
             <GetPost></GetPost>
+
+            
           </div>
         </el-main>
       </el-container>
@@ -126,6 +141,7 @@ export default {
     return {
       user: auth.currentUser,
       count: 0,
+      username: "",
       homeType: "",
     };
   },
@@ -142,6 +158,7 @@ export default {
     const userRef = doc(db, "users", auth.currentUser.uid);
       const user = await getDoc(userRef);
       this.homeType = user.data().type
+      this.username = user.data().first + " " + user.data().last
 
   },
 
