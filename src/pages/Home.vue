@@ -146,13 +146,11 @@ export default {
     GetPost,
   },
 
-
   async mounted() {
     const userRef = doc(db, "users", auth.currentUser.uid);
     const user = await getDoc(userRef);
     this.homeType = user.data().type;
     this.username = user.data().first + " " + user.data().last;
-
   },
   // created(){
   //   this.test()

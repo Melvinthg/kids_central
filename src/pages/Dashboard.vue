@@ -1,54 +1,56 @@
 <template>
-    <div id="parentView">
-     
-     <div id="secondgroup">
-         <h1>Tom's Profile</h1>
+  <div id="parentView">
+    <div id="secondgroup">
+      <h1>Tom's Profile</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div class="card" @click="select($event)">
+        <h4>Injuries and health</h4>
+        <br /><br />
+        <!-- should be a list item here later -->
+        <p>No health assessment yet</p>
       </div>
-     
- </div>
-<div class="row">
-  <div class="column">
-    <div class="card" @click ="select($event)">
-      <h4>Injuries and health</h4><br><br>
-      <!-- should be a list item here later -->
-      <p>No health assessment yet</p>
-      
     </div>
-  </div>
 
-  <div class="column">
-    <div class="card">
-      <h4>Gradebook</h4><br><br>
-      <p>No academic records yet</p>
-      
+    <div class="column">
+      <div class="card">
+        <h4>Gradebook</h4>
+        <br /><br />
+        <p>No academic records yet</p>
+        <el-button
+          @click="
+            this.$store.state.userModel.type == 'parent'
+              ? $router.push('gradesDisplayParent')
+              : $router.push('gradesDisplayTeacher')
+          "
+        >
+          Proceed
+        </el-button>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="card">
+        <h4>Cognitive abilities</h4>
+        <br /><br />
+        <p>No reviews yet</p>
+      </div>
     </div>
   </div>
-  
-  <div class="column">
-    <div class="card">
-      <h4>Cognitive abilities</h4><br><br>
-      <p>No reviews yet</p>
-     
-    </div>
-  </div>
-  
-  
-  
-</div>
-    <!-- fetch documents of forumposts from db -->
+  <!-- fetch documents of forumposts from db -->
 </template>
 
 <script>
 // import ForumTopBar from '@/components/ForumTopBar.vue'
 export default {
-    name: "Dashboard",
-    components: {
+  name: "Dashboard",
+  components: {
     //ForumTopBar
   },
-  methods : {
-      
-  }
-}
+  methods: {},
+};
 </script>
 
 <style scoped>
@@ -88,18 +90,18 @@ body {
   padding: 16px;
   margin: 100px;
   text-align: center;
-  background-color: #FAF9F6;
+  background-color: #faf9f6;
   height: 400px;
-  color: #36454F
+  color: #36454f;
 }
 #parentView {
-    overflow: hidden;
-    background-color: rgb(7, 119, 172);
-    display: block;
-    margin: 0%;
-    padding: 5px;
-    width: 100%;
-    text-align: center;
+  overflow: hidden;
+  background-color: rgb(7, 119, 172);
+  display: block;
+  margin: 0%;
+  padding: 5px;
+  width: 100%;
+  text-align: center;
 }
 #firstgroup {
   float: left;
@@ -112,14 +114,12 @@ body {
   line-height: 80px;
 }
 #secondgroup {
-  
-    
-    text-align: center;
-    color: white;
-    padding: 10px;
+  text-align: center;
+  color: white;
+  padding: 10px;
 }
 #thirdgroup {
-    text-align: center;
+  text-align: center;
   float: right;
   width: 25%;
   padding: 10px 10px;
@@ -132,6 +132,6 @@ body {
   background-color: black;
 }
 #thirdgroup:hover {
-  background-color: black; 
+  background-color: black;
 }
 </style>
