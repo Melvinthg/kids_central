@@ -10,7 +10,7 @@ import {
   addDoc,
   collection,
   query,
-  where
+  where,
 } from "firebase/firestore";
 import {
   createUserWithEmailAndPassword,
@@ -106,11 +106,10 @@ export default createStore({
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
 
-      console.log(user.data())
+      console.log(user.data());
       commit("SET_USER", auth.currentUser);
 
       router.push("/home");
-      
     },
 
     async registerParent({ commit }, details) {
@@ -159,11 +158,9 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
 
-
       commit("SET_USER_MODEL", user);
 
       router.push("/home");
-
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
@@ -204,11 +201,9 @@ export default createStore({
 
       commit("SET_USER", auth.currentUser);
 
-
       commit("SET_USER_MODEL", user);
 
       router.push("/home");
-
     },
 
     async logout({ commit }) {
@@ -226,7 +221,6 @@ export default createStore({
           commit("SET_USER", user);
           if (router.isReady() && router.currentRoute.value.path === "/login") {
             router.push("/home");
-            
           }
         }
       });
@@ -257,9 +251,11 @@ export default createStore({
         const x = e.data();
         postsList.push(x);
       });
-      const filteredPosts = postsList.filter(post => post.class == className).sort((a,b) => {
-        return new Date(b.date) - new Date(a.date);
-      })
+      const filteredPosts = postsList
+        .filter((post) => post.class == className)
+        .sort((a, b) => {
+          return new Date(b.date) - new Date(a.date);
+        });
       return filteredPosts;
     },
 
@@ -272,9 +268,9 @@ export default createStore({
         const x = e.data();
         repliesList.push(x);
       });
-      const replies = repliesList.sort((a,b) => {
+      const replies = repliesList.sort((a, b) => {
         return new Date(b.date) - new Date(a.date);
-      })
+      });
       return replies;
     },
 
@@ -287,11 +283,14 @@ export default createStore({
         const x = e.data();
         usersList.push(x);
       });
-      const usersInClass = usersList.filter(user => user.childClass == className || user.teacherClass == className);
+      const usersInClass = usersList.filter(
+        (user) =>
+          user.childClass == className || user.teacherClass == className,
+      );
       return usersInClass;
     },
 
-    async getChildName({ context }, childID ) {
+    async getChildName({ context }, childID) {
       const childrenList = [];
       console.log(context);
       const userRef = collection(db, "users");
@@ -300,7 +299,7 @@ export default createStore({
         const x = e.data();
         childrenList.push(x);
       });
-      const child = childrenList.filter(user => user.childID == childID);
+      const child = childrenList.filter((user) => user.childID == childID);
       const childvalues = child[0];
       return childvalues.first + " " + childvalues.last;
     },
@@ -365,7 +364,7 @@ export default createStore({
               date: details.time,
               uid: details.uid,
               poster: details.poster,
-              class: details.class
+              class: details.class,
             };
             addDoc(collection(db, "forumposts"), forumpost)
               .then((response) => {
@@ -381,65 +380,64 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
-    async createReply({ context }, fpid, details) {
-            console.log(context)
-            console.log(details);
-            const reply = {
-              replycontent: details.replycontent,
-              date: details.time,
-              uid: details.uid,
-              replier: details.replier,
-            };
-            const replyRef = doc(db, "forumposts", fpid, "replies");
-            await setDoc(replyRef, reply)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });    
+    async createReply({ context }, details) {
+      console.log(context);
+      console.log(details);
+      const reply = {
+        replycontent: details.replycontent,
+        date: details.time,
+        uid: details.uid,
+        replier: details.replier,
+      };
+      const replyRef = collection(db, "forumposts", details.fpid, "replies");
+      await addDoc(replyRef, reply)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     async createReport({ context }, details) {
       console.log(context);
       console.log(details);
 
-            const report = {
-              studentid: details.studentid,
-              title: details.title,
-              category: details.category,
-              text: details.text,
-              date: details.time,
-              uploader: details.uploader,
-              uid: details.uid,
-            };
-            addDoc(collection(db, "reports"), report)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });    
+      const report = {
+        studentid: details.studentid,
+        title: details.title,
+        category: details.category,
+        text: details.text,
+        date: details.time,
+        uploader: details.uploader,
+        uid: details.uid,
+      };
+      addDoc(collection(db, "reports"), report)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     async createGradebook({ context }, details) {
       console.log(context);
       console.log(details);
-            const gradebook = {
-              studentid: details.studentid,
-              title: details.title,
-              score: details.score,
-              date: details.date,
-              uploader: details.uploader,
-              uid: details.uid,
-            };
-            addDoc(collection(db, "gradebook"), gradebook)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });    
-    }
-
+      const gradebook = {
+        studentid: details.studentid,
+        title: details.title,
+        score: details.score,
+        date: details.date,
+        uploader: details.uploader,
+        uid: details.uid,
+      };
+      addDoc(collection(db, "gradebook"), gradebook)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 });

@@ -64,8 +64,12 @@ export default {
       caption: "",
       preview: "",
       image: null,
-      options: [],
-      recipient: ref('')
+      options: [
+        {
+          options: [{ label: "All Students", value: "All" }],
+        },
+      ],
+      recipient: ref("All"),
     };
   },
 //   computed: {
@@ -108,11 +112,16 @@ export default {
     },
     async getOptions() {
       let value = await getDocs(collection(db, "students"));
+      let tempOptions = [];
       value.forEach((d) => {
-        this.options.push({
+        tempOptions.push({
           value: d.id,
           label: d.data().Name,
         });
+      });
+      this.options.push({
+        label: "Students",
+        options: tempOptions,
       });
     },
   },
