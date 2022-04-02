@@ -138,7 +138,6 @@ export default {
     return {
       user: auth.currentUser,
       count: 0,
-      username: "",
       homeType: "",
       username: this.$store.state.userModel.first + this.$store.state.userModel.last,
     };

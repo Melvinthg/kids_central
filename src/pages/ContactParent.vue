@@ -162,5 +162,6 @@ export default {
   font-size: 20px;
   text-align: center;
   color: blue;
+  /* padding: 10px; */
 }
 </style>
