@@ -3,7 +3,7 @@
         <el-col>
             <el-card>
                 <!-- show the forum thread main post -->
-                <h1>{{ fpost }}</h1>
+                <!-- <h1>{{ fpost }}</h1> -->
                 <el-card 
                 v-for="fp in forumpost"
                 :key="fp.id"
