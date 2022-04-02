@@ -203,13 +203,6 @@ export default {
   font-size: 14px;
   text-decoration: none;
 }
-.text-link:hover {
-  padding-left: 5px;
-}
-.content {
-  position: fixed;
-  margin-left: 30%;
-}
 .writepost {
   padding: 10px;
   width: auto;
@@ -226,5 +219,3 @@ export default {
   text-align: center;
 }
 </style>
-
-
