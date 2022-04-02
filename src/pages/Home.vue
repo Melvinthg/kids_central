@@ -139,7 +139,7 @@ export default {
       user: auth.currentUser,
       count: 0,
       homeType: "",
-      username: this.$store.state.userModel.first + this.$store.state.userModel.last,
+      username: "",
     };
   },
   components: {
