@@ -1,21 +1,20 @@
 <template>
   <div id="wholegroup">
+    <div id="createfirstgroup" @click = "this.$router.go('-1')">Back</div>
     <div id="secondgroup">
       <h1>CLASS {{ classname }} FORUM</h1>
       <br />
       <!-- query number of parents in the class -->
       <h4>{{ number }} members</h4>
     </div>
-    <!-- <div id="thirdgroup">
-         
-     </div> -->
+    <div id="thirdgroup"></div>
   </div>
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
 
-import {useStore, mapActions, mapState} from "vuex"
+import { useStore, mapActions, mapState } from "vuex";
 export default {
   name: "ForumTopBar",
   data() {
@@ -44,36 +43,39 @@ export default {
 
 <style scoped>
 #wholegroup {
-  overflow: hidden;
   background-color: rgb(7, 119, 172);
   display: block;
-  margin: 0%;
-  padding: 5px;
+  align-items: center;
+
   width: 100%;
+  height: 120px;
+  display: flex;
+  flex-direction: row;
 }
-#firstgroup {
-  float: left;
-  width: 25%;
+#createfirstgroup {
+  flex: 1;
   color: white;
   text-align: center;
-  padding: 20px 20px;
+
   text-decoration: none;
   font-size: 20px;
-  line-height: 100px;
 }
 #secondgroup {
   float: left;
-  width: 50%;
+
   text-align: center;
   color: white;
   padding: 20px;
+  flex: 3;
 }
-#firstgroup:hover {
-  background-color: black;
+
+#thirdgroup {
+  flex: 1;
+}
+#createfirstgroup:hover {
+  color: black;
 }
 #thirdgroup:hover {
   background-color: black;
 }
-
 </style>
-
