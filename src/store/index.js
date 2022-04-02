@@ -443,7 +443,9 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
-    async createReply({ context }, fpid, details) {
+
+    async createReply({ context }, details) {
+
       console.log(context);
       console.log(details);
       const reply = {
@@ -452,8 +454,10 @@ export default createStore({
         uid: details.uid,
         replier: details.replier,
       };
-      const replyRef = doc(db, "forumposts", fpid, "replies");
-      await setDoc(replyRef, reply)
+
+      const replyRef = collection(db, "forumposts", details.fpid, "replies");
+      await addDoc(replyRef, reply)
+
         .then((response) => {
           console.log(response);
         })

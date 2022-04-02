@@ -29,6 +29,7 @@
 import Dropdown from "@/components/Dropdown.vue";
 import { useStore } from "vuex";
 import { onBeforeMount } from "vue";
+import { HomeFilled } from "@element-plus/icons-vue";
 export default {
   name: "LandingTopBar",
   setup() {

@@ -11,7 +11,7 @@ import ForumDisplay from "@/pages/ForumDisplay.vue";
 import ForumCreatePost from "@/pages/ForumCreatePost.vue";
 import ChildrenInfo from '@/pages/ChildrenInfo.vue'
 
-// import Dashboard from '@/pages/Dashboard.vue'
+import Dashboard from '@/pages/Dashboard.vue'
 
 import EditClassDashboard from '@/pages/EditClassDashboard.vue'
 import ForumReply from '@/pages/ForumReply.vue'
@@ -19,7 +19,8 @@ import CaregiverUploadReport from '@/pages/CaregiverUploadReport.vue'
 import CaregiverUploadGrade from '@/pages/CaregiverUploadGrade.vue'
 import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
 import CognitiveAbilities from '@/pages/CognitiveAbilities.vue'
-import GradesDisplay from '@/pages/GradesDisplay.vue'
+import GradesDisplayParent from '@/pages/GradesDisplayParent.vue'
+import GradesDisplayTeacher from '@/pages/GradesDisplayTeacher.vue'
 import AddChildInfo from '@/pages/AddChildInfo.vue'
 import ClassInfo from '@/pages/ClassInfo.vue'
 
@@ -30,7 +31,7 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
-  },{
+  }, {
     path: "/home",
     name: "Home",
     component: Home,
@@ -75,13 +76,11 @@ const routes = [
     name: "ChildrenInfo",
     component: ChildrenInfo
   },
-//   {
-//     path: "/dashboard",
-//     name: "Dashboard",
-//     component: Dashboard
-//   }
-
-
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    component: Dashboard
+  },
   {
     path: "/editclassdashboard",
     name: "EditClassDashboard",
@@ -106,10 +105,15 @@ const routes = [
     path: "/HealthAndInjuries",
     name: "HealthAndInjuries",
     component: HealthAndInjuries,
-  },{
-    path: "/gradesDisplay",
-    name: "GradesDisplay",
-    component: GradesDisplay,
+  }, {
+    path: "/gradesDisplayTeacher",
+    name: "GradesDisplayTeacher",
+    component: GradesDisplayTeacher,
+  },
+  {
+    path: "/gradesDisplayParent",
+    name: "GradesDisplayParent",
+    component: GradesDisplayParent,
   },
   {
     path: "/CognitiveAbilities",
