@@ -20,13 +20,10 @@ export default {
 .scrollable{
     overflow-y : scroll;
 }
-
 .msg {
   border-radius: 10px;
   padding: .5em;
   font-size: .9em;
   background: whitesmoke;
-
 }
-
 </style>

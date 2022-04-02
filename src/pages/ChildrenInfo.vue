@@ -62,7 +62,6 @@
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
-
 export default {
   data() {
     return {
@@ -78,7 +77,6 @@ export default {
       Id: "",
     };
   },
-
   methods: {
     async getInfos() {
       this.boo = false;
@@ -101,7 +99,6 @@ export default {
         this.boo = true;
       }
     },
-
     checkInfo() {
       return (
         this.Address.length >= 1 &&
@@ -116,10 +113,12 @@ export default {
     },
   },
 
+
   created() {
     this.getInfos();
   },
 };
+
 </script>
 
 <style scoped>
@@ -154,11 +153,11 @@ export default {
 ul {
   list-style-type: none;
 }
-
 ul li {
-  margin-bottom: 10px;
-}
 
+  margin-bottom: 10px;
+
+}
 #btn {
   color: white;
   font-size: 20px;

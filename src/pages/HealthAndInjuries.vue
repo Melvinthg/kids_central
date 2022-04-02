@@ -25,9 +25,7 @@
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
-
 export default {
-
   data() {
     return {
       Reports: [],
@@ -38,9 +36,7 @@ export default {
       Id: "",
     }
   },
-
   methods: {
-
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
       const q = query(collection(db, "students"), where("Name", "==", this.name));
@@ -61,14 +57,11 @@ export default {
       }
     },
   },
-
   created() {
     this.getInfo();
   },
-
   
 }
-
 </script>
 
 <style scoped>
@@ -97,7 +90,6 @@ export default {
     padding: 10px;
     line-height: 0px;
 }
-
 #btn {
   color: white;
   font-size: 20px;
@@ -111,11 +103,9 @@ export default {
   text-align: center;
   margin-right: 50px;
 }
-
 ul {
   list-style-type: none;
 }
-
 ul li {
   margin-bottom:10px;
 }
@@ -124,7 +114,6 @@ ul li {
 }
 .box-card {
   /* background: lightsteelblue; */
-
 }
 #title2 {
   /* background:rgb(122, 141, 223); */

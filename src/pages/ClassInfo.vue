@@ -47,7 +47,6 @@
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, query, QuerySnapshot, where } from "firebase/firestore";
-
 export default {
     data() {
         return {
@@ -57,12 +56,9 @@ export default {
             Reports: [],
             className: "",
             displayText: "",
-
         }
     },
-
     methods: {
-
         async getClass() {
             this.classBoo = false;
             this.Reports = [];
@@ -74,7 +70,6 @@ export default {
                 this.classBoo = true;
                 this.className = document.getElementById("selector").value;
                 this.displayText = "Currently Viewing : " + this.className;
-
                 const q = query(collection(db, "students"), where("Class", "==", this.className));
                 const querySnapshot = await getDocs(q)
                 querySnapshot.forEach((doc) => {
@@ -83,7 +78,6 @@ export default {
                     //Reports of array with objects to access loop it / Reports[num] to access specific element .element
                 })
             }
-
         }
     }
 }
@@ -103,13 +97,10 @@ button {
     float:middle;
     margin-left: 30px;
 }
-
 ul {
   list-style-type: none;
 }
-
 ul li {
   margin-bottom:10px;
-
 }
 </style>

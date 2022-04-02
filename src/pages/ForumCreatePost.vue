@@ -54,21 +54,16 @@ import ForumCreatePostTopBar from '@/components/ForumCreatePostTopBar.vue'
 import { auth, db, storage } from "../firebase.js";
 // eslint-disable-next-line no-unused-vars
 import {useStore, mapActions, mapState} from "vuex"
-
-
-
 export default {
   name: "ForumCreatePost",
   components: {
     ForumCreatePostTopBar,
   },
-
   data() {
     return {
       title: '',
       text: '',
       image: null,
-
     }
   },
   methods: {
@@ -88,7 +83,6 @@ export default {
       await this.createForumPost(details)
       this.goBack()
     },
-
     click1() {
         this.$refs.input1.click()   
     },
@@ -103,7 +97,6 @@ export default {
         const details = {location: "forumpost", image: this.image}
         this.imageUrl = await this.uploadImage(details)
     },
-
     goBack(){
         this.$router.push('/forumdisplay'); 
     }

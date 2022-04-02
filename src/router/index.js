@@ -27,17 +27,13 @@ import ClassInfo from '@/pages/ClassInfo.vue'
 
 const routes = [
   {
-    path: "/home",
-    name: "Home",
-    component: Home,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/login",
     name: "Login",
     component: Login,
+  },{
+    path: "/home",
+    name: "Home",
+    component: Home,
   },
   {
     path: "/signupparent",

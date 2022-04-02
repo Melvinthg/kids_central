@@ -37,11 +37,9 @@
 
 <script>
 import { ref } from "vue";
-
 // import { db } from "../firebase.js";
 // import { doc, getDoc, } from "firebase/firestore";
 import { useStore } from "vuex";
-
 export default {
   name: "Login",
   setup() {
@@ -50,7 +48,6 @@ export default {
     const login = () => {
       store.dispatch("login", login_form.value);
     };
-
     //  const test = () => {
     //    console.log("xd")
     //     store.dispatch("getStudentsInClass")}
@@ -82,7 +79,6 @@ export default {
   margin-bottom: 30px;
   padding: 4px;
 }
-
 .login {
   text-align: center;
 }
@@ -93,7 +89,6 @@ img {
   width: 100%;
 height: 500px;
 }
-
 input {
   border-style: solid;
   border-color: CadetBlue;
@@ -105,7 +100,6 @@ input {
 .register {
   text-align: center;
 }
-
 #redirectParent {
   font-weight:700;
   color: #2470B7;
@@ -117,7 +111,6 @@ input {
   margin-left: auto;
   
 }
-
 #redirectTeacher {
   font-weight:700;
   color: #2470B7;
@@ -162,7 +155,6 @@ input {
   margin-bottom: 30px;
   padding: 4px;
 }
-
 input:focus { 
     outline: none !important;
     
@@ -176,7 +168,6 @@ input:focus {
   flex-direction: row;
   
   
-
 }
 .loginColumn {
   
@@ -192,7 +183,6 @@ input:focus {
   text-align: left;
   
 }
-
 #submitButton {
   background-color: #2470B7;
   color: #FFFFFF;
@@ -212,25 +202,21 @@ input:focus {
   opacity: 0.9;
         filter: alpha(opacity=100);
 }
-
 @media only screen and (max-width: 1300px) {
   .loginColumn {
     width: 33%;
-
   }
   #redirectLogin{
     width: 65%;
   }
   
 }
-
 @media only screen and (max-width: 1000px) {
   #header {
     font-size: 24px;
     text-align: center;
     margin-bottom: 24px;
   }
-
   #fields {
     align-items: center;
   }
@@ -249,7 +235,6 @@ input:focus {
     margin-right:auto;
     float:center;
   }
-
   #redirectTeacher {
     margin-top: 12px;
     margin-left: auto;
@@ -258,7 +243,6 @@ input:focus {
   }
   
 }
-
 @media only screen and (max-width: 900px) {
   
   

@@ -6,9 +6,11 @@
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
 
+
           <header style="text-align:center; size=18px">
             <strong> {{ username }} </strong>
           </header>
+
 
           <br />
           <el-menu
@@ -110,7 +112,9 @@
 <script>
 import WritePost from "@/components/WritePost.vue";
 import GetPost from "@/components/GetPost.vue";
+
 import { store } from "@/store";
+
 
 import {
   Edit,
@@ -123,15 +127,14 @@ import { db } from "../firebase.js";
 import { mapGetters } from "vuex";
 import { doc, getDoc } from "firebase/firestore";
 const auth = getAuth();
-
 export default {
   name: "Home",
   data() {
     return {
       user: auth.currentUser,
       count: 0,
-      username: "",
       homeType: "",
+      username: "",
     };
   },
   components: {
@@ -143,13 +146,14 @@ export default {
     GetPost,
   },
 
+
   async mounted() {
     const userRef = doc(db, "users", auth.currentUser.uid);
     const user = await getDoc(userRef);
     this.homeType = user.data().type;
     this.username = user.data().first + " " + user.data().last;
-  },
 
+  },
   // created(){
   //   this.test()
   //   console.log("beforeMount")
@@ -158,7 +162,6 @@ export default {
   //   this.test()
   //   console.log("beforeMount")
   // },
-
   //  mounted() {
   //   this.reload()
   // },
@@ -191,13 +194,6 @@ export default {
   font-size: 14px;
   text-decoration: none;
 }
-.text-link:hover {
-  padding-left: 5px;
-}
-.content {
-  position: fixed;
-  margin-left: 30%;
-}
 .writepost {
   padding: 10px;
   width: auto;
@@ -214,3 +210,4 @@ export default {
   text-align: center;
 }
 </style>
+

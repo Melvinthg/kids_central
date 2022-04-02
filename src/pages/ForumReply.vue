@@ -17,7 +17,6 @@
 <script>
 import ForumCreatePostTopBar from '@/components/ForumCreatePostTopBar.vue'
 import GetForumReplies from '@/components/GetForumReplies.vue'
-
 export default {
     name: "ForumReply",
     components: {
@@ -28,5 +27,4 @@ export default {
 </script>
 
 <style>
-
 </style>

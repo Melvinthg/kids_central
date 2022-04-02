@@ -76,7 +76,6 @@ const auth = getAuth();
 
 // import { ref } from 'vue'
 // const num = ref(1)
-
 export default {
   name: "EditClassDashboard",
   data() {
@@ -85,7 +84,9 @@ export default {
       user: auth.currentUser,
     };
   },
+
   components: {},
+
 
   methods: {
     //proceed method to
@@ -133,7 +134,6 @@ img {
   padding: 5px;
   width: 100%;
 }
-
 #firstgroup {
   float: left;
   width: 10%;
@@ -144,7 +144,6 @@ img {
   font-size: 20px;
   line-height: 80px;
 }
-
 #secondgroup {
   float: center;
   width: 100%;
@@ -152,7 +151,6 @@ img {
   color: Black;
   padding: 20px;
 }
-
 .bottom {
   margin-top: 13px;
   line-height: 12px;
@@ -160,12 +158,10 @@ img {
   justify-content: space-between;
   align-items: center;
 }
-
 .button {
   padding: 0;
   min-height: auto;
 }
-
 .image {
   width: 100%;
   display: block;
