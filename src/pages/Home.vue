@@ -1,5 +1,5 @@
 <template>
-<button @click = "test1">asdasd</button>
+<!-- <button @click = "test1">asdasd</button> -->
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
@@ -138,6 +138,7 @@ export default {
     return {
       user: auth.currentUser,
       count: 0,
+      username: "",
       homeType: "",
       username: this.$store.state.userModel.first + this.$store.state.userModel.last,
     };
@@ -154,6 +155,7 @@ export default {
     const userRef = doc(db, "users", auth.currentUser.uid);
       const user = await getDoc(userRef);
       this.homeType = user.data().type
+      this.username = user.data().first + " " + user.data().last
   },
   // created(){
   //   this.test()
@@ -195,13 +197,6 @@ export default {
   font-size: 14px;
   text-decoration: none;
 }
-.text-link:hover {
-  padding-left: 5px;
-}
-.content {
-  position: fixed;
-  margin-left: 30%;
-}
 .writepost {
   padding: 10px;
   width: auto;
@@ -218,3 +213,4 @@ export default {
   text-align: center;
 }
 </style>
+
