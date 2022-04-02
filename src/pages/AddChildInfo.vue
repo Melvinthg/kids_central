@@ -50,7 +50,7 @@ export default {
     name:"AddChildInfo", 
     data() {
         return {
-            name : this.$store.state.userModel.first + this.$store.state.userModel.last, 
+            name : this.$store.state.userModel.first + " " +this.$store.state.userModel.last, 
             childID: "",
         }
     },
