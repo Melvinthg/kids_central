@@ -1,8 +1,6 @@
 <template>
 <div id="header">
-        <div id="firstgroup">
-            <router-link to = "/Home" className='text-link' style='color:white'>Home</router-link>
-        </div>
+        
         <div id="secondgroup">
             <img id = "pic" src="@/assets/Cognitive.png" alt="">
             <h1 id = "title">Cognitive abilities page</h1><br>

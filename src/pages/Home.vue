@@ -1,107 +1,98 @@
-
 <template>
-<!-- <button @click = "test1">asdasd</button> -->
+  <!-- <button @click = "test1">asdasd</button> -->
   <div class="common-layout" style="background-color: ">
     <el-container>
       <el-container>
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
 
-          <header style="text-align:center; size=18px"> <strong> {{ username }} </strong></header>
+          <header style="text-align:center; size=18px">
+            <strong> {{ username }} </strong>
+          </header>
 
           <br />
           <el-menu
+            text-color="#fff"
             active-text-color="steelblue"
-            background-color="dodgerblue"
-            textcolor="white"
+            background-color="cornflowerblue"
           >
-
-            <el-menu-item v-if="this.homeType === 'teacher'" index="1">
-
+            <el-menu-item
+              v-if="this.homeType === 'teacher'"
+              index="1"
+              @click="this.$router.push('/editclassdashboard')"
+            >
               <el-icon><Edit /></el-icon>
-              <span
-
-                ><router-link to="/editclassdashboard" className="sidebarLinks"
-                  >Edit Class Dashboard</router-link
-                ></span
-              >
+              <span> Edit Class Dashboard ></span>
             </el-menu-item>
 
-            <el-menu-item v-else index="1a">
+            <el-menu-item
+              v-else
+              index="1a"
+              @click="this.$router.push('/editclassdashboard')"
+            >
               <el-icon><Edit /></el-icon>
-              <span
-                ><router-link to="/editclassdashboard" className="sidebarLinks"
-                  >View Child Dashboard</router-link
-                ></span
-              >
+              <span>View Child Dashboard</span>
             </el-menu-item>
-            
-            <el-menu-item v-if="this.homeType == 'teacher'" index="2">
+
+            <el-menu-item
+              v-if="this.homeType == 'teacher'"
+              index="2"
+              @click="this.$router.push('/ClassInfo')"
+            >
               <el-icon><Notebook /></el-icon>
-              <span
-                ><router-link to="/ClassInfo" className="sidebarLinks"
-                  >Manage Class Info</router-link
-                ></span
-              >
+              <span> >Manage Class Info</span>
             </el-menu-item>
 
-            <el-menu-item v-else index="2a">
+            <el-menu-item
+              v-else
+              index="2a"
+              @click="this.$router.push('/ChildrenInfo')"
+            >
               <el-icon><Notebook /></el-icon>
-              <span
-                ><router-link to="/ChildrenInfo" className="sidebarLinks"
-                  >View Child Info</router-link
-                ></span
-              >
+              <span> View Child Info</span>
             </el-menu-item>
 
-
-            <el-menu-item index="3">
+            <el-menu-item index="3" @click="this.$router.push('/forumdisplay')">
               <el-icon><ChatLineSquare /></el-icon>
-              <span
-                ><router-link to="/forumdisplay" className="sidebarLinks"
-                  >Class Forum</router-link
-                ></span
-              >
+              <span> Class Forum </span>
             </el-menu-item>
 
-            <el-menu-item v-if="this.homeType === 'teacher'" index="4">
+            <el-menu-item
+              v-if="this.homeType == 'teacher'"
+              @click="this.$router.push('/contactparent')"
+              index="4"
+            >
               <el-icon><Cellphone /></el-icon>
-              <span
-                ><router-link to="/contactparent" className="sidebarLinks"
-                  >Contact Parents</router-link
-                ></span
-              >
+              <span> Contact Parents</span>
             </el-menu-item>
 
-            <el-menu-item v-else index="4a">
+            <el-menu-item
+              v-else
+              index="4a"
+              @click="this.$router.push('/contactteacher')"
+            >
               <el-icon><Cellphone /></el-icon>
-              <span
-                ><router-link to="/contactteacher" className="sidebarLinks"
-                  >Contact Teacher</router-link
-                ></span
-              >
+              <span> Contact Teacher </span>
             </el-menu-item>
 
-             <el-menu-item v-if="this.homeType != 'teacher'">
+            <el-menu-item
+              v-if="this.homeType != 'teacher'"
+              @click="this.$router.push('/HealthAndInjuries')"
+            >
               <el-icon><Edit /></el-icon>
-              <span
-                ><router-link to="/HealthAndInjuries" className="sidebarLinks"
-                  >Health And Injuries</router-link
-                ></span>
+              <span> Health And Injuries</span>
             </el-menu-item>
 
-            <el-menu-item v-if="this.homeType != 'teacher'">
+            <el-menu-item
+              v-if="this.homeType != 'teacher'"
+              @click="this.$router.push('/CognitiveAbilities')"
+            >
               <el-icon><Edit /></el-icon>
-              <span
-                ><router-link to="/CognitiveAbilities" className="sidebarLinks"
-                  >CognitiveAbilities</router-link
-                ></span>
+              <span> CognitiveAbilities</span>
             </el-menu-item>
-
           </el-menu>
         </el-aside>
         <el-main>
-
           <div v-if="this.homeType == 'teacher'" class="writepost">
             <WritePost></WritePost>
           </div>
@@ -109,8 +100,6 @@
           <div class="feed">
             <h1>feed</h1>
             <GetPost></GetPost>
-
-            
           </div>
         </el-main>
       </el-container>
@@ -121,7 +110,7 @@
 <script>
 import WritePost from "@/components/WritePost.vue";
 import GetPost from "@/components/GetPost.vue";
-import {store} from '@/store';
+import { store } from "@/store";
 
 import {
   Edit,
@@ -130,9 +119,9 @@ import {
   Cellphone,
 } from "@element-plus/icons-vue";
 import { getAuth } from "firebase/auth";
-import {  db,  } from "../firebase.js";
-import { mapGetters } from 'vuex'
-import {doc, getDoc} from "firebase/firestore"
+import { db } from "../firebase.js";
+import { mapGetters } from "vuex";
+import { doc, getDoc } from "firebase/firestore";
 const auth = getAuth();
 
 export default {
@@ -154,12 +143,11 @@ export default {
     GetPost,
   },
 
-  async mounted(){
+  async mounted() {
     const userRef = doc(db, "users", auth.currentUser.uid);
-      const user = await getDoc(userRef);
-      this.homeType = user.data().type
-      this.username = user.data().first + " " + user.data().last
-
+    const user = await getDoc(userRef);
+    this.homeType = user.data().type;
+    this.username = user.data().first + " " + user.data().last;
   },
 
   // created(){
@@ -191,7 +179,7 @@ export default {
     //     this.count++
     //   }
     // }
-  }
+  },
 };
 </script>
 
@@ -226,5 +214,3 @@ export default {
   text-align: center;
 }
 </style>
-
-

@@ -1,39 +1,61 @@
 <template>
-      <div id="header">
-        <div id="firstgroup">
-            <router-link to = "/Home" className='text-link' style='color:white'>Home</router-link>
-        </div>
-        <div id="secondgroup">
-            <h1>{{name}}'s profile</h1><br>
-        </div>
-        <div id = "thirdgroup" v-if ="boo">
-             <router-link to ="/AddChildInfo"> <h3 id = "btn"><u><b>Update Info</b></u></h3> </router-link>          
-        </div>
-      </div>
+  <div id="header">
+    <h1>{{ name }}'s profile</h1>
+    <br />
 
-     <el-card class="box-card">
+    <div id="thirdgroup" v-if="boo">
+      <router-link to="/AddChildInfo">
+        <h3 id="btn">
+          <u><b>Update Info</b></u>
+        </h3>
+      </router-link>
+    </div>
+  </div>
+
+  <el-card class="box-card">
     <template #header>
       <div class="card-header">
-        <span><h1><b>My Child's Information</b></h1></span>
+        <span
+          ><h1><b>My Child's Information</b></h1></span
+        >
       </div>
     </template>
-    <ul v-if = "boo">
-      <li><h3>NRIC : {{NRIC}}</h3></li>
-      <li><h3>Id : {{Id}}</h3></li>
-      <li><h3>Class : {{Class}}</h3></li>
-      <li><h3>Address : {{Address}}</h3></li>
-      <li><h3>Gender : {{Gender}}</h3></li>
-      <li><h3>DOB : {{DOB}}</h3></li>
-      <li><h3>Nationality : {{Nationality}}</h3></li>
-      <li><h3>Allergies : {{Allergies}}</h3></li>
+    <ul v-if="boo">
+      <li>
+        <h3>NRIC : {{ NRIC }}</h3>
+      </li>
+      <li>
+        <h3>Id : {{ Id }}</h3>
+      </li>
+      <li>
+        <h3>Class : {{ Class }}</h3>
+      </li>
+      <li>
+        <h3>Address : {{ Address }}</h3>
+      </li>
+      <li>
+        <h3>Gender : {{ Gender }}</h3>
+      </li>
+      <li>
+        <h3>DOB : {{ DOB }}</h3>
+      </li>
+      <li>
+        <h3>Nationality : {{ Nationality }}</h3>
+      </li>
+      <li>
+        <h3>Allergies : {{ Allergies }}</h3>
+      </li>
     </ul>
     <div v-else>
-       <h3>Missing information, please click on following link to update info</h3>
-       <el-button type="primary" round>
-         <router-link to ="/AddChildInfo"> <h3 id = "btn">Update Info</h3> </router-link>
-        </el-button> 
+      <h3>
+        Missing information, please click on following link to update info
+      </h3>
+      <el-button type="primary" round>
+        <router-link to="/AddChildInfo">
+          <h3 id="btn">Update Info</h3>
+        </router-link>
+      </el-button>
     </div>
-
   </el-card>
 </template>
 
@@ -42,10 +64,9 @@ import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default {
-
   data() {
     return {
-      name : this.$store.state.userModel.childName,
+      name: this.$store.state.userModel.childName,
       boo: false,
       Address: "",
       Allergies: "",
@@ -55,14 +76,16 @@ export default {
       Nationality: "",
       Class: "",
       Id: "",
-    }
+    };
   },
 
   methods: {
-
     async getInfos() {
       this.boo = false;
-      const q = query(collection(db, "students"), where("Name", "==", this.name));
+      const q = query(
+        collection(db, "students"),
+        where("Name", "==", this.name),
+      );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         this.Address = doc.data().Address;
@@ -73,35 +96,44 @@ export default {
         this.Nationality = doc.data().Nationality;
         this.Class = doc.data().Class;
         this.Id = doc.data().Id;
-      })
+      });
       if (this.checkInfo()) {
         this.boo = true;
       }
     },
 
     checkInfo() {
-      return this.Address.length >= 1 && this.Allergies.length >= 1 && this.NRIC.length >= 1
-      && this.Gender.length >= 1 && this.DOB.length >= 1 && this.Nationality.length >= 1 
-      && this.Class.length >= 1 && this.Id.length >= 1
+      return (
+        this.Address.length >= 1 &&
+        this.Allergies.length >= 1 &&
+        this.NRIC.length >= 1 &&
+        this.Gender.length >= 1 &&
+        this.DOB.length >= 1 &&
+        this.Nationality.length >= 1 &&
+        this.Class.length >= 1 &&
+        this.Id.length >= 1
+      );
     },
   },
 
-  
-
-    created() {
-       this.getInfos();
-    },
-}
+  created() {
+    this.getInfos();
+  },
+};
 </script>
 
 <style scoped>
 #header {
-    overflow: hidden;
-    background-color: rgb(7, 119, 172);
-    display: block;
-    margin: 0%;
-    padding: 5px;
-    width: 100%;
+  overflow: hidden;
+  background-color: rgb(7, 119, 172);
+  display: block;
+  margin: 0%;
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  line-height: 0px;
 }
 #title {
   float: left;
@@ -113,27 +145,18 @@ export default {
   font-size: 15px;
   line-height: 50px;
 }
-#secondgroup{
-    float: left;
-    width: 50%;
-    text-align: center;
-    color: white;
-    padding: 10px;
-    line-height: 0px;
-}
 
 /* i cant get this to align properly */
 #thirdgroup {
-  padding:10px;
-  text-align:right;
+  padding: 10px;
+  text-align: right;
 }
 ul {
   list-style-type: none;
 }
 
 ul li {
-  margin-bottom:10px;
-
+  margin-bottom: 10px;
 }
 
 #btn {
