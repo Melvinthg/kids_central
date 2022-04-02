@@ -56,12 +56,9 @@ import { collection, getDocs} from "firebase/firestore";
 import { ref } from "vue";
 // eslint-disable-next-line no-unused-vars
 import {useStore, mapActions, mapState} from "vuex"
-
 // const store = useStore()
-
 export default {
   name: "WritePost",
-
   data() {
     return {
       caption: "",
@@ -91,30 +88,24 @@ export default {
         recipient: this.recipient
       }
       await this.createPost(details)    
-
     },
-
     typing() {
       this.$refs.type.value = this.caption;
     },
-
     click1() {
       this.$refs.input1.click();
     },
-
     previewImage(event) {
       this.uploadValue = 0;
       this.preview = null;
       this.image = event.target.files[0];
     
     },
-
     async onUpload() {
       this.preview = null;
       const details = {location: "post", image: this.image}
       this.imageUrl = await this.uploadImage(details)
     },
-
     async getOptions() {
       let value = await getDocs(collection(db, "students"));
       value.forEach((d) => {
@@ -139,7 +130,6 @@ export default {
   text-decoration: none;
   font-size: 17px;
 }
-
 #btn {
   margin-left: auto;
 }

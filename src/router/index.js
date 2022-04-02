@@ -20,23 +20,20 @@ import CaregiverUploadGrade from '@/pages/CaregiverUploadGrade.vue'
 import HealthAndInjuries from '@/pages/HealthAndInjuries.vue'
 import CognitiveAbilities from '@/pages/CognitiveAbilities.vue'
 import GradesDisplay from '@/pages/GradesDisplay.vue'
-
+import AddChildInfo from '@/pages/AddChildInfo.vue'
+import ClassInfo from '@/pages/ClassInfo.vue'
 
 
 
 const routes = [
   {
-    path: "/home",
-    name: "Home",
-    component: Home,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: "/login",
     name: "Login",
     component: Login,
+  },{
+    path: "/home",
+    name: "Home",
+    component: Home,
   },
   {
     path: "/signupparent",
@@ -118,6 +115,16 @@ const routes = [
     path: "/CognitiveAbilities",
     name: "CognitiveAbilities",
     component: CognitiveAbilities,
+  },
+  {
+    path: "/AddChildInfo",
+    name: "AddChildInfo",
+    component: AddChildInfo,
+  },
+  {
+    path: "/ClassInfo",
+    name: "ClassInfo",
+    component: ClassInfo,
   },
 
 ];

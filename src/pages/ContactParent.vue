@@ -1,5 +1,4 @@
 <template>
-
   <div class="layout">
     <el-container>
       <el-header id = "topbar">
@@ -7,7 +6,7 @@
           <el-button type="primary" @click="$router.push('home')"> <el-icon><Back /></el-icon> </el-button>
         </div>
         <div id = "selecteduser">
-          <h3>  Talking to: {{receipientSelectedUserFirstName}}  </h3>
+          <h3>  Chatting with: {{receipientSelectedUserFirstName}}  </h3>
         </div>
       </el-header>
       <el-container>
@@ -19,8 +18,18 @@
         </el-aside>
 
         <el-container>
-          <el-main> <h3>  messages to be displayed here  </h3>
-          <!-- :data="messageData"  -->
+          <el-main>
+          <ul>
+              <Message
+                v-for="{ senderID, receiverID, message, time } in messageList"
+                v-bind:key="time"
+                :name="receiverID"
+                :sender="senderID"
+                :message="message"
+                :time="time"
+                :senderId2="$store.state.userModel.first"
+              />
+            </ul>
           </el-main>
           <el-footer>
                 <el-input
@@ -38,34 +47,20 @@
       </el-container>
     </el-container>
   </div>
-<button @click = "test">get</button>
-  <router-view></router-view>
 </template>
 
 <script>
+import Message from '../components/Message.vue'
 import { db } from "../firebase.js";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, where, query } from "firebase/firestore";
 import { Back} from "@element-plus/icons-vue";
-// ignore all these, can uncomment if need to use
-// import { db, app } from "../firebase.js";
-//import { getAuth } from "firebase/auth";
-// import {serverTimestamp} from "firebase/firestore";
-//import { addDoc, getFirestore, collection, getDocs, Timestamp } from "firebase/firestore";
-// import { ref } from 'vue'
-// import { doc, setDoc } from "firebase/firestore";
-// const db = getFirestore(app);
-//const messagesCollection = getFirestore(app).collection("messages")
-// const app = firebase.initializeApp(firebaseConfig);
-//const auth = getAuth();
-
 export default {
     name: "ContactParent",
-
     data() {
          return {
             userList : [],
             message: null,
-            messageData: [],
+            messageList: [],
             receipientSelectedUserFirstName : '',
             currentSelectedUserFirstName: '',
             senderID: this.$store.state.userModel.first,
@@ -75,42 +70,36 @@ export default {
     mounted() {
       this.getUserList();
     },
+    components : {
+      Message,
+      Back
+    },
     methods: {
-      async test(){
-        const q = await getDocs(collection(db, "users"))
-        q.forEach(
-          (doc) => console.log(doc.data().type)
-        )
-      },
       selectUser(user) {
-        console.log('user was selected');
+        console.log('user was selected', user);
         var receipientUser = user;
         this.receiverID = receipientUser.first;
         this.receipientSelectedUserFirstName = receipientUser.first + ' '  + receipientUser.last;
-        // this.messageData = displaychat();
+        this.displaychat(user);
         },
         
       async getUserList() {
         const q = await getDocs(collection(db, "users"))
         q.forEach((doc) => {
           var data = doc.data();
-          // need to filter out against type = teacher/parent
           if (data.type == "parent") {
             this.userList.push(data);
           }
         });
-        // console.log(userNames);
       },
       async send() {
           const msg = {
               message: this.message,
               senderID: this.senderID,
               receiverID: this.receiverID,
-              //idk whether use date or Timestamp btr
-              time: new Date()
-              // time: serverTimestamp()
+              time: Date.now()
           };
-
+          this.messageList.push(msg);
           addDoc(collection(db, "messages"), msg)
             .then((response) => {
               console.log(response);
@@ -118,41 +107,61 @@ export default {
             .catch((err) => {
               console.log(err);
             });
-          //this.$ref.type.reset();
+            this.message = "";
       },
-    
-
-      // click1() {
-      //     this.$refs.input1.click()
-      // },
-
-      // typing() {
-      //   this.$refs.type.value = this.message;
-      // },
-
-      //have yet to sort out the display function
-      async displaychat() {
-        var query = getDocs(collection(db, "messages"));
-        // query = query.where("receiverID", "==", this.currentSelectedUserFirstName)
-        // query = query.where("senderID", "==", this.auth.currentUser.first)
-        this.messageData = [];
-        query.forEach((doc) => {
-          var data = doc.data();
-          if (data.receiverID == String(this.currentSelectedUserFirstName) && data.receiverID == String(this.auth.currentUser.first)) {
-            this.messageData.push(data);
-            this.messageData.orderBy('time');
-          }
-        })
-        console.log(this.messageData);
+      async displaychat(user) {
+        console.log('displaycahr called')
+        const userSendQuery = query(collection(db, "messages"),
+        where("senderID", "==", this.senderID),
+        where('receiverID', '==', user.first));
+        const querySend = await getDocs(userSendQuery);             
+        
+        const userReceiveQuery = query(collection(db, "messages"),
+        where("senderID", "==", user.first),
+        where('receiverID', '==', this.senderID));
+        const queryReceive = await getDocs(userReceiveQuery);
+        var messageList = [];
+        querySend.forEach((doc) => {
+          messageList.push(doc.data());
+          console.log(doc.id, " => ", doc.data());
+        });
+        queryReceive.forEach((doc) => {
+          messageList.push(doc.data());
+          console.log(doc.id, " => ", doc.data());
+        });
+        this.messageList = messageList.sort((a,b)=>a.time > b.time ? 1 : -1);
       }
     }
 }
 </script>
 <style>
+#topbar {
+    overflow: hidden;
+    background-color: rgb(0, 238, 255);
+    display: block;
+    margin: 0%;
+    padding: 5px;
+    width: 100%;
+}
+#btn {
+  float: left;
+  width: 10%;
+  color: blue;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+}
+#selecteduser {
+    width: 90%;
+    text-align: center;
+    color: Black;
+    padding: 10px ;
+}
 .back1 {
   float: left;
   font-size: 20px;
   text-align: center;
   color: blue;
+  /* padding: 10px; */
 }
 </style>

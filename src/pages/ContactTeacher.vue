@@ -1,161 +1,172 @@
 <template>
-
   <div class="layout">
     <el-container>
-      <el-header id = "topbar">
-        <div id = "btn">
-          <el-button type="primary" @click="$router.push('home')"> <el-icon><Back /></el-icon> </el-button>
-        </div>
-        <div id = "selecteduser">
-          <h3>  Talking to: {{receipientSelectedUserFirstName}}  </h3>
-        </div>
+      <el-header id="topbar">
+        <h3>Chatting with: {{ receipientSelectedUserFirstName }}</h3>
       </el-header>
-      <el-container>
+      <el-container id="sidebarHeader">
         <el-aside width="200px">
-        <h3> ChatList </h3>
+          <h3>ChatList</h3>
           <el-table :data="userList" @current-change="selectUser">
-            <el-table-column prop="first" label="Teachers:"> </el-table-column>
+            <el-table-column prop="first" label="Parents:"> </el-table-column>
           </el-table>
         </el-aside>
 
-        <el-container>
-          <el-main> <h3>  messages to be displayed here  </h3>
-          <!-- :data="messageData"  -->
-          
+        <el-container id="messageContainer">
+          <el-main>
+            <ul>
+              <Message
+                v-for="{ senderID, receiverID, message, time } in messageList"
+                v-bind:key="time"
+                :name="receiverID"
+                :sender="senderID"
+                :message="message"
+                :time="time"
+                :senderId2="$store.state.userModel.first"
+              />
+            </ul>
           </el-main>
           <el-footer>
-                <el-input
-                  id="message"
-                  ref="type"
-                  v-model="message"
-                  :rows="2"
-                  v-on:keyup.enter="send()"
-                  type="textarea"
-                  placeholder="Type your message here..."
-                />
-            <el-button type="primary" @click="send" style ="float: right"> Send </el-button>
+            <el-input
+              id="message"
+              ref="type"
+              v-model="message"
+              :rows="2"
+              v-on:keyup.enter="send()"
+              type="textarea"
+              placeholder="Type your message here..."
+            />
+            <el-button
+              type="primary"
+              @click="send"
+              style="
+                background-color: rgb(7, 119, 172);
+                float: right;
+                margin-top: 24px;
+                width: 7%;
+                margin-right: 0px;
+                margin-left: auto;
+              "
+            >
+              Send
+            </el-button>
           </el-footer>
         </el-container>
       </el-container>
     </el-container>
   </div>
-
-  <router-view></router-view>
 </template>
 
 <script>
+import Message from "../components/Message.vue";
 import { db } from "../firebase.js";
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { Back} from "@element-plus/icons-vue";
-// ignore all these, can uncomment if need to use
-// import { db, app } from "../firebase.js";
-//import { getAuth } from "firebase/auth";
-// import {serverTimestamp} from "firebase/firestore";
-//import { addDoc, getFirestore, collection, getDocs, Timestamp } from "firebase/firestore";
-// import { ref } from 'vue'
-// import { doc, setDoc } from "firebase/firestore";
-// const db = getFirestore(app);
-//const messagesCollection = getFirestore(app).collection("messages")
-// const app = firebase.initializeApp(firebaseConfig);
-//const auth = getAuth();
+import { addDoc, collection, getDocs, where, query } from "firebase/firestore";
 
 export default {
-    name: "ContactTeacher",
+  name: "ContactParent",
+  data() {
+    return {
+      userList: [],
+      message: null,
+      messageList: [],
+      receipientSelectedUserFirstName: "",
+      currentSelectedUserFirstName: "",
+      senderID: this.$store.state.userModel.first,
+      receiverID: "",
+    };
+  },
+  mounted() {
+    this.getUserList();
+  },
+  components: {
+    Message,
+  },
+  methods: {
+    selectUser(user) {
+      console.log("user was selected", user);
+      var receipientUser = user;
+      this.receiverID = receipientUser.first;
+      this.receipientSelectedUserFirstName =
+        receipientUser.first + " " + receipientUser.last;
+      this.displaychat(user);
+    },
 
-    data() {
-         return {
-            userList : [],
-            message: null,
-            messageData: [],
-            receipientSelectedUserFirstName : '',
-            currentSelectedUserFirstName: '',
-            senderID: this.$store.state.userModel.first,
-            receiverID: '',
+    async getUserList() {
+      const q = await getDocs(collection(db, "users"));
+      q.forEach((doc) => {
+        var data = doc.data();
+        if (data.type == "teacher") {
+          this.userList.push(data);
         }
-    },
-    mounted() {
-      this.getUserList();
+      });
     },
 
-    components: {
-      Back,
-    },
+    async send() {
+      const msg = {
+        message: this.message,
+        senderID: this.senderID,
+        receiverID: this.receiverID,
+        time: Date.now(),
+      };
+      this.messageList.push(msg);
 
-    methods: {
-
-      selectUser(user) {
-        console.log('user was selected');
-        var receipientUser = user;
-        this.receiverID = receipientUser.first;
-        this.receipientSelectedUserFirstName = receipientUser.first + ' '  + receipientUser.last;
-        // this.messageData = displaychat();
-        },
-        
-      async getUserList() {
-        const q = await getDocs(collection(db, "users"))
-        q.forEach((doc) => {
-          var data = doc.data();
-          if (data.type == "teacher") {
-            this.userList.push(data);
-          }
-        });
-        // console.log(userNames);
-      },
-
-      async send() {
-          const msg = {
-              message: this.message,
-              senderID: this.senderID,
-              receiverID: this.receiverID,
-              //idk whether use date or Timestamp btr
-              time: new Date()
-              // time: serverTimestamp()
-          };
-
-          addDoc(collection(db, "messages"), msg)
-            .then((response) => {
-              console.log(response);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-      },
-    
-      // click1() {
-      //     this.$refs.input1.click()
-      // },
-
-      // typing() {
-      //   this.$refs.type.value = this.message;
-      // },
-
-      //have yet to sort out the display function
-      async displaychat() {
-        var query = getDocs(collection(db, "messages"));
-        // query = query.where("receiverID", "==", this.currentSelectedUserFirstName)
-        // query = query.where("senderID", "==", this.auth.currentUser.first)
-        this.messageData = [];
-        query.forEach((doc) => {
-          var data = doc.data();
-          if (data.receiverID == String(this.currentSelectedUserFirstName) && data.receiverID == String(this.auth.currentUser.first)) {
-            this.messageData.push(data);
-            this.messageData.orderBy('time');
-          }
+      addDoc(collection(db, "messages"), msg)
+        .then((response) => {
+          console.log(response);
         })
-        console.log(this.messageData);
-      }
-    }
-}
-</script>
+        .catch((err) => {
+          console.log(err);
+        });
+      this.message = "";
+    },
 
+    async displaychat(user) {
+      console.log("displaycahr called");
+      const userSendQuery = query(
+        collection(db, "messages"),
+        where("senderID", "==", this.senderID),
+        where("receiverID", "==", user.first),
+      );
+      const querySend = await getDocs(userSendQuery);
+
+      const userReceiveQuery = query(
+        collection(db, "messages"),
+        where("senderID", "==", user.first),
+        where("receiverID", "==", this.senderID),
+      );
+
+      const queryReceive = await getDocs(userReceiveQuery);
+      var messageList = [];
+      querySend.forEach((doc) => {
+        messageList.push(doc.data());
+        console.log(doc.id, " => ", doc.data());
+      });
+      queryReceive.forEach((doc) => {
+        messageList.push(doc.data());
+        console.log(doc.id, " => ", doc.data());
+      });
+      this.messageList = messageList.sort((a, b) => (a.time > b.time ? 1 : -1));
+    },
+  },
+};
+</script>
 <style>
+.el-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+}
 #topbar {
-    overflow: hidden;
-    background-color: rgb(0, 238, 255);
-    display: block;
-    margin: 0%;
-    padding: 5px;
-    width: 100%;
+  overflow: hidden;
+  background-color: rgb(7, 119, 172);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  padding: 5px;
+  width: 100%;
+  color: white;
 }
 
 #btn {
@@ -167,12 +178,11 @@ export default {
   text-decoration: none;
 }
 
-#selecteduser {
-
-    width: 90%;
-    text-align: center;
-    color: Black;
-    padding: 10px ;
+#sidebarHeader {
+  margin-top: 24px;
 }
-
+#messageContainer {
+  height: 75vh;
+}
 </style>
+

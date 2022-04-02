@@ -99,7 +99,6 @@ export default {
     methods: {
         ...mapActions({createReply: "createReply"}),
         ...mapActions({getReplies: "getReplies"}),
-
         //get the single forum thread that the replies are on
         async getForumPost({context}, fpid){
             const postData = [];
@@ -130,7 +129,6 @@ export default {
         goBack(){
             this.$router.push('/forumdisplay'); 
         },
-
         
     },
     created: function() {
@@ -141,5 +139,4 @@ export default {
 </script>
 
 <style>
-
 </style>

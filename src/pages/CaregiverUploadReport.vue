@@ -81,13 +81,11 @@ import {useStore, mapActions, mapState} from "vuex"
 import { ref } from "vue";
 export default {
     name: "CaregiverUploadReport",
-
     methods: {
         ...mapActions({createReport: "createReport"}),
         async create() {
         
         const details = {
-
             studentid: this.studentid,
             title: this.title,
             category: this.category,
@@ -95,6 +93,7 @@ export default {
             time: new Date(),
             uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
             uid: auth.currentUser.uid,
+            name: auth.currentUser.displayName,
         }
         await this.createReport(details)
         this.goBack()
@@ -141,11 +140,9 @@ export default {
     display: block;
     line-height: 40px;
 }
-
 #typereport {
     display: block;
     float:left;
     line-height: 40px;
-
 }
 </style>
