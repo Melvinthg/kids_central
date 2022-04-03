@@ -491,7 +491,7 @@ export default createStore({
       console.log(context);
       console.log(details);
       const gradebook = {
-        studentid: details.studentid,
+        childID: details.childID,
         title: details.title,
         score: details.score,
         date: details.date,

@@ -16,7 +16,7 @@
                 <h3 style="margin-left:2%">Enter Child ID:</h3>
                 <input
                 type= "text"
-                v-model= "childid"
+                v-model= "childID"
                 placeholder="Enter ID here..."
                 style="margin-left:2%; width:300px;">
             </div><br>
@@ -75,7 +75,7 @@ export default {
         async create() {
         
             const details = {
-                childid: this.childid,
+                childID: this.childID,
                 title: this.title,
                 score: this.score,
                 date: this.date,
