@@ -1,6 +1,8 @@
 <template>
 <div id="header">
-        
+        <div id="firstgroup">
+            <router-link to = "/Dashboard" className='text-link' style='color:white'>Dashboard</router-link>
+        </div>
         <div id="secondgroup">
             <img id = "pic" src="@/assets/Cognitive.png" alt="">
             <h1 id = "title">Cognitive abilities page</h1><br>
@@ -23,27 +25,31 @@
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
+
 export default {
+
   data() {
     return {
       Reports: [],
       boo: false,
       displayName: "",
       displaytext: "No Reports at the moment",
-      name: this.$store.state.userModel.childName,
-      Id: "",
+      name: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
+      childID: "",
     }
   },
+
   methods: {
+
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
       const q = query(collection(db, "students"), where("Name", "==", this.name));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        this.Id = doc.data().Id;
-        console.log(this.Id)
+        this.childID = doc.data().childID;
+        console.log(this.childID)
       })
-      const x = query(collection(db, "reports"), where("studentid", "==", this.Id), where("category", "==", "cognitiveabilities"));
+      const x = query(collection(db, "reports"), where("childID", "==", this.childID), where("category", "==", "cognitiveabilities"));
       const y = await getDocs(x);
       y.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
@@ -55,11 +61,14 @@ export default {
       }
     },
   },
+
   created() {
     this.getInfo();
   },
+
   
 }
+
 </script>
 
 <style scoped>
@@ -87,7 +96,9 @@ export default {
     color: white;
     padding: 10px;
     line-height: 0px;
+    /* margin-left:25%; */
 }
+
 #btn {
   color: white;
   font-size: 20px;
@@ -101,9 +112,11 @@ export default {
   text-align: center;
   margin-right: 50px;
 }
+
 ul {
   list-style-type: none;
 }
+
 ul li {
   margin-bottom:10px;
 }
@@ -112,6 +125,7 @@ ul li {
 }
 .box-card {
   /* background: lightsteelblue; */
+
 }
 #title2 {
   /* background:rgb(122, 141, 223); */

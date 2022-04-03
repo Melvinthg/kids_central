@@ -1,16 +1,31 @@
 <template>
   <div id="parentView">
     <div id="secondgroup">
-      <h1>Tom's Profile</h1>
+      <h1>{{name}}'s Profile</h1>
     </div>
   </div>
   <div class="row">
     <div class="column">
-      <div class="card" @click="select($event)">
+      <div class="card">
         <h4>Injuries and health</h4>
         <br /><br />
-        <!-- should be a list item here later -->
-        <p>No health assessment yet</p>
+        <div v-if = "!booInjuriesAndHealth"> 
+          <p>No reports yet</p>
+        </div>
+        <div v-if = "booInjuriesAndHealth">
+        <p>Click proceed to view more</p>
+        </div>
+        <el-card class="box-card" v-if = "booInjuriesAndHealth">
+           <ul v-for="x in injuriesAndHealthReports" :key="x">
+         <div id = "title2" style = "text-align-center"><li><span><u>{{x.title}}</u></span></li></div>
+         <div>{{x.date.toDate().toString().slice(4,16)}}</div>
+         <br>
+     </ul>
+  </el-card>
+  
+        <el-button @click=" $router.push('HealthAndInjuries')">
+          Proceed
+        </el-button>
       </div>
     </div>
 
@@ -35,7 +50,22 @@
       <div class="card">
         <h4>Cognitive abilities</h4>
         <br /><br />
-        <p>No reviews yet</p>
+         <div v-if = "!booCognitiveAbilities"> 
+          <p>No cognitive abilities reports yet</p>
+        </div>
+        <div v-if = "booCognitiveAbilities">
+        <p>Click proceed to view more</p>
+        </div>
+        <el-card class="box-card" v-if = "booCognitiveAbilities">
+           <ul v-for="x in cognitiveAbilitiesReports" :key="x">
+         <div id = "title2" style = "text-align-center"><li><span><u>{{x.title}}</u></span></li></div>
+         <div>{{x.date.toDate().toString().slice(4,16)}}</div>
+         <br>
+             </ul>
+        </el-card>
+          <el-button @click=" $router.push('CognitiveAbilities')">
+          Proceed
+        </el-button>
       </div>
     </div>
   </div>
@@ -44,12 +74,64 @@
 
 <script>
 // import ForumTopBar from '@/components/ForumTopBar.vue'
+import { db } from "../firebase.js";
+import { collection, getDocs, query, where } from "firebase/firestore";
 export default {
   name: "Dashboard",
   components: {
     //ForumTopBar
   },
-  methods: {},
+  data() {
+    return {
+      name: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
+      injuriesAndHealthReports : [],
+      cognitiveAbilitiesReports : [],
+      childID : "",
+      booInjuriesAndHealth : false,
+      booCognitiveAbilities: false,
+    }
+  },
+  methods: {
+    async getInfo() {
+      // -----------------get student id --------------------
+      const q = query(collection(db, "students"), where("Name", "==", this.name));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+      this.childID = doc.data().childID;
+      console.log(this.childID)
+      })
+      // -------------get injuries and health report------------------------
+      const x = query(collection(db, "reports"), where("childID", "==", this.childID), where("category", "==", "injuriesandhealth")) 
+      const y = await getDocs(x);
+      y.forEach((doc) => {
+        // console.log(doc.id, "=>", doc.data());
+        this.injuriesAndHealthReports.push(doc.data());
+      })
+      if (this.injuriesAndHealthReports.length > 0) {
+        this.booInjuriesAndHealth = true; 
+        if (this.injuriesAndHealthReports.length > 2) {
+          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(0,2);
+        }
+      }
+     // -------------get cognitive abilities report------------------------
+      const i = query(collection(db, "reports"), where("childID", "==", this.childID), where("category", "==", "cognitiveabilities")) 
+      const j = await getDocs(i);
+      j.forEach((doc) => {
+        console.log(doc.id, "=>", doc.data());
+        this.cognitiveAbilitiesReports.push(doc.data());
+      })
+      if (this.cognitiveAbilitiesReports.length > 0) {
+        this.booCognitiveAbilities = true; 
+        if (this.cognitiveAbilitiesReports.length > 2) {
+          this.cognitiveAbilitiesReports = this.cognitiveAbilitiesReports.slice(0,2);
+        }
+      }
+    }
+  },
+
+  created() {
+    this.getInfo();
+  }
 };
 </script>
 
@@ -117,6 +199,7 @@ body {
   text-align: center;
   color: white;
   padding: 10px;
+  margin-left:25%
 }
 #thirdgroup {
   text-align: center;
@@ -133,5 +216,17 @@ body {
 }
 #thirdgroup:hover {
   background-color: black;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  margin-bottom:0px;
+}
+
+li span {
+  position: relative;
 }
 </style>

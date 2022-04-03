@@ -77,21 +77,21 @@
               <span> Contact Teacher </span>
             </el-menu-item>
 
-            <el-menu-item
+            <!-- <el-menu-item
               v-if="this.homeType != 'teacher'"
               @click="this.$router.push('/HealthAndInjuries')"
             >
               <el-icon><Edit /></el-icon>
               <span> Health And Injuries</span>
-            </el-menu-item>
+            </el-menu-item> -->
 
-            <el-menu-item
+            <!-- <el-menu-item
               v-if="this.homeType != 'teacher'"
               @click="this.$router.push('/CognitiveAbilities')"
             >
               <el-icon><Edit /></el-icon>
               <span> CognitiveAbilities</span>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-menu>
         </el-aside>
         <el-main>
