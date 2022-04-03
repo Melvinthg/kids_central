@@ -1,7 +1,7 @@
 <template>
   <div id="parentView">
     <div id="secondgroup">
-      <h1>Tom's Profile</h1>
+      <h1>{{name}}'s Profile</h1>
     </div>
   </div>
   <div class="row">
@@ -11,6 +11,9 @@
         <br /><br />
         <!-- should be a list item here later -->
         <p>No health assessment yet</p>
+        <el-button @click=" $router.push('HealthAndInjuries')">
+          Proceed
+        </el-button>
       </div>
     </div>
 
@@ -36,6 +39,9 @@
         <h4>Cognitive abilities</h4>
         <br /><br />
         <p>No reviews yet</p>
+          <el-button @click=" $router.push('CognitiveAbilities')">
+          Proceed
+        </el-button>
       </div>
     </div>
   </div>
@@ -45,6 +51,11 @@
 <script>
 // import ForumTopBar from '@/components/ForumTopBar.vue'
 export default {
+  data() {
+    return {
+      name: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
+    }
+  },
   name: "Dashboard",
   components: {
     //ForumTopBar
@@ -117,6 +128,7 @@ body {
   text-align: center;
   color: white;
   padding: 10px;
+  margin-left:25%
 }
 #thirdgroup {
   text-align: center;

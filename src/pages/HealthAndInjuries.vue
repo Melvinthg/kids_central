@@ -1,8 +1,5 @@
 <template>
 <div id="header">
-        <div id="firstgroup">
-            <router-link to = "/Home" className='text-link' style='color:white'>Home</router-link>
-        </div>
         <div id="secondgroup">
             <img id = "pic" src="@/assets/HealthAndInjuries.png" alt="">
             <h1 id = "title">Health and Injuries page</h1><br>
@@ -32,7 +29,7 @@ export default {
       boo: false,
       displayName: "",
       displaytext: "No Reports at the moment",
-      name: this.$store.state.userModel.childName,
+      name: this.$store.state.userModel.first + " " +  this.$store.state.userModel.last,
       Id: "",
     }
   },
@@ -42,10 +39,10 @@ export default {
       const q = query(collection(db, "students"), where("Name", "==", this.name));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        this.Id = doc.data().Id;
+        this.Id = doc.data().childID;
         console.log(this.Id)
       })
-      const x = query(collection(db, "reports"), where("studentid", "==", this.Id), where("category", "==", "injuriesandhealth"));
+      const x = query(collection(db, "reports"), where("childID", "==", this.Id), where("category", "==", "injuriesandhealth"));
       const y = await getDocs(x);
       y.forEach((doc) => {
         console.log(doc.id, " => ", doc.data());
@@ -78,10 +75,6 @@ export default {
   text-align:center;
   padding:30px;
 }
-#firstgroup {
-  font-size: 25px;
-  padding:40px
-}
 #secondgroup{
     float: left;
     width: 50%;
@@ -89,6 +82,8 @@ export default {
     color: white;
     padding: 10px;
     line-height: 0px;
+    margin-left:25%;
+
 }
 #btn {
   color: white;
