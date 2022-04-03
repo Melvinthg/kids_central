@@ -4,13 +4,13 @@
             <router-link to = "/AddChildInfo" className='text-link' style='color:white'>Update Info</router-link>
         </div>
         <div id="secondgroup">
-            <h1>{{name}}'s profile</h1><br>
+            <h1>{{childName}}'s profile</h1><br>
         </div>
     </div>
     <div id="header" v-else>
         <div id="firstgroup"></div>
         <div id="secondgroup">
-            <h1>{{name}}'s profile</h1><br>
+            <h1>Profile page</h1><br>
         </div>
     </div>
 
@@ -21,8 +21,9 @@
       </div>
     </template>
     <ul v-if = "boo">
-      <li><h3>NRIC : {{NRIC}}</h3></li>
+      <li><h3>Child Name : {{childName}}</h3></li>
       <li><h3>Child ID : {{childID}}</h3></li>
+      <li><h3>NRIC : {{NRIC}}</h3></li>
       <li><h3>Class : {{Class}}</h3></li>
       <li><h3>Address : {{Address}}</h3></li>
       <li><h3>Gender : {{Gender}}</h3></li>
@@ -58,6 +59,7 @@ export default {
       Nationality: "",
       Class: "",
       childID: "",
+      childName: "",
     }
   },
 
@@ -77,6 +79,7 @@ export default {
         this.Nationality = doc.data().Nationality;
         this.Class = doc.data().Class;
         this.childID = doc.data().childID;
+        this.childName = doc.data().childName;
       })
       if (this.checkInfo()) {
         this.boo = true;
@@ -90,7 +93,7 @@ export default {
     checkInfo() {
       return this.Address.length >= 1 && this.Allergies.length >= 1 && this.NRIC.length == 9
       && this.Gender.length >= 1 && this.DOB.length == 10 && this.Nationality.length >= 1 
-      && this.Class.length >= 1 && this.childID.length == 6
+      && this.Class.length >= 1 && this.childID.length == 6 && this.childName.length >= 1;
     },
   },
 

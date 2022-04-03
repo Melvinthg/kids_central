@@ -1,7 +1,7 @@
 <template>
   <div id="parentView">
     <div id="secondgroup">
-      <h1>{{name}}'s Profile</h1>
+      <h1>{{childName}}'s Profile</h1>
     </div>
   </div>
   <div class="row">
@@ -10,7 +10,7 @@
         <h4>Injuries and health</h4>
         <br /><br />
         <div v-if = "!booInjuriesAndHealth"> 
-          <p>No reports yet</p>
+          <p>No Injuries and health reports yet</p>
         </div>
         <div v-if = "booInjuriesAndHealth">
         <p>Click proceed to view more</p>
@@ -89,6 +89,7 @@ export default {
       childID : "",
       booInjuriesAndHealth : false,
       booCognitiveAbilities: false,
+      childName : "",
     }
   },
   methods: {
@@ -98,6 +99,7 @@ export default {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
       this.childID = doc.data().childID;
+      this.childName = doc.data().childName;
       console.log(this.childID)
       })
       // -------------get injuries and health report------------------------
