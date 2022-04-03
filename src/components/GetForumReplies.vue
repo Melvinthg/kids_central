@@ -25,9 +25,9 @@
               <span>{{ fp.text }}</span>
             </div>
           </div>
+        
+          <div class="replies2" style="float: right">{{ numReplies }} Replies</div><br>
         </el-card>
-        <div class="replies" style="float: right">{{ numReplies }} Replies</div><br>
-
         <!-- current replies to that forum thread -->
         <br>
         <el-card
@@ -110,9 +110,11 @@ export default {
     },
     //display the values on the page
     async display() {
-      this.forumpost = await this.getForumPost(this.fpid);
-      this.replies = await this.getReplies(this.fpid);
-      console.log(this.replies);
+        this.forumpost = await this.getForumPost(this.fpid);
+        this.replies = await this.getReplies(this.fpid);
+        console.log(this.replies);
+        var replieslist = await this.getReplies("HaFu0bTnZmB8PPLW1XXf");
+        this.numReplies = replieslist.length
     },
     //create the reply document to store in firebase
     async create() {
@@ -166,11 +168,17 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.replies2 {
+    float: right;
+    margin-right: 2%;
+    text-decoration: none;
+    color: black;
+}
 .replier {
     font-weight: bold;
 }
 .repliedcontent {
-    margin-left: 5%;
-    margin-bottom: 5%;
+    margin-left: 2%;
+    margin-bottom: 2%;
 }
 </style>

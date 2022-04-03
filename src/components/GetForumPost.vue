@@ -52,8 +52,12 @@ export default {
   methods: {
       ...mapActions({getForumPosts: "getForumPosts"}),
       ...mapActions({getReplies: "getReplies"}),
+      ...mapActions({getChildClass: "getChildClass"}),
+      
       async display(){
-          this.forumposts = await this.getForumPosts(this.$store.state.userModel.childClass || this.$store.state.userModel.teacherClass)
+          const pEmail = this.$store.state.userModel.email  
+          var childClass = await this.getChildClass(pEmail);
+          this.forumposts = await this.getForumPosts(childClass || this.$store.state.userModel.teacherClass)
           console.log(this.forumposts)
           var replieslist = await this.getReplies("HaFu0bTnZmB8PPLW1XXf");
           this.numReplies = replieslist.length
