@@ -80,6 +80,7 @@ export default {
         poster: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
         time: new Date().toString().slice(4,21),
         class: this.$store.state.userModel.childClass || this.$store.state.userModel.teacherClass
+        //change for child class
       }
       await this.createForumPost(details)
       this.goBack()

@@ -332,7 +332,8 @@ export default createStore({
         repliesList.push(x);
       });
       const replies = repliesList.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
+        return new Date(a.date) - new Date(b.date);
+        // earliest to latest reply
       });
       return replies;
     },

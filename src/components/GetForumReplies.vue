@@ -26,9 +26,10 @@
             </div>
           </div>
         </el-card>
-        <div class="replies" style="float: right">{{ numReplies }} Replies</div>
+        <div class="replies" style="float: right">{{ numReplies }} Replies</div><br>
 
         <!-- current replies to that forum thread -->
+        <br>
         <el-card
           v-for="reply in replies"
           :key="reply.id"
@@ -42,7 +43,7 @@
             <el-divider />
 
             <div class="repliedcontent">
-              <span>{{ reply.reply }}</span>
+              <span>{{ reply.replycontent }}</span>
             </div>
           </div>
         </el-card>
@@ -89,7 +90,7 @@ export default {
       replies: [],
       //change
       //pass as a prop from the parent
-      fpid: "wphiPcPtMS1SjoRSxkBb",
+      fpid: "HaFu0bTnZmB8PPLW1XXf",
     };
   },
   // props: {
@@ -126,7 +127,7 @@ export default {
           this.$store.state.userModel.last,
       };
       await this.createReply(details);
-      this.$router.push("/forumdisplay");
+      this.$router.go()
     },
   },
   created: function () {
@@ -164,5 +165,12 @@ export default {
   align-items: flex-end;
   display: flex;
   flex-direction: column;
+}
+.replier {
+    font-weight: bold;
+}
+.repliedcontent {
+    margin-left: 5%;
+    margin-bottom: 5%;
 }
 </style>
