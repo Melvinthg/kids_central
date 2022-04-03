@@ -12,6 +12,8 @@
             <div class = "formli">
                 <label for = "NRIC">NRIC:</label>
                 <input type = "text" id = "NRIC" required placeholder = "Enter NRIC"> <br><br>
+                <label for = "childName">Child Name:</label>
+                <input type = "text" id = "childName" required placeholder = "Enter child name"> <br><br>
                 <!-- <label for = "Id">Id:</label>
                 <input type = "Id" id = "Id" required placeholder = "Enter student Id"> <br><br> -->
                 <label for = "Address">Address:</label>
@@ -63,6 +65,7 @@ export default {
             }
             const details = {
                  Name : this.name,
+                 childName : document.getElementById("childName").value,
                  NRIC : document.getElementById("NRIC").value.toUpperCase(),
                  Address : document.getElementById("Address").value,
                  Gender : document.getElementById("Gender").value,
@@ -117,6 +120,7 @@ export default {
             && document.getElementById("DOB").value.length >= 1
             && document.getElementById("Nationality").value.length >= 1
             && document.getElementById("Allergies").value.length >= 1
+            && document.getElementById("childName").value.length >= 1
         },
 
         isValidDate() {

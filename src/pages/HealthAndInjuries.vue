@@ -34,6 +34,7 @@ export default {
       displaytext: "No Reports at the moment",
       name: this.$store.state.userModel.first + " " +  this.$store.state.userModel.last,
       childID: "",
+      childName: "",
     }
   },
   methods: {
@@ -43,7 +44,9 @@ export default {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         this.childID = doc.data().childID;
-        console.log(this.Id)
+        this.childName = doc.data().childName;
+        console.log(this.childID)
+        console.log(this.childName);
       })
       const x = query(collection(db, "reports"), where("childID", "==", this.childID), where("category", "==", "injuriesandhealth"));
       const y = await getDocs(x);
@@ -53,7 +56,7 @@ export default {
       })
       if (this.Reports.length > 0) {
         this.boo = true;
-        this.displaytext = "Viewing: " + this.name + "'s reports";
+        this.displaytext = "Viewing: " + this.childName + "'s reports";
       }
     },
   },
