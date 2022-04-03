@@ -5,10 +5,6 @@
   </div>
 
   <div>
-      <h1 style="margin-left:1%">dfdsfsdfsdf</h1>
-  </div> <br>
-
-  <div>
       <GetForumReplies></GetForumReplies>
   </div> <br>
 </div>
