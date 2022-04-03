@@ -470,7 +470,7 @@ export default createStore({
       console.log(details);
 
       const report = {
-        studentid: details.studentid,
+        childID: details.childID,
         title: details.title,
         category: details.category,
         text: details.text,
