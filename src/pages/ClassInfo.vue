@@ -1,8 +1,5 @@
 <template>
     <div id="header">
-        <div id="firstgroup">
-            <router-link to = "/Home" className='text-link' style='color:white'>Back</router-link>
-        </div>
         <div id="secondgroup">
             <h1>Class Info</h1><br>
         </div>
@@ -12,8 +9,8 @@
         <div>
         <select id = "selector" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
         <option selected value = "not selected">Select Class</option>
-        <option value="K1a">K1a</option>
-        <option value="K2a">K2a</option>
+        <option value="2J">2J</option>
+        <option value="2K">2K</option>
         </select>
             <button button @click = "getClass()">Get Class Info</button>
         </div>
@@ -30,7 +27,7 @@
       <ul v-for="x in Reports" :key="x">
          <li><h3>Name : {{x.Name}}</h3></li>
          <li><h3>NRIC : {{x.NRIC}}</h3></li>
-         <li><h3>Student Id : {{x.Id}}</h3></li>
+         <li><h3>Child Id : {{x.childID}}</h3></li>
          <li><h3>Class : {{x.Class}}</h3></li>
          <li><h3>Address : {{x.Address}}</h3></li>
          <li><h3>Gender : {{x.Gender}}</h3></li>
@@ -102,5 +99,8 @@ ul {
 }
 ul li {
   margin-bottom:10px;
+}
+#secondgroup {
+    margin-left: 290px;
 }
 </style>
