@@ -11,10 +11,10 @@
     <div id="block1">
         <div id="inputs">
             <div id="enterid">
-                <h3 style="margin-left:2%">Enter Student ID:</h3>
+                <h3 style="margin-left:2%">Enter Child ID:</h3>
                 <input
                 type= "text"
-                v-model= "studentid"
+                v-model= "childID"
                 placeholder="Enter Details..."
                 style="margin-left:2%">
             </div><br>
@@ -86,7 +86,7 @@ export default {
         async create() {
         
         const details = {
-            studentid: this.studentid,
+            childID: this.childID,
             title: this.title,
             category: this.category,
             text: this.text,

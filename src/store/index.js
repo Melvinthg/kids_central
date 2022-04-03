@@ -4,6 +4,7 @@ import { auth, db, storage } from "../firebase.js";
 import createPersistedState from "vuex-persistedstate";
 import {
   doc,
+  updateDoc,
   setDoc,
   getDocs,
   getDoc,
@@ -113,8 +114,43 @@ export default createStore({
     },
 
     async registerParent({ commit }, details) {
-      const { email, password, last, first, childName, childClass, childID } =
-        details;
+      const { email, password, last, first, parentId } = details;
+      const idRefs = collection(db, "parentID");
+      var idList = [];
+      var docList = [];
+      var idIndex = -1;
+      var docId = "";
+
+      const querySnapshot = await getDocs(idRefs);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        idList.push(doc.data()["parentId"]);
+        docList.push(doc);
+        console.log(doc.id, " => ", doc.data());
+      });
+      //if id not in list
+      if (!idList.includes(parentId)) {
+        alert("Not Verified Parent");
+        return;
+      } else {
+        idIndex = idList.indexOf(parentId);
+        if (docList[idIndex].data()["activated"] == "true"){
+          alert("Parent ID already registered, nice try.")
+          return
+        }
+        docId = docList[idIndex].id;
+        await setDoc(doc(db, "parentID", docId), {
+          parentId: parentId,
+          activated: "true",
+        });
+      }
+      //   const activatedSnapshot = await getDocs(activatedRef);
+      //   activatedSnapshot.forEach((doc) => {
+      //     // doc.data() is never undefined for query doc snapshots
+
+      //     updateDoc(doc, { activated: "true" });
+      //   });
+      // }
       try {
         await createUserWithEmailAndPassword(auth, email, password);
       } catch (error) {
@@ -141,18 +177,16 @@ export default createStore({
         password: password,
         first: first,
         last: last,
-        childClass: childClass,
-        childName: childName,
-        childID: childID,
+        parentId,
         type: "parent",
       };
 
-      const child = {
-        childName: childName,
-        childID: childID,
-      };
+      // const child = {
+      //   childName: childName,
+      //   childID: childID,
+      // };
 
-      await setDoc(doc(db, "classes", childClass, "students", childID), child);
+      // await setDoc(doc(db, "classes", childClass, "students", childID), child);
 
       await setDoc(doc(db, "users", uid), user);
 
@@ -164,6 +198,35 @@ export default createStore({
     },
     async registerTeacher({ commit }, details) {
       const { email, password, last, first, teacherID, teacherClass } = details;
+      const idRefs = collection(db, "teacherID");
+      var idList = [];
+      var docList = [];
+      var idIndex = -1;
+      var docId = "";
+
+      const querySnapshot = await getDocs(idRefs);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        idList.push(doc.data()["teacherId"]);
+        docList.push(doc);
+        console.log(doc.id, " => ", doc.data());
+      });
+      //if id not in list
+      if (!idList.includes(teacherID)) {
+        alert("Not Verified Teacher");
+        return;
+      } else {
+        idIndex = idList.indexOf(teacherID);
+        if (docList[idIndex].data()["activated"] == "true"){
+          alert("Teacher ID already registered, nice try.")
+          return
+        }
+        docId = docList[idIndex].id;
+        await setDoc(doc(db, "teacherID", docId), {
+          "teacherId": teacherID,
+          "activated": "true",
+        });
+      }
       try {
         await createUserWithEmailAndPassword(auth, email, password);
       } catch (error) {
@@ -380,7 +443,9 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
+
     async createReply({ context }, details) {
+
       console.log(context);
       console.log(details);
       const reply = {
@@ -389,8 +454,10 @@ export default createStore({
         uid: details.uid,
         replier: details.replier,
       };
+
       const replyRef = collection(db, "forumposts", details.fpid, "replies");
       await addDoc(replyRef, reply)
+
         .then((response) => {
           console.log(response);
         })
@@ -403,7 +470,7 @@ export default createStore({
       console.log(details);
 
       const report = {
-        studentid: details.studentid,
+        childID: details.childID,
         title: details.title,
         category: details.category,
         text: details.text,
