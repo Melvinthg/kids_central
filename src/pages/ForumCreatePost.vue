@@ -22,7 +22,8 @@
       v-model= "text"
       placeholder="Type your post here..."
       cols="90"
-      rows="10">
+      rows="10"
+      style="margin-left:1%; width:95%">
       </textarea>
   </div> <br>
 
@@ -106,6 +107,5 @@ export default {
 <style>
 #text {
   white-space: pre-wrap;
-  margin-left:1%;
 }
 </style>
