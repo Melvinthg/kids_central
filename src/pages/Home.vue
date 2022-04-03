@@ -24,13 +24,13 @@
               @click="this.$router.push('/editclassdashboard')"
             >
               <el-icon><Edit /></el-icon>
-              <span> Edit Class Dashboard ></span>
+              <span> Edit Class Dashboard</span>
             </el-menu-item>
 
             <el-menu-item
               v-else
               index="1a"
-              @click="this.$router.push('/editclassdashboard')"
+              @click="this.$router.push('/Dashboard')"
             >
               <el-icon><Edit /></el-icon>
               <span>View Child Dashboard</span>
@@ -42,7 +42,7 @@
               @click="this.$router.push('/ClassInfo')"
             >
               <el-icon><Notebook /></el-icon>
-              <span> >Manage Class Info</span>
+              <span>Manage Class Info</span>
             </el-menu-item>
 
             <el-menu-item
