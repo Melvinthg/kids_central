@@ -288,6 +288,17 @@ export default createStore({
         }
       });
     },
+    // get user class from parent email
+    async getChildClass({ context }, pEmail) {
+      const children = [];
+      console.log(context);
+      const q = query(collection(db, 'students'), where("parentEmail", "==", pEmail));    
+      const querySnap = await getDocs(q);
+      querySnap.forEach((doc) => {
+        children.push(doc.data())
+      })
+      return children[0]["Class"];
+    },
 
     //getting list of posts
     async getPosts({ context }) {
@@ -332,25 +343,39 @@ export default createStore({
         repliesList.push(x);
       });
       const replies = repliesList.sort((a, b) => {
-        return new Date(b.date) - new Date(a.date);
+        return new Date(a.date) - new Date(b.date);
+        // earliest to latest reply
       });
       return replies;
     },
 
     async getUsers({ context }, className) {
-      const usersList = [];
+      const teachersList = [];
       console.log(context);
       const usersRef = collection(db, "users");
       const userSnap = await getDocs(usersRef);
       userSnap.forEach((e) => {
         const x = e.data();
-        usersList.push(x);
+        teachersList.push(x);
       });
-      const usersInClass = usersList.filter(
+      const teachersInClass = teachersList.filter(
         (user) =>
-          user.childClass == className || user.teacherClass == className,
+          user.teacherClass == className,
       );
-      return usersInClass;
+      
+      const parentsList = [];
+      console.log(context);
+      const usersRef1 = collection(db, "students");
+      const userSnap1 = await getDocs(usersRef1);
+      userSnap1.forEach((e) => {
+        const x = e.data();
+        parentsList.push(x);
+      });
+      const parentsInClass = parentsList.filter(
+        (user) =>
+          user.Class == className,
+      );
+      return teachersInClass.concat(parentsInClass);
     },
 
     async getChildName({ context }, childID) {
@@ -511,7 +536,7 @@ export default createStore({
       console.log(context);
       console.log(details);
       const gradebook = {
-        studentid: details.studentid,
+        childID: details.childID,
         title: details.title,
         score: details.score,
         date: details.date,

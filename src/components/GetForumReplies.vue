@@ -25,10 +25,11 @@
               <span>{{ fp.text }}</span>
             </div>
           </div>
+        
+          <div class="replies2" style="float: right">{{ numReplies }} Replies</div><br>
         </el-card>
-        <div class="replies" style="float: right">{{ numReplies }} Replies</div>
-
         <!-- current replies to that forum thread -->
+        <br>
         <el-card
           v-for="reply in replies"
           :key="reply.id"
@@ -42,7 +43,7 @@
             <el-divider />
 
             <div class="repliedcontent">
-              <span>{{ reply.reply }}</span>
+              <span>{{ reply.replycontent }}</span>
             </div>
           </div>
         </el-card>
@@ -89,7 +90,7 @@ export default {
       replies: [],
       //change
       //pass as a prop from the parent
-      fpid: "wphiPcPtMS1SjoRSxkBb",
+      fpid: "HaFu0bTnZmB8PPLW1XXf",
     };
   },
   // props: {
@@ -109,9 +110,11 @@ export default {
     },
     //display the values on the page
     async display() {
-      this.forumpost = await this.getForumPost(this.fpid);
-      this.replies = await this.getReplies(this.fpid);
-      console.log(this.replies);
+        this.forumpost = await this.getForumPost(this.fpid);
+        this.replies = await this.getReplies(this.fpid);
+        console.log(this.replies);
+        var replieslist = await this.getReplies("HaFu0bTnZmB8PPLW1XXf");
+        this.numReplies = replieslist.length
     },
     //create the reply document to store in firebase
     async create() {
@@ -126,7 +129,7 @@ export default {
           this.$store.state.userModel.last,
       };
       await this.createReply(details);
-      this.$router.push("/forumdisplay");
+      this.$router.go()
     },
   },
   created: function () {
@@ -164,5 +167,18 @@ export default {
   align-items: flex-end;
   display: flex;
   flex-direction: column;
+}
+.replies2 {
+    float: right;
+    margin-right: 2%;
+    text-decoration: none;
+    color: black;
+}
+.replier {
+    font-weight: bold;
+}
+.repliedcontent {
+    margin-left: 2%;
+    margin-bottom: 2%;
 }
 </style>

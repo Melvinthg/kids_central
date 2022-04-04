@@ -22,7 +22,8 @@
       v-model= "text"
       placeholder="Type your post here..."
       cols="90"
-      rows="10">
+      rows="10"
+      style="margin-left:1%; width:95%">
       </textarea>
   </div> <br>
 
@@ -68,7 +69,10 @@ export default {
   },
   methods: {
     ...mapActions({createForumPost: "createForumPost"}),
+    ...mapActions({getChildClass: "getChildClass"}),
     async create() {
+      const pEmail = this.$store.state.userModel.email  
+      var childClass = await this.getChildClass(pEmail);
       
       const details = {
         location: "forumpost",
@@ -78,7 +82,7 @@ export default {
         uid: auth.currentUser.uid,
         poster: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
         time: new Date().toString().slice(4,21),
-        class: this.$store.state.userModel.childClass || this.$store.state.userModel.teacherClass
+        class: childClass || this.$store.state.userModel.teacherClass
       }
       await this.createForumPost(details)
       this.goBack()
@@ -106,6 +110,5 @@ export default {
 <style>
 #text {
   white-space: pre-wrap;
-  margin-left:1%;
 }
 </style>

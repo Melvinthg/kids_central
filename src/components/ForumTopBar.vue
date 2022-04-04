@@ -19,23 +19,29 @@
 
 import {useStore, mapActions, mapState} from "vuex"
 
+
 export default {
   name: "ForumTopBar",
   data() {
     return {
       number: 0,
-      classname:
-        this.$store.state.userModel.childClass ||
-        this.$store.state.userModel.teacherClass,
+      classname: "",
     };
   },
   methods: {
     ...mapActions({ getUsers: "getUsers" }),
+    ...mapActions({getChildClass: "getChildClass"}),
     async display() {
+
+      if (this.$store.state.userModel.type == "teacher"){
+        this.classname = this.$store.state.userModel.teacherClass
+      } else if (this.$store.state.userModel.type == "parent"){
+        const pEmail = this.$store.state.userModel.email  
+        var childClass = await this.getChildClass(pEmail);
+        this.classname = childClass;
+      }
       var usersInClass = await this.getUsers(
-        this.$store.state.userModel.childClass ||
-          this.$store.state.userModel.teacherClass,
-      );
+      this.$store.state.userModel.teacherClass || childClass);
       this.number = usersInClass.length;
     },
   },

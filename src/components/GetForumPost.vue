@@ -7,7 +7,7 @@
             :body-style="{ padding: '0px', width: auto}">
                 <div>
                     <div style="padding: 15px">
-                        <span class="poster">{{ forumpost.poster }}</span>
+                        <span class="poster">{{ forumpost.id }}</span>
                         <time class="time">{{ forumpost.date }}</time>  
                     </div>     
                     <el-divider/>
@@ -22,8 +22,7 @@
                     </div>
                 </div>
               
-                <router-link to = "/forumreply" class="replies" style="float:right">{{numReplies}} Replies</router-link>
-                <!-- should route to reply page -->
+                <router-link to = "/forumreply" class="replies" style="float:right">{{ numReplies }} Replies</router-link>
                 <!-- <GetForumReplies fpost="wphiPcPtMS1SjoRSxkBb" /> -->
             </el-card>
             
@@ -52,9 +51,19 @@ export default {
   },
   methods: {
       ...mapActions({getForumPosts: "getForumPosts"}),
+      ...mapActions({getReplies: "getReplies"}),
+      ...mapActions({getChildClass: "getChildClass"}),
+      
       async display(){
-          this.forumposts = await this.getForumPosts(this.$store.state.userModel.childClass || this.$store.state.userModel.teacherClass)
-          console.log(this.forumposts)
+        if (this.$store.state.userModel.type == "teacher"){
+          this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        
+        } else if (this.$store.state.userModel.type == "parent"){
+          const pEmail = this.$store.state.userModel.email  
+          var childClass = await this.getChildClass(pEmail);
+          this.forumposts = await this.getForumPosts(childClass)
+        }
+        var replieslist = await this.getReplies("HaFu0bTnZmB8PPLW1XXf");
+        this.numReplies = replieslist.length
       },
   },
   created: function() {
@@ -67,7 +76,7 @@ export default {
 .poster {
     float: left;
     font-size: 20px;
-    font-weight: 400;
+    font-weight: bold;
 }
 .time {
   font-size: 13px;
@@ -76,7 +85,7 @@ export default {
 }
 .title {
   margin-top: 0px;
-  margin-left: 240px;
+  margin-left: 250px;
   line-height: 30px;
   display: flex;
   justify-content: space-between;
@@ -86,7 +95,7 @@ export default {
 }
 .text {
   margin-top: 0px;
-  margin-left: 240px;
+  margin-left: 250px;
   line-height: 50px;
   display: flex;
   justify-content: space-between;
