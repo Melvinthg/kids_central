@@ -7,7 +7,7 @@
           <br />
 
 
-          <header style="text-align:center; size=18px">
+          <header style="text-align:center; size=18px; color: white">
             <strong> {{ username }} </strong>
           </header>
 
@@ -28,7 +28,7 @@
             </el-menu-item>
 
             <el-menu-item
-              v-else
+              v-if="this.homeType === 'parent'"
               index="1a"
               @click="this.$router.push('/Dashboard')"
             >
@@ -46,7 +46,7 @@
             </el-menu-item>
 
             <el-menu-item
-              v-else
+              v-if="this.homeType === 'parent'"
               index="2a"
               @click="this.$router.push('/ChildrenInfo')"
             >
@@ -69,7 +69,7 @@
             </el-menu-item>
 
             <el-menu-item
-              v-else
+              v-if="this.homeType === 'parent'"
               index="4a"
               @click="this.$router.push('/contactteacher')"
             >
@@ -151,11 +151,14 @@ export default {
     const user = await getDoc(userRef);
     this.homeType = user.data().type;
     this.username = user.data().first + " " + user.data().last;
+    // this.homeType = this.$store.state.userModel.type;
+    // this.username = this.$store.state.userModel.first + " " + this.$store.state.userModel.last;
   },
-  // created(){
-  //   this.test()
-  //   console.log("beforeMount")
-  // },
+  created(){
+    // this.homeType = this.$store.state.userModel.type;
+    // this.username = this.$store.state.userModel.first + " " + this.$store.state.userModel.last;
+  
+  },
   // beforeMount(){
   //   this.test()
   //   console.log("beforeMount")

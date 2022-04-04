@@ -134,7 +134,7 @@ export default createStore({
         return;
       } else {
         idIndex = idList.indexOf(parentId);
-        if (docList[idIndex].data()["activated"] == "true"){
+        if (docList[idIndex].data()["activated"] == "true") {
           alert("Parent ID already registered, nice try.")
           return
         }
@@ -217,7 +217,7 @@ export default createStore({
         return;
       } else {
         idIndex = idList.indexOf(teacherID);
-        if (docList[idIndex].data()["activated"] == "true"){
+        if (docList[idIndex].data()["activated"] == "true") {
           alert("Teacher ID already registered, nice try.")
           return
         }
@@ -356,15 +356,15 @@ export default createStore({
     async getChildName({ context }, childID) {
       const childrenList = [];
       console.log(context);
-      const userRef = collection(db, "users");
+      const userRef = collection(db, "students");
       const userSnap = await getDocs(userRef);
       userSnap.forEach((e) => {
         const x = e.data();
         childrenList.push(x);
       });
-      const child = childrenList.filter((user) => user.childID == childID);
+      const child = childrenList.filter((user) => user.parentEmail == childID);
       const childvalues = child[0];
-      return childvalues.first + " " + childvalues.last;
+      return childvalues.childName
     },
 
     //CREATING NON FORUM POST USE THIS
@@ -399,6 +399,26 @@ export default createStore({
               });
             console.log("File available at", url);
           });
+        })
+        .catch((error) => {
+          console.error("Upload failed", error);
+        });
+    },
+    async createPost2({ context }, details) {
+      const post = {
+        location: details.location,
+        caption: details.caption,
+        imageUrl: null,
+        date: details.date,
+        poster: details.poster,
+        recipient: details.recipient,
+      };
+      addDoc(collection(db, "posts"), post)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
         })
         .catch((error) => {
           console.error("Upload failed", error);

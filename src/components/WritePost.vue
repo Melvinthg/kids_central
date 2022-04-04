@@ -78,7 +78,11 @@ export default {
   // ...mapState({userModel: state => state.userModel}),
   //   },
   methods: {
-    ...mapActions({ createPost: "createPost", getPosts: "getPosts" }),
+    ...mapActions({
+      createPost2: "createPost2",
+      createPost: "createPost",
+      getPosts: "getPosts",
+    }),
 
     async create() {
       // i do not know what this is for so i will not touch it
@@ -89,10 +93,17 @@ export default {
         caption: this.caption,
         image: this.image,
         date: today,
-        poster: this.$store.state.userModel.email,
+        poster:
+          this.$store.state.userModel.first +
+          " " +
+          this.$store.state.userModel.last,
         recipient: this.recipient,
       };
-      await this.createPost(details);
+      if (this.image == null) {
+        await this.createPost2(details);
+      } else {
+        await this.createPost(details);
+      }
     },
     typing() {
       this.$refs.type.value = this.caption;
@@ -111,15 +122,13 @@ export default {
       this.imageUrl = await this.uploadImage(details);
     },
     async getOptions() {
-      let value = await getDocs(collection(db, "users"));
+      let value = await getDocs(collection(db, "students"));
       let tempOptions = [];
       value.forEach((d) => {
-        if (d.data().type == "parent") {
-          tempOptions.push({
-            value: d.data().id,
-            label: d.data().childName,
-          });
-        }
+        tempOptions.push({
+          value: d.data().parentEmail,
+          label: d.data().childName,
+        });
       });
       this.options.push({
         label: "Students",
