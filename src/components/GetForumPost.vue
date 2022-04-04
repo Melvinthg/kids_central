@@ -7,7 +7,7 @@
             :body-style="{ padding: '0px', width: auto}">
                 <div>
                     <div style="padding: 15px">
-                        <span class="poster">{{ forumpost.poster }}</span>
+                        <span class="poster">{{ forumpost.id }}</span>
                         <time class="time">{{ forumpost.date }}</time>  
                     </div>     
                     <el-divider/>
@@ -55,12 +55,15 @@ export default {
       ...mapActions({getChildClass: "getChildClass"}),
       
       async display(){
+        if (this.$store.state.userModel.type == "teacher"){
+          this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        
+        } else if (this.$store.state.userModel.type == "parent"){
           const pEmail = this.$store.state.userModel.email  
           var childClass = await this.getChildClass(pEmail);
-          this.forumposts = await this.getForumPosts(childClass || this.$store.state.userModel.teacherClass)
-          console.log(this.forumposts)
-          var replieslist = await this.getReplies("HaFu0bTnZmB8PPLW1XXf");
-          this.numReplies = replieslist.length
+          this.forumposts = await this.getForumPosts(childClass)
+        }
+        var replieslist = await this.getReplies("HaFu0bTnZmB8PPLW1XXf");
+        this.numReplies = replieslist.length
       },
   },
   created: function() {
