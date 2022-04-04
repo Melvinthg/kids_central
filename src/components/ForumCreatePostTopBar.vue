@@ -27,18 +27,16 @@ export default {
     ...mapActions({ getUsers: "getUsers" }),
     ...mapActions({getChildClass: "getChildClass"}),
     async display() {
-      const pEmail = this.$store.state.userModel.email  
-      var childClass = await this.getChildClass(pEmail);
-      console.log(childClass)
-      var usersInClass = await this.getUsers(
-        this.$store.state.userModel.teacherClass || childClass,
-      );
-      this.number = usersInClass.length;
-      if (this.$store.state.userModel.type == "teacher"){
+       if (this.$store.state.userModel.type == "teacher"){
         this.classname = this.$store.state.userModel.teacherClass
       } else if (this.$store.state.userModel.type == "parent"){
+        const pEmail = this.$store.state.userModel.email  
+        var childClass = await this.getChildClass(pEmail);
         this.classname = childClass;
       }
+      var usersInClass = await this.getUsers(
+      this.$store.state.userModel.teacherClass || childClass);
+      this.number = usersInClass.length;
     },
   },
   mounted() {
