@@ -7,7 +7,7 @@
           <br />
 
 
-          <header style="text-align:center; size=18px">
+          <header style="text-align:center; size=18px; color: white">
             <strong> {{ username }} </strong>
           </header>
 
@@ -24,11 +24,11 @@
               @click="this.$router.push('/editclassdashboard')"
             >
               <el-icon><Edit /></el-icon>
-              <span> Edit Class Dashboard ></span>
+              <span> Edit Class Dashboard</span>
             </el-menu-item>
 
             <el-menu-item
-              v-else
+              v-if="this.homeType === 'parent'"
               index="1a"
               @click="this.$router.push('/Dashboard')"
             >
@@ -42,11 +42,11 @@
               @click="this.$router.push('/ClassInfo')"
             >
               <el-icon><Notebook /></el-icon>
-              <span> >Manage Class Info</span>
+              <span>Manage Class Info</span>
             </el-menu-item>
 
             <el-menu-item
-              v-else
+              v-if="this.homeType === 'parent'"
               index="2a"
               @click="this.$router.push('/ChildrenInfo')"
             >
@@ -69,7 +69,7 @@
             </el-menu-item>
 
             <el-menu-item
-              v-else
+              v-if="this.homeType === 'parent'"
               index="4a"
               @click="this.$router.push('/contactteacher')"
             >
@@ -151,11 +151,14 @@ export default {
     const user = await getDoc(userRef);
     this.homeType = user.data().type;
     this.username = user.data().first + " " + user.data().last;
+    // this.homeType = this.$store.state.userModel.type;
+    // this.username = this.$store.state.userModel.first + " " + this.$store.state.userModel.last;
   },
-  // created(){
-  //   this.test()
-  //   console.log("beforeMount")
-  // },
+  created(){
+    // this.homeType = this.$store.state.userModel.type;
+    // this.username = this.$store.state.userModel.first + " " + this.$store.state.userModel.last;
+  
+  },
   // beforeMount(){
   //   this.test()
   //   console.log("beforeMount")

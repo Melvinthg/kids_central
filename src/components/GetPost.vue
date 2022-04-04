@@ -6,11 +6,11 @@
         :key="post.id"
         :body-style="{ padding: '0px', width: auto }"
       >
-        <img v-bind:src="'{{post.imageURL}}'" class="image" />
         <div style="padding: 14px">
-          <span>{{ post.poster }} shared with you </span>
+          <span>{{ post.poster }} shared </span>
           <time class="time">{{ post.date }}</time>
           <div class="bottom">
+            <img v-if="post.imageUrl != null" v-bind:src="post.imageUrl" class="image" />
             <span>{{ post.caption }}</span>
           </div>
         </div>
@@ -22,7 +22,7 @@
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, where, query, orderBy } from "firebase/firestore";
-//import { getStorage, } from "firebase/storage";
+
 export default {
   name: "GetPost",
   data() {
@@ -32,13 +32,12 @@ export default {
   },
   methods: {
     async getPosts() {
-      console.log(this.$store.state.userModel);
       let q;
       if (this.$store.state.userModel.type == "parent") {
         q = query(
           collection(db, "posts"),
-          where("recipient", "==", this.$store.state.userModel.childID),
-          orderBy("date", "desc")
+          where("recipient", "==", this.$store.state.userModel.email),
+         orderBy("date")
         );
       } else {
         q = query(collection(db, "posts"), orderBy("date", "desc"));
@@ -60,7 +59,7 @@ export default {
       });
     },
   },
-  created: function () {
+  created() {
     this.getPosts();
   },
 };
