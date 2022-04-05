@@ -10,6 +10,7 @@ import {
   getDoc,
   addDoc,
   collection,
+  arrayUnion,
   query,
   where,
 } from "firebase/firestore";
@@ -106,7 +107,6 @@ export default createStore({
 
       //console.log(user.data())
       commit("SET_USER_MODEL", user.data());
-
       console.log(user.data());
       commit("SET_USER", auth.currentUser);
 
@@ -134,9 +134,11 @@ export default createStore({
         return;
       } else {
         idIndex = idList.indexOf(parentId);
-        if (docList[idIndex].data()["activated"] == "true"){
+        if (docList[idIndex].data()["activated"] == "true") {
+
           alert("Parent ID already registered, nice try.")
           return
+
         }
         docId = docList[idIndex].id;
         await setDoc(doc(db, "parentID", docId), {
@@ -217,14 +219,16 @@ export default createStore({
         return;
       } else {
         idIndex = idList.indexOf(teacherID);
-        if (docList[idIndex].data()["activated"] == "true"){
+        if (docList[idIndex].data()["activated"] == "true") {
+
           alert("Teacher ID already registered, nice try.")
           return
+
         }
         docId = docList[idIndex].id;
         await setDoc(doc(db, "teacherID", docId), {
-          "teacherId": teacherID,
-          "activated": "true",
+          teacherId: teacherID,
+          activated: "true",
         });
       }
       try {
@@ -291,12 +295,15 @@ export default createStore({
     // get user class from parent email
     async getChildClass({ context }, pEmail) {
       const children = [];
-      console.log(context);
-      const q = query(collection(db, 'students'), where("parentEmail", "==", pEmail));    
+
+      const q = query(
+        collection(db, "students"),
+        where("parentEmail", "==", pEmail),
+      );
       const querySnap = await getDocs(q);
       querySnap.forEach((doc) => {
-        children.push(doc.data())
-      })
+        children.push(doc.data());
+      });
       return children[0]["Class"];
     },
 
@@ -316,36 +323,35 @@ export default createStore({
       return postsList;
     },
 
-    // async getForumPosts({ context, dispatch }, className) {
-    //   const postsList = [];
-      
-    //   console.log(context);
-    //   const postsRef = collection(db, "forumposts");
-    //   const postSnap = await getDocs(postsRef);
+    async getForumPosts({ dispatch }, className) {
+      const postsList = [];
 
-    //   postSnap.forEach(async(e) => {
-    //     const x = e.data();
-    //     const id = e.id;
-    //     const repliesList = await dispatch("getReplies", id);
-    //     x.replies = repliesList;
-    //     x.numReplies = repliesList.length;
-    //     if (e.data().class == className){
-    //       postsList.push(x);
-    //     }
-    //   });
-    //   const filteredPosts = postsList
-    //     // .filter((post) => post['class'] == className)
-    //     .sort((a, b) => {
-    //       return new Date(b.date) - new Date(a.date);
-    //     });
-    //   console.log(filteredPosts)
-    //   return filteredPosts;
-     
-    // },
+      const postsRef = collection(db, "forumposts");
+      const postSnap = await getDocs(postsRef);
+
+      postSnap.forEach((e) => {
+        const x = e.data();
+        const id = e.id
+        x['fpid'] = id
+        postsList.push(x);
+      });
+
+      console.log("FROM STORE LOLOLOLOL")
+      console.log(postsList);
+
+      const filteredPosts = postsList
+        .filter((post) => post.class == className)
+        .sort((a, b) => {
+          return new Date(b.date) - new Date(a.date);
+        });
+        console.log("filtered lOLOLOL")
+      console.log(filteredPosts)
+      return filteredPosts
+    },
 
     async getReplies({ context }, fpid) {
       const repliesList = [];
-      console.log(context);
+      
       const repliesRef = collection(db, "forumposts", fpid, "replies");
       const repliesSnap = await getDocs(repliesRef);
       repliesSnap.forEach((e) => {
@@ -361,7 +367,6 @@ export default createStore({
 
     async getUsers({ context }, className) {
       const teachersList = [];
-      // console.log(context);
       const usersRef = collection(db, "users");
       const userSnap = await getDocs(usersRef);
       userSnap.forEach((e) => {
@@ -369,12 +374,10 @@ export default createStore({
         teachersList.push(x);
       });
       const teachersInClass = teachersList.filter(
-        (user) =>
-          user.teacherClass == className,
+        (user) => user.teacherClass == className,
       );
-      
+
       const parentsList = [];
-      // console.log(context);
       const usersRef1 = collection(db, "students");
       const userSnap1 = await getDocs(usersRef1);
       userSnap1.forEach((e) => {
@@ -382,8 +385,7 @@ export default createStore({
         parentsList.push(x);
       });
       const parentsInClass = parentsList.filter(
-        (user) =>
-          user.Class == className,
+        (user) => user.Class == className,
       );
       return teachersInClass.concat(parentsInClass);
     },
@@ -391,15 +393,15 @@ export default createStore({
     async getChildName({ context }, childID) {
       const childrenList = [];
       console.log(context);
-      const userRef = collection(db, "users");
+      const userRef = collection(db, "students");
       const userSnap = await getDocs(userRef);
       userSnap.forEach((e) => {
         const x = e.data();
         childrenList.push(x);
       });
-      const child = childrenList.filter((user) => user.childID == childID);
+      const child = childrenList.filter((user) => user.parentEmail == childID);
       const childvalues = child[0];
-      return childvalues.first + " " + childvalues.last;
+      return childvalues.childName
     },
 
     //CREATING NON FORUM POST USE THIS
@@ -439,6 +441,26 @@ export default createStore({
           console.error("Upload failed", error);
         });
     },
+    async createPost2({ context }, details) {
+      const post = {
+        location: details.location,
+        caption: details.caption,
+        imageUrl: null,
+        date: details.date,
+        poster: details.poster,
+        recipient: details.recipient,
+      };
+      addDoc(collection(db, "posts"), post)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .catch((error) => {
+          console.error("Upload failed", error);
+        });
+    },
 
     async createForumPost({ context }, details) {
       console.log(context);
@@ -463,6 +485,7 @@ export default createStore({
               uid: details.uid,
               poster: details.poster,
               class: details.class,
+              replies: [],
             };
             addDoc(collection(db, "forumposts"), forumpost)
               .then((response) => {
@@ -480,9 +503,8 @@ export default createStore({
     },
 
     async createReply({ context }, details) {
-
-      console.log(context);
-      console.log(details);
+      // console.log(context);
+      // console.log(details);
       const reply = {
         replycontent: details.replycontent,
         date: details.time,
@@ -490,15 +512,19 @@ export default createStore({
         replier: details.replier,
       };
 
-      const replyRef = collection(db, "forumposts", details.fpid, "replies");
-      await addDoc(replyRef, reply)
-
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      const replyRef = doc(db, "forumposts", details.fpid);
+      await updateDoc(replyRef, {
+        replies: arrayUnion(reply)
+    });
+    console.log("dab")
+      
+      // await addDoc(replyRef, reply)
+      //   .then((response) => {
+      //     console.log(response);
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
     },
     async createReport({ context }, details) {
       console.log(context);

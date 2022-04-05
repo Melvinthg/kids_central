@@ -11,51 +11,53 @@
       placeholder="Write something here..."
     />
     <el-row class="sendRow">
-
-    <div>Send to:
-      <el-select
-        v-model="recipient"
-        placeholder="Select a recipient"
-        style="width: 200px"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </div>
-
-    <!-- upload image -->
-
-    <input
-      type="file"
-      name="image"
-      @change="this.previewImage"
-      style="margin: auto"
-    />
-    
-     <div v-if="image!=null">                     
-          <img class="preview" height="268" width="356" :src="preview">
+      <div>
+        Send to:
+        <el-select
+          v-model="recipient"
+          placeholder="Select a recipient"
+          style="width: 200px"
+        >
+          <el-option-group
+            v-for="group in options"
+            :key="group.label"
+            :label="group.label"
+          >
+            <el-option
+              v-for="item in group.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-option-group>
+        </el-select>
       </div>
-    <!-- send button -->
-    <el-button plain @click="create" style="float: right;" 
-      >Post</el-button>
 
+      <!-- upload image -->
+
+      <input
+        type="file"
+        name="image"
+        @change="this.previewImage"
+        style="margin: auto"
+      />
+
+      <div v-if="image != null">
+        <img class="preview" height="268" width="356" :src="preview" />
+      </div>
+      <!-- send button -->
+      <el-button plain @click="create" style="float: right">Post</el-button>
     </el-row>
-      
   </div>
-  
 </template>
 
 <script>
 // eslint-disable-next-line no-unused-vars
 import { db, storage } from "../firebase.js";
-import { collection, getDocs} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { ref } from "vue";
 // eslint-disable-next-line no-unused-vars
-import {useStore, mapActions, mapState} from "vuex"
+import { useStore, mapActions, mapState } from "vuex";
 // const store = useStore()
 export default {
   name: "WritePost",
@@ -72,26 +74,36 @@ export default {
       recipient: ref("All"),
     };
   },
-//   computed: {
-// ...mapState({userModel: state => state.userModel}),
-//   },
+  //   computed: {
+  // ...mapState({userModel: state => state.userModel}),
+  //   },
   methods: {
-    
-    ...mapActions({createPost: "createPost", getPosts: "getPosts"}),
-    
+    ...mapActions({
+      createPost2: "createPost2",
+      createPost: "createPost",
+      getPosts: "getPosts",
+    }),
+
     async create() {
       // i do not know what this is for so i will not touch it
       var today = new Date();
-      
+
       const details = {
         location: "post",
         caption: this.caption,
         image: this.image,
         date: today,
-        poster: this.$store.state.userModel.email,
-        recipient: this.recipient
+        poster:
+          this.$store.state.userModel.first +
+          " " +
+          this.$store.state.userModel.last,
+        recipient: this.recipient,
+      };
+      if (this.image == null) {
+        await this.createPost2(details);
+      } else {
+        await this.createPost(details);
       }
-      await this.createPost(details)    
     },
     typing() {
       this.$refs.type.value = this.caption;
@@ -103,20 +115,19 @@ export default {
       this.uploadValue = 0;
       this.preview = null;
       this.image = event.target.files[0];
-    
     },
     async onUpload() {
       this.preview = null;
-      const details = {location: "post", image: this.image}
-      this.imageUrl = await this.uploadImage(details)
+      const details = { location: "post", image: this.image };
+      this.imageUrl = await this.uploadImage(details);
     },
     async getOptions() {
       let value = await getDocs(collection(db, "students"));
       let tempOptions = [];
       value.forEach((d) => {
         tempOptions.push({
-          value: d.id,
-          label: d.data().Name,
+          value: d.data().parentEmail,
+          label: d.data().childName,
         });
       });
       this.options.push({
