@@ -39,8 +39,6 @@ export default {
     methods: {
       ...mapActions({getReplies: "getReplies",getChildClass: "getChildClass", getForumPosts: "getForumPosts"}),
      
-      
-
       async display(){
         if (this.$store.state.userModel.type == "teacher"){
           this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        
