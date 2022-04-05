@@ -1,73 +1,32 @@
 <template>
     <el-row>
-        <el-col>
-            <el-card
-            v-for="forumpost in forumposts"
-            :key="forumpost.id"
-            :body-style="{ padding: '0px', width: auto}">
-                <div>
-                    <div style="padding: 15px">
-                        <span class="poster">{{ forumpost.id }}</span>
-                        <time class="time">{{ forumpost.date }}</time>  
-                    </div>     
-                    <el-divider/>
-                    <img v-bind:src="forumpost.imageUrl" class="image">
-                    
-                    <div class="title">
-                        <span>{{ forumpost.title }}</span>  
-                    </div>
-
-                    <div class="text">
-                        <p style="white-space: pre-line">{{ forumpost.text }}</p>  
-                    </div>
+        <el-col> 
+            <div>
+                <div style="padding: 15px">
+                    <span class="poster">{{ forumpost.poster }}</span>
+                    <time class="time">{{ forumpost.date }}</time>  
+                </div>     
+                <el-divider/>
+                <img v-bind:src="forumpost.imageUrl" class="image">
+                
+                <div class="title">
+                    <span>{{ forumpost.title }}</span>  
                 </div>
-              
-                <router-link to = "/forumreply" class="replies" style="float:right">{{ numReplies }} Replies</router-link>
-                <!-- <GetForumReplies fpost="wphiPcPtMS1SjoRSxkBb" /> -->
-            </el-card>
-            
+
+                <div class="text">
+                    <p style="white-space: pre-line">{{ forumpost.text }}</p>  
+                </div>
+            </div>
+            <router-link to = "/forumreply" class="replies" style="float:right">{{ forumpost.numReplies }} Replies</router-link> 
         </el-col>
     </el-row>
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import {useStore, mapActions, mapState} from "vuex"
-// eslint-disable-next-line no-unused-vars
-import { auth, db, storage } from "../firebase.js";
-import { getDoc, doc } from "firebase/firestore";
-// import GetForumReplies from '@/components/GetForumReplies.vue'
 export default {
   name: "GetForumPost",
-  // components: {
-  //   GetForumReplies
-  // },
-  data() {
-    return {
-      forumposts: [],
-      imgsrc: null,
-      numReplies: 0,
-    };
-  },
-  methods: {
-      ...mapActions({getForumPosts: "getForumPosts"}),
-      ...mapActions({getReplies: "getReplies"}),
-      ...mapActions({getChildClass: "getChildClass"}),
-      
-      async display(){
-        if (this.$store.state.userModel.type == "teacher"){
-          this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        
-        } else if (this.$store.state.userModel.type == "parent"){
-          const pEmail = this.$store.state.userModel.email  
-          var childClass = await this.getChildClass(pEmail);
-          this.forumposts = await this.getForumPosts(childClass)
-        }
-        var replieslist = await this.getReplies("HaFu0bTnZmB8PPLW1XXf");
-        this.numReplies = replieslist.length
-      },
-  },
-  created: function() {
-    this.display();
+  props: {
+      forumpost: Object,
   },
 };
 </script>

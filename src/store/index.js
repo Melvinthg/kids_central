@@ -316,22 +316,32 @@ export default createStore({
       return postsList;
     },
 
-    async getForumPosts({ context }, className) {
-      const postsList = [];
-      console.log(context);
-      const postsRef = collection(db, "forumposts");
-      const postSnap = await getDocs(postsRef);
-      postSnap.forEach((e) => {
-        const x = e.data();
-        postsList.push(x);
-      });
-      const filteredPosts = postsList
-        .filter((post) => post.class == className)
-        .sort((a, b) => {
-          return new Date(b.date) - new Date(a.date);
-        });
-      return filteredPosts;
-    },
+    // async getForumPosts({ context, dispatch }, className) {
+    //   const postsList = [];
+      
+    //   console.log(context);
+    //   const postsRef = collection(db, "forumposts");
+    //   const postSnap = await getDocs(postsRef);
+
+    //   postSnap.forEach(async(e) => {
+    //     const x = e.data();
+    //     const id = e.id;
+    //     const repliesList = await dispatch("getReplies", id);
+    //     x.replies = repliesList;
+    //     x.numReplies = repliesList.length;
+    //     if (e.data().class == className){
+    //       postsList.push(x);
+    //     }
+    //   });
+    //   const filteredPosts = postsList
+    //     // .filter((post) => post['class'] == className)
+    //     .sort((a, b) => {
+    //       return new Date(b.date) - new Date(a.date);
+    //     });
+    //   console.log(filteredPosts)
+    //   return filteredPosts;
+     
+    // },
 
     async getReplies({ context }, fpid) {
       const repliesList = [];
@@ -351,7 +361,7 @@ export default createStore({
 
     async getUsers({ context }, className) {
       const teachersList = [];
-      console.log(context);
+      // console.log(context);
       const usersRef = collection(db, "users");
       const userSnap = await getDocs(usersRef);
       userSnap.forEach((e) => {
@@ -364,7 +374,7 @@ export default createStore({
       );
       
       const parentsList = [];
-      console.log(context);
+      // console.log(context);
       const usersRef1 = collection(db, "students");
       const userSnap1 = await getDocs(usersRef1);
       userSnap1.forEach((e) => {

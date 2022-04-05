@@ -3,7 +3,8 @@
     <el-col>
       <el-card>
         <!-- show the forum thread main post -->
-        <h1>{{ fpost }}</h1>
+        <!-- <GetForumPost :fpost = "forumposts"/> -->
+
         <el-card
           v-for="fp in forumpost"
           :key="fp.id"
@@ -26,8 +27,10 @@
             </div>
           </div>
         
-          <div class="replies2" style="float: right">{{ numReplies }} Replies</div><br>
+          <div class="replies2" style="float: right">{{ fp.numReplies }} Replies</div><br>
         </el-card>
+
+        <h1>{{ fpost }}</h1>
         <!-- current replies to that forum thread -->
         <br>
         <el-card
@@ -85,7 +88,6 @@ export default {
         " " +
         this.$store.state.userModel.last,
       //need to change
-      numReplies: 0,
       forumpost: [],
       replies: [],
       //change
@@ -94,27 +96,40 @@ export default {
     };
   },
   // props: {
-  //     fpost
+  //     fpid: String,
   // },
   methods: {
-    ...mapActions({ createReply: "createReply", getReplies: "getReplies" }),
-
+    ...mapActions({ createReply: "createReply" }),
+    ...mapActions({ getReplies: "getReplies" }),
+ 
     //get the single forum thread that the replies are on
     async getForumPost(fpid) {
       const postData = [];
       const postRef = doc(db, "forumposts", fpid);
       const postSnap = await getDoc(postRef);
       const x = postSnap.data();
+      const id = postSnap.id;
+      const repliesList = await this.getReplies(id);
+      console.log(repliesList);
+      x.replies = repliesList;
+      x.numReplies = repliesList.length;
       postData.push(x);
       return postData;
+    },
+    async getForumReplies(fpid) {
+      const postRef = doc(db, "forumposts", fpid);
+      const postSnap = await getDoc(postRef);
+      const x = postSnap.data();
+      const id = postSnap.id;
+      const repliesList = await this.getReplies(id);
+      return repliesList;
     },
     //display the values on the page
     async display() {
         this.forumpost = await this.getForumPost(this.fpid);
-        this.replies = await this.getReplies(this.fpid);
+        console.log(this.forumpost)
+        this.replies = await this.getForumReplies(this.fpid);
         console.log(this.replies);
-        var replieslist = await this.getReplies("HaFu0bTnZmB8PPLW1XXf");
-        this.numReplies = replieslist.length
     },
     //create the reply document to store in firebase
     async create() {
