@@ -28,8 +28,7 @@
             <br />
           </ul>
         </el-card>
-
-        <el-button @click="$router.push('/HealthAndInjuries')">
+        <el-button @click="healthPage()">
           Proceed
         </el-button>
       </div>
@@ -39,7 +38,25 @@
       <div class="card">
         <h4>Gradebook</h4>
         <br /><br />
-        <p>No academic records yet</p>
+         <div v-if="!booGrades">
+          <p>No Gradebook reports yet</p>
+        </div>
+        <div v-if="booGrades">
+          <p>Click proceed to view more</p>
+        </div>
+        <el-card class="box-card" v-if="booGrades">
+          <ul v-for="x in gradeReports" :key="x">
+            <div id="title2" style="text-align-center">
+              <li>
+                <span
+                  ><u>{{ x.title }}</u></span
+                >
+              </li>
+            </div>
+            <div>{{ x.date }}</div>
+            <br />
+          </ul>
+        </el-card>
         <el-button
           @click="
             this.$store.state.userModel.type == 'parent'
@@ -75,7 +92,7 @@
             <br />
           </ul>
         </el-card>
-        <el-button @click="$router.push('/CognitiveAbilities')">
+        <el-button @click="cogPage()">
           Proceed
         </el-button>
       </div>
@@ -101,42 +118,37 @@ export default {
         this.$store.state.userModel.last,
       injuriesAndHealthReports: [],
       cognitiveAbilitiesReports: [],
-      childID: "",
+      gradeReports: [],
       booInjuriesAndHealth: false,
       booCognitiveAbilities: false,
+      booGrades : false,
+      childID: "",
       childName: "",
     };
   },
   methods: {
     async getInfo() {
       const paramsID = this.$route.params.id;
+     // -----------------get student id QUERY FOR TEACHERS--------------------
       if (paramsID != "child") {
         this.childID = paramsID;
-        const q = query(
-          collection(db, "students"),
-          where("childID", "==", paramsID)
-        );
-        getDocs(q).then((res) => {
-          res.forEach((d) => {
-            console.log(d.data());
-            this.childName = d.data().childName;
-          });
-        });
+        const q = query(collection(db, "students"), where("childID", "==", paramsID));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          this.childName = doc.data().childName;
+        })
+        
+      //-----------------------QUERY FOR PARENTS------------------------------
       } else {
-        // -----------------get student id --------------------
-        const q = query(
-          collection(db, "students"),
-          where("Name", "==", this.name)
-        );
-        getDocs(q).then((res) => {
-          res.forEach((d) => {
-            this.childID = d.data().childID;
-            this.childName = d.data().childName;
-          });
-        });
+        const q = query(collection(db, "students"), where("Name", "==", this.name));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        this.childID = doc.data().childID;
+        this.childName = doc.data().childName;
+      })
       }
-
       // -------------get injuries and health report------------------------
+
       const x = query(
         collection(db, "reports"),
         where("childID", "==", this.childID),
@@ -144,19 +156,34 @@ export default {
       );
       const y = await getDocs(x);
       y.forEach((doc) => {
-        // console.log(doc.id, "=>", doc.data());
         this.injuriesAndHealthReports.push(doc.data());
       });
       if (this.injuriesAndHealthReports.length > 0) {
         this.booInjuriesAndHealth = true;
         if (this.injuriesAndHealthReports.length > 2) {
-          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(
-            0,
-            2
+          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(0, 2
           );
         }
       }
+
+      //---------------------get gradebook reports--------------------------
+      const a = query(
+        collection(db, "gradebook"),
+        where("childID", "==", this.childID),
+      );
+      const b = await getDocs(a);
+      b.forEach((doc) => {
+        this.gradeReports.push(doc.data());
+      });
+      if (this.gradeReports.length > 0) {
+        this.booGrades = true;
+        if (this.gradeReports.length > 2) {
+          this.gradeReports = this.gradeReports.slice(0, 2);
+        }
+      }
+      
       // -------------get cognitive abilities report------------------------
+
       const i = query(
         collection(db, "reports"),
         where("childID", "==", this.childID),
@@ -164,19 +191,24 @@ export default {
       );
       const j = await getDocs(i);
       j.forEach((doc) => {
-        console.log(doc.id, "=>", doc.data());
         this.cognitiveAbilitiesReports.push(doc.data());
       });
       if (this.cognitiveAbilitiesReports.length > 0) {
         this.booCognitiveAbilities = true;
         if (this.cognitiveAbilitiesReports.length > 2) {
-          this.cognitiveAbilitiesReports = this.cognitiveAbilitiesReports.slice(
-            0,
-            2
-          );
+          this.cognitiveAbilitiesReports = this.cognitiveAbilitiesReports.slice(0, 2);
         }
       }
     },
+
+    healthPage() {
+      this.$router.push({name: "HealthAndInjuries", params:{id: this.childID}})
+    },
+
+    cogPage() {
+      this.$router.push({name: "CognitiveAbilities", params:{id: this.childID}})
+    },
+
   },
 
   created() {
