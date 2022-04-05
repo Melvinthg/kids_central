@@ -107,6 +107,9 @@ export default {
   padding: 5px;
   width: 100%;
 }
+#header :hover {
+  background-color: transparent;
+}
 #title {
   float: middle;
   text-align: center;

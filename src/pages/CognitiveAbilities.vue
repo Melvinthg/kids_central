@@ -2,7 +2,6 @@
 <div id="header">
         <div id="firstgroup">
             <el-button type = "primary" @click ="this.$router.go(-1)">Back </el-button>
-          <!-- <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link> -->
         </div>
         <div id="secondgroup">
             <img id = "pic" src="@/assets/Cognitive.png" alt="">
@@ -93,6 +92,9 @@ export default {
     padding: 5px;
     width: 100%;
 }
+#header :hover {
+  background-color: transparent;
+}
 #title {
   float:middle;
   text-align:center;
@@ -109,7 +111,6 @@ export default {
     color: white;
     padding: 10px;
     line-height: 0px;
-    /* margin-left:25%; */
 }
 
 #btn {
