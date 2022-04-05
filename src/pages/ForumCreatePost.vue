@@ -31,14 +31,14 @@
       <input
         type="file"
         name="image"
-        @change="loadFile"
+        @change="this.loadFile"
         style="margin-left:1%"><br>
         <img id="output" width="350" height="200" style="margin-left:1%">           
   </div> <br>
 
-  <div v-if="image!=null">                     
+  <!-- <div v-if="image!=null">                     
       <img class="preview" style="margin-left:1%" height="200" width="300" :src="preview"><br>
-  </div>
+  </div> -->
 
   <div>
       <button @click="create" style="margin-left:1%">Post</button>
@@ -96,7 +96,7 @@ export default {
         var output = document.getElementById('output');
         output.src = reader.result;
       };
-      reader.readAsDataURL(event.target.files[0]);
+      reader.readAsDataURL(this.image = event.target.files[0]);
     },
     async onUpload(){
         this.preview = null;
