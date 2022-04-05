@@ -27,15 +27,14 @@
       </textarea>
   </div> <br>
 
-
   <div>
       <input
         type="file"
         name="image"
-        @change="this.previewImage"
-        style="margin-left:1%">             
+        @change="loadFile"
+        style="margin-left:1%"><br>
+        <img id="output" width="350" height="200" style="margin-left:1%">           
   </div> <br>
-
 
   <div v-if="image!=null">                     
       <img class="preview" style="margin-left:1%" height="200" width="300" :src="preview"><br>
@@ -71,9 +70,10 @@ export default {
     ...mapActions({createForumPost: "createForumPost"}),
     ...mapActions({getChildClass: "getChildClass"}),
     async create() {
-      const pEmail = this.$store.state.userModel.email  
-      var childClass = await this.getChildClass(pEmail);
-      
+      if (this.$store.state.userModel.type == "parent"){
+        const pEmail = this.$store.state.userModel.email  
+        var childClass = await this.getChildClass(pEmail);
+      }
       const details = {
         location: "forumpost",
         image: this.image,
@@ -90,11 +90,13 @@ export default {
     click1() {
         this.$refs.input1.click()   
     },
-    previewImage(event) {
-        this.uploadValue=0;
-        this.preview=null;
-        this.image = event.target.files[0];
-        // this.onUpload()
+    loadFile(event) {
+      var reader = new FileReader();
+      reader.onload = function(){
+        var output = document.getElementById('output');
+        output.src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
     },
     async onUpload(){
         this.preview = null;

@@ -367,7 +367,6 @@ export default createStore({
 
     async getUsers({ context }, className) {
       const teachersList = [];
-      
       const usersRef = collection(db, "users");
       const userSnap = await getDocs(usersRef);
       userSnap.forEach((e) => {
@@ -379,7 +378,6 @@ export default createStore({
       );
 
       const parentsList = [];
-      
       const usersRef1 = collection(db, "students");
       const userSnap1 = await getDocs(usersRef1);
       userSnap1.forEach((e) => {
