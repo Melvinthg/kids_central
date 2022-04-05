@@ -29,7 +29,7 @@
           </ul>
         </el-card>
 
-        <el-button @click="$router.push('HealthAndInjuries')">
+        <el-button @click="$router.push('/HealthAndInjuries')">
           Proceed
         </el-button>
       </div>
@@ -43,8 +43,8 @@
         <el-button
           @click="
             this.$store.state.userModel.type == 'parent'
-              ? $router.push('gradesDisplayParent')
-              : $router.push('gradesDisplayTeacher')
+              ? $router.push('/gradesDisplayParent')
+              : $router.push('/gradesDisplayTeacher')
           "
         >
           Proceed
@@ -75,7 +75,7 @@
             <br />
           </ul>
         </el-card>
-        <el-button @click="$router.push('CognitiveAbilities')">
+        <el-button @click="$router.push('/CognitiveAbilities')">
           Proceed
         </el-button>
       </div>
@@ -109,19 +109,32 @@ export default {
   },
   methods: {
     async getInfo() {
-      console.log(this.$route.params.id);
+      const paramsID = this.$route.params.id;
+      if (paramsID != "child") {
+        this.childID = paramsID;
+        const q = query(
+          collection(db, "students"),
+          where("childID", "==", paramsID)
+        );
+        getDocs(q).then((res) => {
+          res.forEach((d) => {
+            console.log(d.data());
+            this.childName = d.data().childName;
+          });
+        });
+      } else {
         // -----------------get student id --------------------
         const q = query(
           collection(db, "students"),
           where("Name", "==", this.name)
         );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          this.childID = doc.data().childID;
-          this.childName = doc.data().childName;
-          console.log(this.childID);
+        getDocs(q).then((res) => {
+          res.forEach((d) => {
+            this.childID = d.data().childID;
+            this.childName = d.data().childName;
+          });
         });
-      
+      }
 
       // -------------get injuries and health report------------------------
       const x = query(
@@ -211,7 +224,7 @@ body {
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 16px;
-  margin: 100px;
+  margin: 20px;
   text-align: center;
   background-color: #faf9f6;
   height: 400px;

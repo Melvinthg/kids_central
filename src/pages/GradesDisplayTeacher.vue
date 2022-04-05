@@ -1,8 +1,8 @@
 <template>
   <el-header>
-    <router-link to="/editClassDashboard" tag="button" className="back1">
-      Back
-    </router-link>
+    <el-button type="primary" :icon="ArrowLeft" @click="this.$router.go(-1)"
+      >Back</el-button
+    >
   </el-header>
   <h1>Currently viewing Class Grades</h1>
 
