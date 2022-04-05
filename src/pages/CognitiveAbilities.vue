@@ -1,7 +1,7 @@
 <template>
 <div id="header">
         <div id="firstgroup">
-            <router-link to = "/Dashboard" className='text-link' style='color:white'>Dashboard</router-link>
+            <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link>
         </div>
         <div id="secondgroup">
             <img id = "pic" src="@/assets/Cognitive.png" alt="">
@@ -124,13 +124,5 @@ ul li {
 }
 #time {
   text-align: right;
-}
-.box-card {
-  /* background: lightsteelblue; */
-
-}
-#title2 {
-  /* background:rgb(122, 141, 223); */
-  /* text-align:center; */
 }
 </style>

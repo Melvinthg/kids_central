@@ -1,6 +1,6 @@
 <template>
   <div id="wholegroup">
-    <div id="createfirstgroup" @click = "this.$router.go('-1')">Back</div>
+    <div id="createfirstgroup" @click = "this.$router.push('/forumdisplay')">Back</div>
     <div id="secondgroup">
       <h1>CLASS {{ classname }} FORUM</h1>
       <br />

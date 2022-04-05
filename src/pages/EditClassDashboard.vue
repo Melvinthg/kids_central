@@ -13,8 +13,6 @@
          <el-card class="card">
         <!-- <el-card class="card" @click="$router.push('DashBoard')"> -->
           <div class="cardName">
-           <SearchName v-bind:btn-text = "'Hi From Parent'"/>
-
             <!-- <span> Enter Student ID </span>
                     <el-input
                         id="studentID"
@@ -26,8 +24,29 @@
                         placeholder="Enter Student ID..."
                         /> -->
 
-            <!-- push to next update temperature page -->
+          <!-- push to next update temperature page -->
           </div>
+          <b>Search</b>
+          <el-select
+            v-model="searchParams"
+            filterable
+            remote
+            reserve-keyword
+            placeholder="Search child..."
+            :remote-method="remoteMethod"
+            :loading="loading"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-button :icon="Search" type="primary" @click="searchChild"
+            >Search</el-button
+          >
+          <!-- </div> -->
         </el-card>
       </el-col>
       <el-col :span="6" class="col">
@@ -71,6 +90,8 @@
 <script>
 import SearchName from "@/components/SearchName.vue"
 import { getAuth } from "firebase/auth";
+import { db } from "../firebase.js";
+import { collection, getDocs, where, query, orderBy } from "firebase/firestore";
 const auth = getAuth();
 
 // import { ref } from 'vue'
@@ -81,22 +102,51 @@ export default {
     return {
       studentID: "",
       user: auth.currentUser,
-      childName: "",
-      text: "Hi from data"
+      searchParams: "",
+      options: [],
+      list: [],
+      loading: false,
     };
   },
 
   components: {
-    SearchName,
   },
-
 
   methods: {
-    async getInfo() {
-
-    }
+    getOptions() {
+      let temp = [];
+      getDocs(collection(db, "students")).then((res) => {
+        res.forEach((d) => {
+          temp.push({ value: d.id, label: d.id });
+        });
+      });
+      this.list = temp;
+    },
+    searchChild() {
+      if (this.searchParams)
+        this.$router.push("/dashboard/" + this.searchParams);
+    },
+    remoteMethod(query) {
+      if (query) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.options = this.list.filter((item) => {
+            return item.value.toLowerCase().includes(query.toLowerCase());
+          });
+        }, 200);
+      } else {
+        this.options = [];
+      }
+    },
+  },
+  created: function () {
+    this.getOptions();
   },
 };
+</script>
+<script setup>
+import { Search } from "@element-plus/icons-vue";
 </script>
 
 <style scoped>
@@ -104,15 +154,12 @@ export default {
   height: 600px;
 }
 
-.col {
-}
 .card {
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   height: 60%;
-  padding: 24px;
+  padding: 20px;
 }
 
 img {
@@ -127,8 +174,7 @@ img {
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
-.cardName {
-}
+
 #topbar {
   overflow: hidden;
   background-color: whitesmoke;

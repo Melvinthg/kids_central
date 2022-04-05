@@ -77,7 +77,7 @@ const routes = [
     component: ChildrenInfo
   },
   {
-    path: "/dashboard",
+    path: "/dashboard/:id",
     name: "Dashboard",
     component: Dashboard
   },
@@ -90,6 +90,9 @@ const routes = [
     path: "/forumreply",
     name: "ForumReply",
     component: ForumReply,
+    props: (route) => ({
+      ...route.params
+    })
   },
   {
     path: "/caregiveruploadreport",

@@ -1,5 +1,9 @@
 <template>
-  <el-row>
+  <h3>Feed</h3>
+  <div v-if="posts.length == 0">
+    <el-empty feed="No feed..." />
+  </div>
+  <el-row v-else>
     <el-col>
       <el-card
         v-for="post in posts"
@@ -10,7 +14,11 @@
           <span>{{ post.poster }} shared </span>
           <time class="time">{{ post.date }}</time>
           <div class="bottom">
-            <img v-if="post.imageUrl != null" v-bind:src="post.imageUrl" class="image" />
+            <img
+              v-if="post.imageUrl != null"
+              v-bind:src="post.imageUrl"
+              class="image"
+            />
             <span>{{ post.caption }}</span>
           </div>
         </div>
@@ -37,7 +45,7 @@ export default {
         q = query(
           collection(db, "posts"),
           where("recipient", "==", this.$store.state.userModel.email),
-         orderBy("date")
+          orderBy("date")
         );
       } else {
         q = query(collection(db, "posts"), orderBy("date", "desc"));
