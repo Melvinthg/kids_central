@@ -348,14 +348,11 @@ export default createStore({
     },
 
     async getReplies({ context }, fpid) {
-      const repliesList = [];
+      var repliesList = [];
       
-      const repliesRef = collection(db, "forumposts", fpid, "replies");
-      const repliesSnap = await getDocs(repliesRef);
-      repliesSnap.forEach((e) => {
-        const x = e.data();
-        repliesList.push(x);
-      });
+      const postRef = doc(db, "forumposts", fpid,);
+      const postSnap = await getDoc(postRef)
+      repliesList = postSnap.data()["replies"]
       const replies = repliesList.sort((a, b) => {
         return new Date(a.date) - new Date(b.date);
         // earliest to latest reply
