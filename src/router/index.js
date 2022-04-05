@@ -77,7 +77,7 @@ const routes = [
     component: ChildrenInfo
   },
   {
-    path: "/dashboard",
+    path: "/dashboard/:id",
     name: "Dashboard",
     component: Dashboard
   },

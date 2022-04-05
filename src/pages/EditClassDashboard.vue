@@ -10,14 +10,14 @@
 
     <el-row :gutter="21" justify="space-evenly">
       <el-col :span="6" class="col">
-        <el-card class="card" @click="$router.push('home')">
-          <img
+        <el-card class="card">
+          <!-- <img
             src="https://images.unsplash.com/photo-1584650000640-a70adafd062e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpbGQlMjB0ZW1wZXJhdHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
             class="image"
-          />
-          <div class="cardName">
-            <h5><strong> Update Child Temperature </strong></h5>
-            <!-- <span> Enter Student ID </span>
+          /> -->
+          <!-- <div class="cardName"> -->
+          <!-- <h5><strong> Update Child Temperature </strong></h5> -->
+          <!-- <span> Enter Student ID </span>
                     <el-input
                         id="studentID"
                         ref="type"
@@ -28,8 +28,17 @@
                         placeholder="Enter Student ID..."
                         /> -->
 
-            <!-- push to next update temperature page -->
-          </div>
+          <!-- push to next update temperature page -->
+          <b>Search</b>
+          <el-input
+            placeholder="Search child..."
+            :prefix-icon="Search"
+            v-model="searchParams"
+          />
+          <el-button :icon="Search" type="primary" @click="searchChild"
+            >Search</el-button
+          >
+          <!-- </div> -->
         </el-card>
       </el-col>
       <el-col :span="6" class="col">
@@ -82,18 +91,26 @@ export default {
     return {
       studentID: "",
       user: auth.currentUser,
+      searchParams: "",
     };
   },
 
   components: {},
 
-
   methods: {
     //proceed method to
     // proceed() {
     // }
+
+    searchChild() {
+      console.log("Search = " + this.searchParams);
+      this.$router.push('dashboard');
+    },
   },
 };
+</script>
+<script setup>
+import { Search } from "@element-plus/icons-vue";
 </script>
 
 <style scoped>

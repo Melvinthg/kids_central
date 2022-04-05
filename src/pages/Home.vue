@@ -6,11 +6,9 @@
         <el-aside width="200px" style="background-color: cornflowerblue">
           <br />
 
-
           <header style="text-align:center; size=18px; color: white">
             <strong> {{ username }} </strong>
           </header>
-
 
           <br />
           <el-menu
@@ -30,7 +28,7 @@
             <el-menu-item
               v-if="this.homeType === 'parent'"
               index="1a"
-              @click="this.$router.push('/Dashboard')"
+              @click="this.$router.push('/Dashboard/')"
             >
               <el-icon><Edit /></el-icon>
               <span>View Child Dashboard</span>
@@ -115,7 +113,6 @@ import GetPost from "@/components/GetPost.vue";
 
 import { store } from "@/store";
 
-
 import {
   Edit,
   Notebook,
@@ -124,7 +121,6 @@ import {
 } from "@element-plus/icons-vue";
 import { getAuth } from "firebase/auth";
 import { db } from "../firebase.js";
-import { mapGetters } from "vuex";
 import { doc, getDoc } from "firebase/firestore";
 const auth = getAuth();
 export default {
@@ -154,10 +150,9 @@ export default {
     // this.homeType = this.$store.state.userModel.type;
     // this.username = this.$store.state.userModel.first + " " + this.$store.state.userModel.last;
   },
-  created(){
+  created() {
     // this.homeType = this.$store.state.userModel.type;
     // this.username = this.$store.state.userModel.first + " " + this.$store.state.userModel.last;
-  
   },
   // beforeMount(){
   //   this.test()

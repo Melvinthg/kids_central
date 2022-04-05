@@ -1,7 +1,7 @@
 <template>
   <div id="parentView">
     <div id="secondgroup">
-      <h1>{{childName}}'s Profile</h1>
+      <h1>{{ childName }}'s Profile</h1>
     </div>
   </div>
   <div class="row">
@@ -9,21 +9,27 @@
       <div class="card">
         <h4>Injuries and health</h4>
         <br /><br />
-        <div v-if = "!booInjuriesAndHealth"> 
+        <div v-if="!booInjuriesAndHealth">
           <p>No Injuries and health reports yet</p>
         </div>
-        <div v-if = "booInjuriesAndHealth">
-        <p>Click proceed to view more</p>
+        <div v-if="booInjuriesAndHealth">
+          <p>Click proceed to view more</p>
         </div>
-        <el-card class="box-card" v-if = "booInjuriesAndHealth">
-           <ul v-for="x in injuriesAndHealthReports" :key="x">
-         <div id = "title2" style = "text-align-center"><li><span><u>{{x.title}}</u></span></li></div>
-         <div>{{x.date.toDate().toString().slice(4,16)}}</div>
-         <br>
-     </ul>
-  </el-card>
-  
-        <el-button @click=" $router.push('HealthAndInjuries')">
+        <el-card class="box-card" v-if="booInjuriesAndHealth">
+          <ul v-for="x in injuriesAndHealthReports" :key="x">
+            <div id="title2" style="text-align-center">
+              <li>
+                <span
+                  ><u>{{ x.title }}</u></span
+                >
+              </li>
+            </div>
+            <div>{{ x.date.toDate().toString().slice(4, 16) }}</div>
+            <br />
+          </ul>
+        </el-card>
+
+        <el-button @click="$router.push('HealthAndInjuries')">
           Proceed
         </el-button>
       </div>
@@ -50,20 +56,26 @@
       <div class="card">
         <h4>Cognitive abilities</h4>
         <br /><br />
-         <div v-if = "!booCognitiveAbilities"> 
+        <div v-if="!booCognitiveAbilities">
           <p>No cognitive abilities reports yet</p>
         </div>
-        <div v-if = "booCognitiveAbilities">
-        <p>Click proceed to view more</p>
+        <div v-if="booCognitiveAbilities">
+          <p>Click proceed to view more</p>
         </div>
-        <el-card class="box-card" v-if = "booCognitiveAbilities">
-           <ul v-for="x in cognitiveAbilitiesReports" :key="x">
-         <div id = "title2" style = "text-align-center"><li><span><u>{{x.title}}</u></span></li></div>
-         <div>{{x.date.toDate().toString().slice(4,16)}}</div>
-         <br>
-             </ul>
+        <el-card class="box-card" v-if="booCognitiveAbilities">
+          <ul v-for="x in cognitiveAbilitiesReports" :key="x">
+            <div id="title2" style="text-align-center">
+              <li>
+                <span
+                  ><u>{{ x.title }}</u></span
+                >
+              </li>
+            </div>
+            <div>{{ x.date.toDate().toString().slice(4, 16) }}</div>
+            <br />
+          </ul>
         </el-card>
-          <el-button @click=" $router.push('CognitiveAbilities')">
+        <el-button @click="$router.push('CognitiveAbilities')">
           Proceed
         </el-button>
       </div>
@@ -83,57 +95,80 @@ export default {
   },
   data() {
     return {
-      name: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
-      injuriesAndHealthReports : [],
-      cognitiveAbilitiesReports : [],
-      childID : "",
-      booInjuriesAndHealth : false,
+      name:
+        this.$store.state.userModel.first +
+        " " +
+        this.$store.state.userModel.last,
+      injuriesAndHealthReports: [],
+      cognitiveAbilitiesReports: [],
+      childID: "",
+      booInjuriesAndHealth: false,
       booCognitiveAbilities: false,
-      childName : "",
-    }
+      childName: "",
+    };
   },
   methods: {
     async getInfo() {
-      // -----------------get student id --------------------
-      const q = query(collection(db, "students"), where("Name", "==", this.name));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-      this.childID = doc.data().childID;
-      this.childName = doc.data().childName;
-      console.log(this.childID)
-      })
+      console.log(this.$route.params.id);
+        // -----------------get student id --------------------
+        const q = query(
+          collection(db, "students"),
+          where("Name", "==", this.name)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          this.childID = doc.data().childID;
+          this.childName = doc.data().childName;
+          console.log(this.childID);
+        });
+      
+
       // -------------get injuries and health report------------------------
-      const x = query(collection(db, "reports"), where("childID", "==", this.childID), where("category", "==", "injuriesandhealth")) 
+      const x = query(
+        collection(db, "reports"),
+        where("childID", "==", this.childID),
+        where("category", "==", "injuriesandhealth")
+      );
       const y = await getDocs(x);
       y.forEach((doc) => {
         // console.log(doc.id, "=>", doc.data());
         this.injuriesAndHealthReports.push(doc.data());
-      })
+      });
       if (this.injuriesAndHealthReports.length > 0) {
-        this.booInjuriesAndHealth = true; 
+        this.booInjuriesAndHealth = true;
         if (this.injuriesAndHealthReports.length > 2) {
-          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(0,2);
+          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(
+            0,
+            2
+          );
         }
       }
-     // -------------get cognitive abilities report------------------------
-      const i = query(collection(db, "reports"), where("childID", "==", this.childID), where("category", "==", "cognitiveabilities")) 
+      // -------------get cognitive abilities report------------------------
+      const i = query(
+        collection(db, "reports"),
+        where("childID", "==", this.childID),
+        where("category", "==", "cognitiveabilities")
+      );
       const j = await getDocs(i);
       j.forEach((doc) => {
         console.log(doc.id, "=>", doc.data());
         this.cognitiveAbilitiesReports.push(doc.data());
-      })
+      });
       if (this.cognitiveAbilitiesReports.length > 0) {
-        this.booCognitiveAbilities = true; 
+        this.booCognitiveAbilities = true;
         if (this.cognitiveAbilitiesReports.length > 2) {
-          this.cognitiveAbilitiesReports = this.cognitiveAbilitiesReports.slice(0,2);
+          this.cognitiveAbilitiesReports = this.cognitiveAbilitiesReports.slice(
+            0,
+            2
+          );
         }
       }
-    }
+    },
   },
 
   created() {
     this.getInfo();
-  }
+  },
 };
 </script>
 
@@ -151,7 +186,9 @@ body {
   padding: 0 10px;
 }
 /* Remove extra left and right margins, due to padding */
-.row {margin: 0 -5px;}
+.row {
+  margin: 0 -5px;
+}
 /* Clear floats after the columns */
 .row:after {
   content: "";
@@ -166,8 +203,10 @@ body {
     margin-bottom: 20px;
   }
 }
-.card:hover{
-     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+.card:hover {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -201,7 +240,7 @@ body {
   text-align: center;
   color: white;
   padding: 10px;
-  margin-left:25%
+  margin-left: 25%;
 }
 #thirdgroup {
   text-align: center;
@@ -225,7 +264,7 @@ ul {
 }
 
 ul li {
-  margin-bottom:0px;
+  margin-bottom: 0px;
 }
 
 li span {
