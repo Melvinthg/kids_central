@@ -10,13 +10,11 @@
 
     <el-row :gutter="21" justify="space-evenly">
       <el-col :span="6" class="col">
-        <el-card class="card" @click="$router.push('home')">
-          <img
-            src="https://images.unsplash.com/photo-1584650000640-a70adafd062e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpbGQlMjB0ZW1wZXJhdHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
-            class="image"
-          />
+         <el-card class="card">
+        <!-- <el-card class="card" @click="$router.push('DashBoard')"> -->
           <div class="cardName">
-            <h5><strong> Update Child Temperature </strong></h5>
+           <SearchName v-bind:btn-text = "'Hi From Parent'"/>
+
             <!-- <span> Enter Student ID </span>
                     <el-input
                         id="studentID"
@@ -71,6 +69,7 @@
 </template>
 
 <script>
+import SearchName from "@/components/SearchName.vue"
 import { getAuth } from "firebase/auth";
 const auth = getAuth();
 
@@ -82,16 +81,20 @@ export default {
     return {
       studentID: "",
       user: auth.currentUser,
+      childName: "",
+      text: "Hi from data"
     };
   },
 
-  components: {},
+  components: {
+    SearchName,
+  },
 
 
   methods: {
-    //proceed method to
-    // proceed() {
-    // }
+    async getInfo() {
+
+    }
   },
 };
 </script>
