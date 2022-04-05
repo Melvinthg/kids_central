@@ -90,6 +90,9 @@ const routes = [
     path: "/forumreply",
     name: "ForumReply",
     component: ForumReply,
+    props: (route) => ({
+      ...route.params
+    })
   },
   {
     path: "/caregiveruploadreport",

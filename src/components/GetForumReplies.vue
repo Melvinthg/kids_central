@@ -70,6 +70,7 @@
       </el-card>
     </el-col>
   </el-row>
+  <div @click = "test"> xcxcx</div>
 </template>
 
 <script>
@@ -92,45 +93,20 @@ export default {
       replies: [],
       //change
       //pass as a prop from the parent
-      fpid: "HaFu0bTnZmB8PPLW1XXf",
+      fpid: "",
     };
   },
   // props: {
   //     fpid: String,
   // },
   methods: {
-    ...mapActions({ createReply: "createReply" }),
-    ...mapActions({ getReplies: "getReplies" }),
+    ...mapActions({ createReply: "createReply", getReplies: "getReplies"  }),
+    
  
-    //get the single forum thread that the replies are on
-    async getForumPost(fpid) {
-      const postData = [];
-      const postRef = doc(db, "forumposts", fpid);
-      const postSnap = await getDoc(postRef);
-      const x = postSnap.data();
-      const id = postSnap.id;
-      const repliesList = await this.getReplies(id);
-      console.log(repliesList);
-      x.replies = repliesList;
-      x.numReplies = repliesList.length;
-      postData.push(x);
-      return postData;
+    test(){
+      console.log(this.fpid)
     },
-    async getForumReplies(fpid) {
-      const postRef = doc(db, "forumposts", fpid);
-      const postSnap = await getDoc(postRef);
-      const x = postSnap.data();
-      const id = postSnap.id;
-      const repliesList = await this.getReplies(id);
-      return repliesList;
-    },
-    //display the values on the page
-    async display() {
-        this.forumpost = await this.getForumPost(this.fpid);
-        console.log(this.forumpost)
-        this.replies = await this.getForumReplies(this.fpid);
-        console.log(this.replies);
-    },
+   
     //create the reply document to store in firebase
     async create() {
       const details = {
@@ -147,10 +123,11 @@ export default {
       this.$router.go()
     },
   },
-  created: function () {
-    this.display();
-    this.numReplies = 0;
-  },
+  mounted(){
+    this.fpid = this.$route.params.fpid
+    this.replies = this.$route.params.replies
+  }
+  
 };
 </script>
 

@@ -336,16 +336,14 @@ export default createStore({
         postsList.push(x);
       });
 
-      console.log("FROM STORE LOLOLOLOL")
-      console.log(postsList);
+      
 
       const filteredPosts = postsList
         .filter((post) => post.class == className)
         .sort((a, b) => {
           return new Date(b.date) - new Date(a.date);
         });
-        console.log("filtered lOLOLOL")
-      console.log(filteredPosts)
+        
       return filteredPosts
     },
 
@@ -518,13 +516,6 @@ export default createStore({
     });
     console.log("dab")
       
-      // await addDoc(replyRef, reply)
-      //   .then((response) => {
-      //     console.log(response);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     },
     async createReport({ context }, details) {
       console.log(context);
