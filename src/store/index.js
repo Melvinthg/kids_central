@@ -336,8 +336,6 @@ export default createStore({
         postsList.push(x);
       });
 
-      
-
       const filteredPosts = postsList
         .filter((post) => post.class == className)
         .sort((a, b) => {

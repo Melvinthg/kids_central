@@ -3,17 +3,20 @@
     <el-col>
       <el-card>
         
-       
-        
-          
-
+       <!-- forum thread  -->
+       <el-card
+            v-for="forumpost in forumposts"
+            :key="forumpost.id"
+            :body-style="{ padding: '0px', width: auto}">
+            <GetForumPost :forumpost = "forumpost"/>
+        </el-card>
         
         <!-- current replies to that forum thread -->
-        <br>
+        <hr>
         <el-card
           v-for="reply in replies"
           :key="reply.id"
-          :body-style="{ padding: '0px', width: auto }"
+          :body-style="{ padding: '5px', width: auto }"
         >
           <div>
             <div style="padding: 15px">
@@ -26,7 +29,7 @@
               <span>{{ reply.replycontent }}</span>
             </div>
           </div>
-        </el-card>
+        </el-card><br>
 
         <!-- reply box with user's name and textbox -->
 
@@ -47,7 +50,6 @@
       </el-card>
     </el-col>
   </el-row>
-  <div @click = "test"> xcxcx</div>
 </template>
 
 <script>
@@ -56,8 +58,12 @@ import { collection, getDoc, doc } from "firebase/firestore";
 import { auth, db, storage } from "../firebase.js";
 // eslint-disable-next-line no-unused-vars
 import { useStore, mapActions, mapState } from "vuex";
+import GetForumPost from '@/components/GetForumPost.vue'
 export default {
   name: "GetForumReplies",
+  components: {
+        GetForumPost
+    },
   data() {
     return {
       replycontent: "",
@@ -65,29 +71,18 @@ export default {
         this.$store.state.userModel.first +
         " " +
         this.$store.state.userModel.last,
-      //need to change
-      forumpost: [],
+      forumposts: [],
       replies: [],
-      //change
-      //pass as a prop from the parent
       fpid: "",
+      title: this.$route.params.title,
     };
   },
   // props: {
   //     fpid: String,
   // },
   methods: {
-    ...mapActions({ createReply: "createReply", getReplies: "getReplies"  }),
+    ...mapActions({ createReply: "createReply", getReplies: "getReplies",getChildClass: "getChildClass", getForumPosts: "getForumPosts" }),
     
- 
-    async test(){
-      console.log("replies")
-      
-      const dab = await this.getReplies(this.fpid)
-      console.log(dab);
-      
-    },
-   
     //create the reply document to store in firebase
     async create() {
       const details = {
@@ -101,15 +96,32 @@ export default {
           this.$store.state.userModel.last,
       };
       await this.createReply(details);
-      this.replies = await this.getReplies(this.fpid)
-      
+      this.replies = await this.getReplies(this.fpid) 
+    },
+    async display(){
+        if (this.$store.state.userModel.type == "teacher"){
+          this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        
+        } else if (this.$store.state.userModel.type == "parent"){
+          const pEmail = this.$store.state.userModel.email  
+          var childClass = await this.getChildClass(pEmail);
+          this.forumposts = await this.getForumPosts(childClass);
+          var t = this.title;
+          this.forumposts = this.forumposts.filter(function(post) {return post.title == t});
+        }
     },
   },
   async mounted(){
     this.fpid = this.$route.params.fpid
-    this.replies = await this.getReplies(this.fpid)
-  }
+    this.replies = await this.getReplies(this.fpid)   
+    this.display();
+    console.log(this.title)
+    
+    
+  },
   
+  created: function() {
+        this.display();
+  },
 };
 </script>
 
