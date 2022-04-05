@@ -1,17 +1,19 @@
 <template>
-  <el-header>
-    <router-link to="/editClassDashboard" tag="button">
-      <el-button type="primary" :icon="ArrowLeft">Back</el-button>
-    </router-link>
+  <el-header style="margin-top: 20px">
+    <el-page-header content="Gradebook" @back="this.$router.go(-1)" />
   </el-header>
-  <h1>Currently viewing Grades for {{ studentname }}</h1>
-  <column-chart :data="chartdata"></column-chart>
+  <div style="margin: 0px 0px 20px 20px">
+    <el-row>
+      <h1>Currently viewing Grades for {{ studentname }}</h1>
+    </el-row>
+    <column-chart :data="chartdata"></column-chart>
+  </div>
 </template>
 
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { useStore, mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "GradesDisplayParent",
@@ -22,6 +24,7 @@ export default {
       studentname: "",
     };
   },
+
   methods: {
     ...mapActions({ getChildName: "getChildName" }),
 
@@ -49,7 +52,7 @@ export default {
       });
       this.chartdata = chart;
     },
-    
+
     async updateName() {
       this.studentname = await this.getChildName(
         this.$store.state.userModel.email
@@ -61,7 +64,4 @@ export default {
     this.createGraph();
   },
 };
-</script>
-<script setup>
-import { ArrowLeft } from "@element-plus/icons-vue";
 </script>

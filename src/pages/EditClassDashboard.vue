@@ -10,14 +10,14 @@
 
     <el-row :gutter="21" justify="space-evenly">
       <el-col :span="6" class="col">
-        <el-card class="card" @click="$router.push('home')">
-          <img
+        <el-card class="card">
+          <!-- <img
             src="https://images.unsplash.com/photo-1584650000640-a70adafd062e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpbGQlMjB0ZW1wZXJhdHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
             class="image"
-          />
-          <div class="cardName">
-            <h5><strong> Update Child Temperature </strong></h5>
-            <!-- <span> Enter Student ID </span>
+          /> -->
+          <!-- <div class="cardName"> -->
+          <!-- <h5><strong> Update Child Temperature </strong></h5> -->
+          <!-- <span> Enter Student ID </span>
                     <el-input
                         id="studentID"
                         ref="type"
@@ -28,8 +28,28 @@
                         placeholder="Enter Student ID..."
                         /> -->
 
-            <!-- push to next update temperature page -->
-          </div>
+          <!-- push to next update temperature page -->
+          <b>Search</b>
+          <el-select
+            v-model="searchParams"
+            filterable
+            remote
+            reserve-keyword
+            placeholder="Search child..."
+            :remote-method="remoteMethod"
+            :loading="loading"
+          >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+          <el-button :icon="Search" type="primary" @click="searchChild"
+            >Search</el-button
+          >
+          <!-- </div> -->
         </el-card>
       </el-col>
       <el-col :span="6" class="col">
@@ -72,6 +92,8 @@
 
 <script>
 import { getAuth } from "firebase/auth";
+import { db } from "../firebase.js";
+import { collection, getDocs, where, query, orderBy } from "firebase/firestore";
 const auth = getAuth();
 
 // import { ref } from 'vue'
@@ -82,18 +104,50 @@ export default {
     return {
       studentID: "",
       user: auth.currentUser,
+      searchParams: "",
+      options: [],
+      list: [],
+      loading: false,
     };
   },
 
   components: {},
 
-
   methods: {
-    //proceed method to
-    // proceed() {
-    // }
+    getOptions() {
+      let temp = [];
+      getDocs(collection(db, "students")).then((res) => {
+        res.forEach((d) => {
+          temp.push({ value: d.id, label: d.id });
+        });
+      });
+      this.list = temp;
+    },
+    searchChild() {
+      if (this.searchParams)
+        this.$router.push("/dashboard/" + this.searchParams);
+    },
+    remoteMethod(query) {
+      if (query) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.options = this.list.filter((item) => {
+            return item.value.toLowerCase().includes(query.toLowerCase());
+          });
+        }, 200);
+      } else {
+        this.options = [];
+      }
+    },
+  },
+  created: function () {
+    this.getOptions();
   },
 };
+</script>
+<script setup>
+import { Search } from "@element-plus/icons-vue";
 </script>
 
 <style scoped>
@@ -101,15 +155,12 @@ export default {
   height: 600px;
 }
 
-.col {
-}
 .card {
   display: flex;
   flex-direction: column;
-
   justify-content: center;
   height: 60%;
-  padding: 24px;
+  padding: 20px;
 }
 
 img {
@@ -124,8 +175,7 @@ img {
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
-.cardName {
-}
+
 #topbar {
   overflow: hidden;
   background-color: whitesmoke;

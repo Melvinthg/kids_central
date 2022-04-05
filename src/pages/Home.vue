@@ -1,83 +1,82 @@
 <template>
-  <!-- <button @click = "test1">asdasd</button> -->
-  <div class="common-layout" style="background-color: ">
-    <el-container>
-      <el-container>
-        <el-aside width="200px" style="background-color: cornflowerblue">
-          <br />
+  <el-container style="height: calc(100vh - 62px)">
+    <el-aside width="200px" style="background-color: cornflowerblue">
+      <br />
 
+      <header style="text-align:center; size=18px; color: white">
+        <strong> {{ username }} </strong>
+      </header>
 
-          <header style="text-align:center; size=18px; color: white">
-            <strong> {{ username }} </strong>
-          </header>
+      <br />
+      <el-menu
+        text-color="#fff"
+        active-text-color="steelblue"
+        background-color="cornflowerblue"
+      >
+        <el-menu-item
+          v-if="this.homeType === 'teacher'"
+          index="1"
+          @click="this.$router.push('/editclassdashboard')"
+        >
+          <el-icon><Edit /></el-icon>
+          <span> Edit Class Dashboard</span>
+        </el-menu-item>
 
+        <el-menu-item
+          v-if="this.homeType === 'parent'"
+          index="1a"
+          @click="this.$router.push('/Dashboard/child')"
+        >
+          <el-icon><Edit /></el-icon>
+          <span>View Child Dashboard</span>
+        </el-menu-item>
 
-          <br />
-          <el-menu
-            text-color="#fff"
-            active-text-color="steelblue"
-            background-color="cornflowerblue"
-          >
-            <el-menu-item
-              v-if="this.homeType === 'teacher'"
-              index="1"
-              @click="this.$router.push('/editclassdashboard')"
-            >
-              <el-icon><Edit /></el-icon>
-              <span> Edit Class Dashboard</span>
-            </el-menu-item>
+        <el-menu-item
+          v-if="this.homeType == 'teacher'"
+          index="2"
+          @click="this.$router.push('/ClassInfo')"
+        >
+          <el-icon><Notebook /></el-icon>
+          <span>Manage Class Info</span>
+        </el-menu-item>
 
-            <el-menu-item
-              v-if="this.homeType === 'parent'"
-              index="1a"
-              @click="this.$router.push('/Dashboard')"
-            >
-              <el-icon><Edit /></el-icon>
-              <span>View Child Dashboard</span>
-            </el-menu-item>
+        <el-menu-item
+          v-if="this.homeType === 'parent'"
+          index="2a"
+          @click="this.$router.push('/ChildrenInfo')"
+        >
+          <el-icon><Notebook /></el-icon>
+          <span> View Child Info</span>
+        </el-menu-item>
 
-            <el-menu-item
-              v-if="this.homeType == 'teacher'"
-              index="2"
-              @click="this.$router.push('/ClassInfo')"
-            >
-              <el-icon><Notebook /></el-icon>
-              <span>Manage Class Info</span>
-            </el-menu-item>
+        <el-menu-item
+          v-if="this.homeType === 'parent' || this.homeType === 'teacher'"
+          index="3"
+          @click="this.$router.push('/forumdisplay')"
+        >
+          <el-icon><ChatLineSquare /></el-icon>
+          <span> Class Forum </span>
+        </el-menu-item>
 
-            <el-menu-item
-              v-if="this.homeType === 'parent'"
-              index="2a"
-              @click="this.$router.push('/ChildrenInfo')"
-            >
-              <el-icon><Notebook /></el-icon>
-              <span> View Child Info</span>
-            </el-menu-item>
+        <el-menu-item
+          v-if="this.homeType == 'teacher'"
+          @click="this.$router.push('/contactparent')"
+          index="4"
+        >
+          <el-icon><Cellphone /></el-icon>
+          <span> Contact Parents</span>
+        </el-menu-item>
 
-            <el-menu-item index="3" @click="this.$router.push('/forumdisplay')">
-              <el-icon><ChatLineSquare /></el-icon>
-              <span> Class Forum </span>
-            </el-menu-item>
+        <el-menu-item
+          v-if="this.homeType === 'parent'"
+          index="4a"
+          @click="this.$router.push('/contactteacher')"
+        >
+          <el-icon><Cellphone /></el-icon>
+          <span> Contact Teacher </span>
+        </el-menu-item>
 
-            <el-menu-item
-              v-if="this.homeType == 'teacher'"
-              @click="this.$router.push('/contactparent')"
-              index="4"
-            >
-              <el-icon><Cellphone /></el-icon>
-              <span> Contact Parents</span>
-            </el-menu-item>
-
-            <el-menu-item
-              v-if="this.homeType === 'parent'"
-              index="4a"
-              @click="this.$router.push('/contactteacher')"
-            >
-              <el-icon><Cellphone /></el-icon>
-              <span> Contact Teacher </span>
-            </el-menu-item>
-
-            <!-- <el-menu-item
+        <!-- <el-menu-item
               v-if="this.homeType != 'teacher'"
               @click="this.$router.push('/HealthAndInjuries')"
             >
@@ -85,36 +84,30 @@
               <span> Health And Injuries</span>
             </el-menu-item> -->
 
-            <!-- <el-menu-item
+        <!-- <el-menu-item
               v-if="this.homeType != 'teacher'"
               @click="this.$router.push('/CognitiveAbilities')"
             >
               <el-icon><Edit /></el-icon>
               <span> CognitiveAbilities</span>
             </el-menu-item> -->
-          </el-menu>
-        </el-aside>
-        <el-main>
-          <div v-if="this.homeType == 'teacher'" class="writepost">
-            <WritePost></WritePost>
-          </div>
-          <br /><br />
-          <div class="feed">
-            <h1>feed</h1>
-            <GetPost></GetPost>
-          </div>
-        </el-main>
-      </el-container>
-    </el-container>
-  </div>
+      </el-menu>
+    </el-aside>
+    <el-main>
+      <div v-if="this.homeType == 'teacher'" class="writepost">
+        <WritePost />
+      </div>
+      <br /><br />
+      <div class="feed">
+        <GetPost />
+      </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
 import WritePost from "@/components/WritePost.vue";
 import GetPost from "@/components/GetPost.vue";
-
-import { store } from "@/store";
-
 
 import {
   Edit,
@@ -122,16 +115,13 @@ import {
   ChatLineSquare,
   Cellphone,
 } from "@element-plus/icons-vue";
-import { getAuth } from "firebase/auth";
 import { db } from "../firebase.js";
-import { mapGetters } from "vuex";
 import { doc, getDoc } from "firebase/firestore";
-const auth = getAuth();
+
 export default {
   name: "Home",
   data() {
     return {
-      user: auth.currentUser,
       count: 0,
       homeType: "",
       username: "",
@@ -145,44 +135,12 @@ export default {
     Cellphone,
     GetPost,
   },
-
-  async mounted() {
-    const userRef = doc(db, "users", auth.currentUser.uid);
-    const user = await getDoc(userRef);
-    this.homeType = user.data().type;
-    this.username = user.data().first + " " + user.data().last;
-    // this.homeType = this.$store.state.userModel.type;
-    // this.username = this.$store.state.userModel.first + " " + this.$store.state.userModel.last;
-  },
-  created(){
-    // this.homeType = this.$store.state.userModel.type;
-    // this.username = this.$store.state.userModel.first + " " + this.$store.state.userModel.last;
-  
-  },
-  // beforeMount(){
-  //   this.test()
-  //   console.log("beforeMount")
-  // },
-  //  mounted() {
-  //   this.reload()
-  // },
-  // mounted:  function () {
-  //   (this.homeType = this.$store.state.userModel.type),
-  //     console.log(this.homeType);
-  // },
-  methods: {
-    // test(){
-    //   this.homeType = this.$store.getters.getType;
-    // },
-    // test1(){
-    //   console.log(this.$store.state.userModel.type)
-    // }
-    // ,reload(){
-    //   if (this.count > 0) {
-    //     this.$forceUpdate()
-    //     this.count++
-    //   }
-    // }
+  created() {
+    const userRef = doc(db, "users", this.$store.state.user.uid);
+    getDoc(userRef).then((user) => {
+      this.homeType = user.data().type;
+      this.username = user.data().first + " " + user.data().last;
+    });
   },
 };
 </script>
@@ -202,13 +160,8 @@ export default {
   background: #eeeeee;
 }
 .feed {
-  margin-left: 25%;
-  width: fit-content;
-  height: 100%;
+  width: 100%;
   background: #eeeeee;
-  padding-left: 25px;
-  padding-right: 25px;
   text-align: center;
 }
 </style>
-
