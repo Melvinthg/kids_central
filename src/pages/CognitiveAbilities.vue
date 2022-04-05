@@ -1,7 +1,8 @@
 <template>
 <div id="header">
         <div id="firstgroup">
-            <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link>
+            <el-button type = "primary" @click ="this.$router.go(-1)">Back </el-button>
+          <!-- <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link> -->
         </div>
         <div id="secondgroup">
             <img id = "pic" src="@/assets/Cognitive.png" alt="">

@@ -29,7 +29,8 @@
           </ul>
         </el-card>
 
-        <el-button @click="$router.push('/HealthAndInjuries')">
+        <!-- <el-button @click="$router.push('/HealthAndInjuries')"> -->
+        <el-button @click="proceed">
           Proceed
         </el-button>
       </div>
@@ -109,6 +110,7 @@ export default {
   },
   methods: {
     async getInfo() {
+      console.log("id is " + this.$route.params.id)
       const paramsID = this.$route.params.id;
       if (paramsID != "child") {
         this.childID = paramsID;
@@ -164,7 +166,7 @@ export default {
       );
       const j = await getDocs(i);
       j.forEach((doc) => {
-        console.log(doc.id, "=>", doc.data());
+        // console.log(doc.id, "=>", doc.data());
         this.cognitiveAbilitiesReports.push(doc.data());
       });
       if (this.cognitiveAbilitiesReports.length > 0) {
@@ -177,6 +179,10 @@ export default {
         }
       }
     },
+
+    proceed() {
+      this.$router.push("/HealthAndInjuries" + this.paramsID)
+    }
   },
 
   created() {

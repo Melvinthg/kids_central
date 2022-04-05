@@ -10,10 +10,14 @@
 
     <el-row :gutter="21" justify="space-evenly">
       <el-col :span="6" class="col">
-         <el-card class="card">
-        <!-- <el-card class="card" @click="$router.push('DashBoard')"> -->
-          <div class="cardName">
-            <!-- <span> Enter Student ID </span>
+        <el-card class="card">
+          <!-- <img
+            src="https://images.unsplash.com/photo-1584650000640-a70adafd062e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpbGQlMjB0ZW1wZXJhdHVyZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
+            class="image"
+          /> -->
+          <!-- <div class="cardName"> -->
+          <!-- <h5><strong> Update Child Temperature </strong></h5> -->
+          <!-- <span> Enter Student ID </span>
                     <el-input
                         id="studentID"
                         ref="type"
@@ -25,7 +29,6 @@
                         /> -->
 
           <!-- push to next update temperature page -->
-          </div>
           <b>Search</b>
           <el-select
             v-model="searchParams"
@@ -88,7 +91,6 @@
 </template>
 
 <script>
-import SearchName from "@/components/SearchName.vue"
 import { getAuth } from "firebase/auth";
 import { db } from "../firebase.js";
 import { collection, getDocs, where, query, orderBy } from "firebase/firestore";
@@ -109,8 +111,7 @@ export default {
     };
   },
 
-  components: {
-  },
+  components: {},
 
   methods: {
     getOptions() {

@@ -1,12 +1,7 @@
 <template>
   <div id="header">
     <div id="firstgroup">
-      <router-link
-        to="/Dashboard/child"
-        className="text-link"
-        style="color: white"
-        >Dashboard</router-link
-      >
+        <el-button type = "primary" @click ="this.$router.go(-1)">Back </el-button>
     </div>
     <div id="secondgroup">
       <img id="pic" src="@/assets/HealthAndInjuries.png" alt="" />
@@ -67,12 +62,13 @@ export default {
         collection(db, "students"),
         where("Name", "==", this.name)
       );
+      console.log("id is " + this.$route.dataPush)
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         this.childID = doc.data().childID;
         this.childName = doc.data().childName;
-        console.log(this.childID);
-        console.log(this.childName);
+        // console.log(this.childID);
+        // console.log(this.childName);
       });
       const x = query(
         collection(db, "reports"),
@@ -81,7 +77,7 @@ export default {
       );
       const y = await getDocs(x);
       y.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
         this.Reports.push(doc.data());
       });
       if (this.Reports.length > 0) {
@@ -114,6 +110,7 @@ export default {
   font-size: 25px;
   padding: 40px;
   color: white;
+  background-color: none;
 }
 #secondgroup {
   float: left;
