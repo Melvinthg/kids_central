@@ -2,35 +2,12 @@
   <el-row>
     <el-col>
       <el-card>
-        <!-- show the forum thread main post -->
-        <!-- <GetForumPost :fpost = "forumposts"/> -->
-
-        <el-card
-          v-for="fp in forumpost"
-          :key="fp.id"
-          :body-style="{ padding: '0px', width: auto }"
-        >
-          <div>
-            <div style="padding: 15px">
-              <span class="poster">{{ fp.poster }}</span>
-              <time class="time">{{ fp.date }}</time>
-            </div>
-            <el-divider />
-            <img v-bind:src="fp.imageUrl" class="image" />
-
-            <div class="title">
-              <span>{{ fp.title }}</span>
-            </div>
-
-            <div class="text">
-              <span>{{ fp.text }}</span>
-            </div>
-          </div>
         
-          <div class="replies2" style="float: right">{{ fp.numReplies }} Replies</div><br>
-        </el-card>
+       
+        
+          
 
-        <h1>{{ fpost }}</h1>
+        
         <!-- current replies to that forum thread -->
         <br>
         <el-card
@@ -103,8 +80,12 @@ export default {
     ...mapActions({ createReply: "createReply", getReplies: "getReplies"  }),
     
  
-    test(){
-      console.log(this.fpid)
+    async test(){
+      console.log("replies")
+      
+      const dab = await this.getReplies(this.fpid)
+      console.log(dab);
+      
     },
    
     //create the reply document to store in firebase
@@ -120,12 +101,13 @@ export default {
           this.$store.state.userModel.last,
       };
       await this.createReply(details);
-      this.$router.go()
+      this.replies = await this.getReplies(this.fpid)
+      
     },
   },
-  mounted(){
+  async mounted(){
     this.fpid = this.$route.params.fpid
-    this.replies = this.$route.params.replies
+    this.replies = await this.getReplies(this.fpid)
   }
   
 };
