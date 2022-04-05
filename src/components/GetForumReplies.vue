@@ -100,7 +100,9 @@ export default {
     },
     async display(){
         if (this.$store.state.userModel.type == "teacher"){
-          this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        
+          this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass);
+          var s = this.title;
+          this.forumposts = this.forumposts.filter(function(post) {return post.title == s});        
         } else if (this.$store.state.userModel.type == "parent"){
           const pEmail = this.$store.state.userModel.email  
           var childClass = await this.getChildClass(pEmail);
@@ -113,10 +115,6 @@ export default {
   async mounted(){
     this.fpid = this.$route.params.fpid
     this.replies = await this.getReplies(this.fpid)   
-    this.display();
-    console.log(this.title)
-    
-    
   },
   
   created: function() {
