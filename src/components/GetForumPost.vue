@@ -17,10 +17,9 @@
           <p style="white-space: pre-line">{{ forumpost.text }}</p>
         </div>
       </div>
-      <div @click="nav">repleiesad</div>
       
-      <router-link to="/forumreply" class="replies" style="float: right"
-        >{{ forumpost.numReplies }} asd Replies</router-link
+      <router-link to="/forumreply" @click="nav" class="replies" style="float: right"
+        >{{ forumpost.replies.length }} Replies</router-link
       >
     </el-col>
   </el-row>
@@ -38,7 +37,7 @@ export default {
     nav() {
       this.$router.push({
         name: "ForumReply",
-        params: { replies: this.forumpost.replies, fpid: this.forumpost.fpid },
+        params: { replies: this.forumpost.replies, fpid: this.forumpost.fpid, title: this.forumpost.title },
       });
     },
   },

@@ -6,7 +6,7 @@
 
   <div>
       <GetForumReplies></GetForumReplies>
-  </div> <br>
+  </div>
 </div>
 </template>
 

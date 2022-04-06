@@ -29,16 +29,33 @@ export default {
     ...mapActions({ getChildName: "getChildName" }),
 
     async createGraph() {
-      let id;
-      let q = query(
-        collection(db, "students"),
-        where("parentEmail", "==", this.$store.state.userModel.email)
-      );
-      const userSnap = await getDocs(q);
-      userSnap.forEach((e) => {
-        id = e.data().childID;
-      });
-      this.studentid = id;
+      const paramsID = this.$route.params.id;
+      let childname = "";
+      if (paramsID != "parent") {
+        this.studentid = paramsID;
+        let q = query(
+          collection(db, "students"),
+          where("childID", "==", this.studentid)
+        );
+        const userSnap = await getDocs(q);
+        userSnap.forEach((e) => {
+          childname = e.data().childName;
+        });
+        this.studentname = childname;
+      } else {
+        let id;
+        let q = query(
+          collection(db, "students"),
+          where("parentEmail", "==", this.$store.state.userModel.email)
+        );
+        const userSnap = await getDocs(q);
+        userSnap.forEach((e) => {
+          id = e.data().childID;
+          childname = e.data().childName;
+        });
+        this.studentid = id;
+        this.studentname = childname;
+      }
 
       const q2 = query(
         collection(db, "gradebook"),
@@ -53,14 +70,14 @@ export default {
       this.chartdata = chart;
     },
 
-    async updateName() {
-      this.studentname = await this.getChildName(
-        this.$store.state.userModel.email
-      );
-    },
+    // async updateName() {
+    //   this.studentname = await this.getChildName(
+    //     this.$store.state.userModel.email
+    //   );
+    // },
   },
   created: function () {
-    this.updateName();
+    // this.updateName();
     this.createGraph();
   },
 };
