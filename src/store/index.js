@@ -332,28 +332,21 @@ export default createStore({
         postsList.push(x);
       });
 
-      console.log("FROM STORE LOLOLOLOL");
-      console.log(postsList);
-
       const filteredPosts = postsList
         .filter((post) => post.class == className)
         .sort((a, b) => {
           return new Date(b.date) - new Date(a.date);
         });
-      console.log("filtered lOLOLOL");
-      console.log(filteredPosts);
-      return filteredPosts;
+
+      return filteredPosts
     },
 
     async getReplies({ context }, fpid) {
-      const repliesList = [];
+      var repliesList = [];
 
-      const repliesRef = collection(db, "forumposts", fpid, "replies");
-      const repliesSnap = await getDocs(repliesRef);
-      repliesSnap.forEach((e) => {
-        const x = e.data();
-        repliesList.push(x);
-      });
+      const postRef = doc(db, "forumposts", fpid,);
+      const postSnap = await getDoc(postRef)
+      repliesList = postSnap.data()["replies"]
       const replies = repliesList.sort((a, b) => {
         return new Date(a.date) - new Date(b.date);
         // earliest to latest reply
@@ -524,17 +517,9 @@ export default createStore({
 
       const replyRef = doc(db, "forumposts", details.fpid);
       await updateDoc(replyRef, {
-        replies: arrayUnion(reply),
+        replies: arrayUnion(reply)
       });
-      console.log("dab");
-
-      // await addDoc(replyRef, reply)
-      //   .then((response) => {
-      //     console.log(response);
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
+      console.log("dab")
     },
     async createReport({ context }, details) {
       console.log(context);
