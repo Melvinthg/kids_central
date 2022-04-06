@@ -135,10 +135,8 @@ export default createStore({
       } else {
         idIndex = idList.indexOf(parentId);
         if (docList[idIndex].data()["activated"] == "true") {
-
-          alert("Parent ID already registered, nice try.")
-          return
-
+          alert("Parent ID already registered, nice try.");
+          return;
         }
         docId = docList[idIndex].id;
         await setDoc(doc(db, "parentID", docId), {
@@ -220,10 +218,8 @@ export default createStore({
       } else {
         idIndex = idList.indexOf(teacherID);
         if (docList[idIndex].data()["activated"] == "true") {
-
-          alert("Teacher ID already registered, nice try.")
-          return
-
+          alert("Teacher ID already registered, nice try.");
+          return;
         }
         docId = docList[idIndex].id;
         await setDoc(doc(db, "teacherID", docId), {
@@ -298,7 +294,7 @@ export default createStore({
 
       const q = query(
         collection(db, "students"),
-        where("parentEmail", "==", pEmail),
+        where("parentEmail", "==", pEmail)
       );
       const querySnap = await getDocs(q);
       querySnap.forEach((doc) => {
@@ -331,19 +327,17 @@ export default createStore({
 
       postSnap.forEach((e) => {
         const x = e.data();
-        const id = e.id
-        x['fpid'] = id
+        const id = e.id;
+        x["fpid"] = id;
         postsList.push(x);
       });
-
       
-
       const filteredPosts = postsList
         .filter((post) => post.class == className)
         .sort((a, b) => {
           return new Date(b.date) - new Date(a.date);
         });
-        
+
       return filteredPosts
     },
 
@@ -369,7 +363,7 @@ export default createStore({
         teachersList.push(x);
       });
       const teachersInClass = teachersList.filter(
-        (user) => user.teacherClass == className,
+        (user) => user.teacherClass == className
       );
 
       const parentsList = [];
@@ -380,7 +374,7 @@ export default createStore({
         parentsList.push(x);
       });
       const parentsInClass = parentsList.filter(
-        (user) => user.Class == className,
+        (user) => user.Class == className
       );
       return teachersInClass.concat(parentsInClass);
     },
@@ -396,46 +390,60 @@ export default createStore({
       });
       const child = childrenList.filter((user) => user.parentEmail == childID);
       const childvalues = child[0];
-      return childvalues.childName
+      return childvalues.childName;
     },
 
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
-      console.log(context);
       console.log(details);
-      const tempUrl =
-        "images/" +
-        details.location +
-        String(Math.random()) +
-        details.image.name;
-      const imageRef = ref(storage, tempUrl);
-      uploadBytes(imageRef, details.image)
-        .then((snapshot) => {
-          // Let's get a download URL for the file.
-          getDownloadURL(snapshot.ref).then((url) => {
-            //set image url here --> insert into post object
-            const post = {
-              location: details.location,
-              caption: details.caption,
-              imageUrl: url,
-              date: details.date,
-              poster: details.poster,
-              recipient: details.recipient,
-            };
-            addDoc(collection(db, "posts"), post)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-            console.log("File available at", url);
+
+      let post = {
+        location: details.location,
+        caption: details.caption,
+        imageUrl: null,
+        date: details.date,
+        poster: details.poster,
+        recipient: details.recipient,
+      };
+
+      if (details.image == null) {
+        uploadPost(post);
+      } else {
+        console.log("got image");
+        console.log(details.image);
+        const tempUrl =
+          "images/" +
+          details.location +
+          String(Math.random()) +
+          details.image.name;
+        const imageRef = ref(storage, tempUrl);
+        uploadBytes(imageRef, details.image)
+          .then((snapshot) => {
+            // Let's get a download URL for the file.
+            getDownloadURL(snapshot.ref).then((url) => {
+              //set image url here --> insert into post object
+              post.imageUrl = url;
+              uploadPost(post);
+            });
+          })
+          .catch((error) => {
+            console.error("Upload failed", error);
           });
-        })
-        .catch((error) => {
-          console.error("Upload failed", error);
-        });
+      }
+
+      function uploadPost(post) {
+        console.log("call method");
+        addDoc(collection(db, "posts"), post)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("Errorr upload post");
+          });
+      }
     },
+
     async createPost2({ context }, details) {
       const post = {
         location: details.location,
@@ -512,7 +520,6 @@ export default createStore({
         replies: arrayUnion(reply)
     });
     console.log("dab")
-      
     },
     async createReport({ context }, details) {
       console.log(context);

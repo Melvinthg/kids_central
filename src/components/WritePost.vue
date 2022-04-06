@@ -1,64 +1,67 @@
 <template>
-  <div>
-    <!-- write a post -->
-    <el-input
-      id="caption"
-      ref="type"
-      v-model="caption"
-      :rows="2"
-      v-on:keydown="typing()"
-      type="textarea"
-      placeholder="Write something here..."
-    />
-    <el-row class="sendRow">
-      <div>
-        Send to:
-        <el-select
-          v-model="recipient"
-          placeholder="Select a recipient"
-          style="width: 200px"
-        >
-          <el-option-group
-            v-for="group in options"
-            :key="group.label"
-            :label="group.label"
+  <el-card class="box-card">
+    <template #header>
+      <div class="card-header">
+        <h4><b>Create Post</b></h4>
+        <div>
+          <span>Send to: </span>
+          <el-select
+            v-model="recipient"
+            placeholder="Select a recipient"
+            style="width: 250px; margin-right: 10px"
           >
-            <el-option
-              v-for="item in group.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-option-group>
-        </el-select>
+            <el-option-group
+              v-for="group in options"
+              :key="group.label"
+              :label="group.label"
+            >
+              <el-option
+                v-for="item in group.options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-option-group>
+          </el-select>
+          <el-button class="button" type="primary" @click="create"
+            >Post</el-button
+          >
+        </div>
       </div>
-
-      <!-- upload image -->
-
-      <input
-        type="file"
-        name="image"
-        @change="this.previewImage"
-        style="margin: auto"
-      />
-
-      <div v-if="image != null">
-        <img class="preview" height="268" width="356" :src="preview" />
-      </div>
-      <!-- send button -->
-      <el-button plain @click="create" style="float: right">Post</el-button>
+    </template>
+    <el-row>
+      <el-col :span="18" class="block">
+        <el-input
+          v-model="caption"
+          :rows="8"
+          type="textarea"
+          placeholder="Write something here..."
+        />
+      </el-col>
+      <el-col :span="6" style="padding-left: 20px">
+        <el-upload
+          action="#"
+          class="avatar-uploader"
+          :before-upload="beforeAvatarUpload"
+          :show-file-list="false"
+          style="margin-top: 10px"
+        >
+          <img v-if="this.imageUrl" :src="this.imageUrl" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
+      </el-col>
     </el-row>
-  </div>
+  </el-card>
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import { db, storage } from "../firebase.js";
+import { db } from "../firebase.js";
 import { collection, getDocs } from "firebase/firestore";
 import { ref } from "vue";
-// eslint-disable-next-line no-unused-vars
-import { useStore, mapActions, mapState } from "vuex";
-// const store = useStore()
+import { ElMessage } from "element-plus";
+import { mapActions } from "vuex";
+import { Plus } from "@element-plus/icons-vue";
+
 export default {
   name: "WritePost",
   data() {
@@ -66,6 +69,8 @@ export default {
       caption: "",
       preview: "",
       image: null,
+      imageUrl: "",
+      dialogVisible: false,
       options: [
         {
           options: [{ label: "All Students", value: "All" }],
@@ -73,6 +78,9 @@ export default {
       ],
       recipient: ref("All"),
     };
+  },
+  components: {
+    Plus,
   },
   //   computed: {
   // ...mapState({userModel: state => state.userModel}),
@@ -85,42 +93,33 @@ export default {
     }),
 
     async create() {
-      // i do not know what this is for so i will not touch it
-      var today = new Date();
-
+      if (this.caption.trim().length == 0) {
+        ElMessage.error("Please type in a caption");
+        return;
+      }
       const details = {
         location: "post",
         caption: this.caption,
         image: this.image,
-        date: today,
+        date: new Date(),
         poster:
           this.$store.state.userModel.first +
           " " +
           this.$store.state.userModel.last,
         recipient: this.recipient,
       };
-      if (this.image == null) {
-        await this.createPost2(details);
-      } else {
-        await this.createPost(details);
-      }
+      await this.createPost(details);
     },
-    typing() {
-      this.$refs.type.value = this.caption;
-    },
-    click1() {
-      this.$refs.input1.click();
-    },
-    previewImage(event) {
-      this.uploadValue = 0;
-      this.preview = null;
-      this.image = event.target.files[0];
-    },
-    async onUpload() {
-      this.preview = null;
-      const details = { location: "post", image: this.image };
-      this.imageUrl = await this.uploadImage(details);
-    },
+    // previewImage(event) {
+    //   this.uploadValue = 0;
+    //   this.preview = null;
+    //   this.image = event.target.files[0];
+    // },
+    // async onUpload() {
+    //   this.preview = null;
+    //   const details = { location: "post", image: this.image };
+    //   this.imageUrl = await this.uploadImage(details);
+    // },
     async getOptions() {
       let value = await getDocs(collection(db, "students"));
       let tempOptions = [];
@@ -135,6 +134,23 @@ export default {
         options: tempOptions,
       });
     },
+    handleAvatarPreview(uploadFile) {
+      console.log("preview success");
+      this.imageUrl = URL.createObjectURL(uploadFile.raw);
+    },
+    beforeAvatarUpload(rawFile) {
+      if (rawFile.type !== "image/jpeg" && rawFile.type !== "image/png") {
+        ElMessage.error("Avatar picture must be JPG or PNG format!");
+        return false;
+      } else if (rawFile.size / 1024 / 1024 > 2) {
+        ElMessage.error("Avatar picture size can not exceed 2MB!");
+        return false;
+      }
+      this.imageUrl = URL.createObjectURL(rawFile);
+      this.image = rawFile;
+      this.dialogVisible = true;
+      return true;
+    },
   },
   created: function () {
     this.getOptions();
@@ -143,6 +159,14 @@ export default {
 </script>
 
 <style scoped>
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>
+
+<style>
 #topNav {
   float: top;
   color: #f2f2f2;
@@ -152,5 +176,37 @@ export default {
 }
 #btn {
   margin-left: auto;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+.block {
+  border-right: solid 1px var(--el-border-color);
+  padding: 5px;
+  padding-right: 20px;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none !important;
+  background-color: white !important;
 }
 </style>
