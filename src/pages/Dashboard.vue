@@ -4,7 +4,7 @@
       <h1>{{ childName }}'s Profile</h1>
     </div>
   </div> -->
-  <div class="row">
+  <div class="dashRow">
     <div class="column">
       <div class="card" @click="healthPage()">
         <h4>Injuries and health</h4>
@@ -235,15 +235,20 @@ body {
 /* Float four columns side by side */
 .column {
   float: left;
-  width: 33.3%;
+  width: 26.3%;
   padding: 0 10px;
+  margin-left: 16px;
+  margin-right: 16px;
 }
 /* Remove extra left and right margins, due to padding */
-.row {
-  margin: 0 -5px;
+.dashRow {
+  display:flex;
+  flex-direction:row;
+  justify-content: center;
+  margin-top: 32px;
 }
 /* Clear floats after the columns */
-.row:after {
+.dashRow:after {
   content: "";
   display: table;
   clear: both;
