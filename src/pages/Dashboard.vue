@@ -1,12 +1,12 @@
 <template>
-  <div id="parentView">
+  <!-- <div id="parentView">
     <div id="secondgroup">
       <h1>{{ childName }}'s Profile</h1>
     </div>
-  </div>
+  </div> -->
   <div class="row">
     <div class="column">
-      <div class="card">
+      <div class="card" @click="healthPage()">
         <h4>Injuries and health</h4>
         <br /><br />
         <div v-if="!booInjuriesAndHealth">
@@ -28,17 +28,21 @@
             <br />
           </ul>
         </el-card>
-        <el-button @click="healthPage()">
-          Proceed
-        </el-button>
       </div>
     </div>
 
     <div class="column">
-      <div class="card">
+      <div
+        class="card"
+        @click="
+          this.$store.state.userModel.type == 'parent'
+            ? $router.push('/gradesDisplayParent')
+            : $router.push('/gradesDisplayTeacher')
+        "
+      >
         <h4>Gradebook</h4>
         <br /><br />
-         <div v-if="!booGrades">
+        <div v-if="!booGrades">
           <p>No Gradebook reports yet</p>
         </div>
         <div v-if="booGrades">
@@ -57,20 +61,12 @@
             <br />
           </ul>
         </el-card>
-        <el-button
-          @click="
-            this.$store.state.userModel.type == 'parent'
-              ? $router.push('/gradesDisplayParent/' + this.childID)
-              : $router.push('/gradesDisplayTeacher')
-          "
-        >
-          Proceed
-        </el-button>
+
       </div>
     </div>
 
     <div class="column">
-      <div class="card">
+      <div class="card" @click="cogPage()">
         <h4>Cognitive abilities</h4>
         <br /><br />
         <div v-if="!booCognitiveAbilities">
@@ -92,9 +88,6 @@
             <br />
           </ul>
         </el-card>
-        <el-button @click="cogPage()">
-          Proceed
-        </el-button>
       </div>
     </div>
   </div>
@@ -121,7 +114,7 @@ export default {
       gradeReports: [],
       booInjuriesAndHealth: false,
       booCognitiveAbilities: false,
-      booGrades : false,
+      booGrades: false,
       childID: "",
       childName: "",
     };
@@ -129,30 +122,36 @@ export default {
   methods: {
     async getInfo() {
       const paramsID = this.$route.params.id;
-     // -----------------get student id QUERY FOR TEACHERS--------------------
+      // -----------------get student id QUERY FOR TEACHERS--------------------
       if (paramsID != "child") {
         this.childID = paramsID;
-        const q = query(collection(db, "students"), where("childID", "==", paramsID));
+        const q = query(
+          collection(db, "students"),
+          where("childID", "==", paramsID),
+        );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
           this.childName = doc.data().childName;
-        })
-        
-      //-----------------------QUERY FOR PARENTS------------------------------
+        });
+
+        //-----------------------QUERY FOR PARENTS------------------------------
       } else {
-        const q = query(collection(db, "students"), where("Name", "==", this.name));
+        const q = query(
+          collection(db, "students"),
+          where("Name", "==", this.name),
+        );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-        this.childID = doc.data().childID;
-        this.childName = doc.data().childName;
-      })
+          this.childID = doc.data().childID;
+          this.childName = doc.data().childName;
+        });
       }
       // -------------get injuries and health report------------------------
 
       const x = query(
         collection(db, "reports"),
         where("childID", "==", this.childID),
-        where("category", "==", "injuriesandhealth")
+        where("category", "==", "injuriesandhealth"),
       );
       const y = await getDocs(x);
       y.forEach((doc) => {
@@ -161,7 +160,9 @@ export default {
       if (this.injuriesAndHealthReports.length > 0) {
         this.booInjuriesAndHealth = true;
         if (this.injuriesAndHealthReports.length > 2) {
-          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(0, 2
+          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(
+            0,
+            2,
           );
         }
       }
@@ -181,13 +182,13 @@ export default {
           this.gradeReports = this.gradeReports.slice(0, 2);
         }
       }
-      
+
       // -------------get cognitive abilities report------------------------
 
       const i = query(
         collection(db, "reports"),
         where("childID", "==", this.childID),
-        where("category", "==", "cognitiveabilities")
+        where("category", "==", "cognitiveabilities"),
       );
       const j = await getDocs(i);
       j.forEach((doc) => {
@@ -196,19 +197,27 @@ export default {
       if (this.cognitiveAbilitiesReports.length > 0) {
         this.booCognitiveAbilities = true;
         if (this.cognitiveAbilitiesReports.length > 2) {
-          this.cognitiveAbilitiesReports = this.cognitiveAbilitiesReports.slice(0, 2);
+          this.cognitiveAbilitiesReports = this.cognitiveAbilitiesReports.slice(
+            0,
+            2,
+          );
         }
       }
     },
 
     healthPage() {
-      this.$router.push({name: "HealthAndInjuries", params:{id: this.childID}})
+      this.$router.push({
+        name: "HealthAndInjuries",
+        params: { id: this.childID },
+      });
     },
 
     cogPage() {
-      this.$router.push({name: "CognitiveAbilities", params:{id: this.childID}})
+      this.$router.push({
+        name: "CognitiveAbilities",
+        params: { id: this.childID },
+      });
     },
-
   },
 
   created() {
@@ -249,17 +258,25 @@ body {
   }
 }
 .card:hover {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+  background: rgba(135, 206, 250, 0.2);
+
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(135, 206, 250, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; */
 }
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 16px;
   margin: 20px;
   text-align: center;
-  background-color: #faf9f6;
+  background-color: rgb(250, 249, 246, 0.1);
   height: 400px;
+  border-radius: 8px;
   color: #36454f;
 }
 #parentView {

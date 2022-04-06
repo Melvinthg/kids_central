@@ -28,7 +28,7 @@
           @click="this.$router.push('/Dashboard/child')"
         >
           <el-icon><Edit /></el-icon>
-          <span>View Child Dashboard</span>
+          <span>Child Dashboard</span>
         </el-menu-item>
 
         <el-menu-item
@@ -149,12 +149,19 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 .sidebarLinks {
   color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  
   font-size: 14px;
   text-decoration: none;
+  
 }
-.main {
-  background-color: #f0f2f5;
+
+
+.writepost {
+  padding: 10px;
+  width: auto;
+  height: auto;
+  background: #eeeeee;
+
 }
 .feed {
   width: 100%;
