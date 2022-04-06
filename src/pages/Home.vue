@@ -3,7 +3,7 @@
     <el-aside width="200px" style="background-color: cornflowerblue">
       <br />
 
-      <header style="text-align:center; size=18px; color: white">
+      <header style="text-align:center; size=18px; color: white;">
         <strong> {{ username }} </strong>
       </header>
 
@@ -93,11 +93,11 @@
             </el-menu-item> -->
       </el-menu>
     </el-aside>
-    <el-main>
-      <div v-if="this.homeType == 'teacher'" class="writepost">
+    <el-main class="main">
+      <div v-if="this.homeType == 'teacher'">
         <WritePost />
       </div>
-      <br /><br />
+      <el-divider />
       <div class="feed">
         <GetPost />
       </div>
@@ -153,15 +153,11 @@ export default {
   font-size: 14px;
   text-decoration: none;
 }
-.writepost {
-  padding: 10px;
-  width: auto;
-  height: auto;
-  background: #eeeeee;
+.main {
+  background-color: #f0f2f5;
 }
 .feed {
   width: 100%;
-  background: #eeeeee;
   text-align: center;
 }
 </style>

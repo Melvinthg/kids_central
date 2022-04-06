@@ -60,7 +60,7 @@
         <el-button
           @click="
             this.$store.state.userModel.type == 'parent'
-              ? $router.push('/gradesDisplayParent')
+              ? $router.push('/gradesDisplayParent/' + this.childID)
               : $router.push('/gradesDisplayTeacher')
           "
         >
