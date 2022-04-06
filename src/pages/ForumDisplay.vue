@@ -37,35 +37,8 @@ export default {
         };
     },
     methods: {
-      ...mapActions({getReplies: "getReplies"}),
-      ...mapActions({getChildClass: "getChildClass"}),
-      
-      async getForumPosts(className) {
-        const postsList = [];
-        const postsRef = collection(db, "forumposts");
-        const postSnap = await getDocs(postsRef);
-
-        postSnap.forEach(async (e) => {
-          const x = e.data();
-          const id = e.id;
-          const repliesList = this.getReplies(id);
-          repliesList.then(function(result) {
-            x.replies = result;
-            x.numReplies = result.length;
-            console.log(x.numReplies)
-          });
-          if (e.data().class == className){
-            postsList.push(x);
-          }
-        });
-        const filteredPosts = postsList
-          .sort((a, b) => {
-            return new Date(b.date) - new Date(a.date);
-          });
-        console.log(filteredPosts)
-        return filteredPosts;
-      },
-
+      ...mapActions({getReplies: "getReplies",getChildClass: "getChildClass", getForumPosts: "getForumPosts"}),
+     
       async display(){
         if (this.$store.state.userModel.type == "teacher"){
           this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        

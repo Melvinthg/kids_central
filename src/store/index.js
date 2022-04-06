@@ -331,7 +331,7 @@ export default createStore({
         x["fpid"] = id;
         postsList.push(x);
       });
-
+      
       const filteredPosts = postsList
         .filter((post) => post.class == className)
         .sort((a, b) => {
@@ -343,7 +343,7 @@ export default createStore({
 
     async getReplies({ context }, fpid) {
       var repliesList = [];
-
+      
       const postRef = doc(db, "forumposts", fpid,);
       const postSnap = await getDoc(postRef)
       repliesList = postSnap.data()["replies"]
@@ -518,8 +518,8 @@ export default createStore({
       const replyRef = doc(db, "forumposts", details.fpid);
       await updateDoc(replyRef, {
         replies: arrayUnion(reply)
-      });
-      console.log("dab")
+    });
+    console.log("dab")
     },
     async createReport({ context }, details) {
       console.log(context);
