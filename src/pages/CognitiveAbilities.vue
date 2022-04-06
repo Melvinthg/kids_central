@@ -126,7 +126,6 @@ export default {
   margin: 0%;
   padding: 0px;
 }
-<<<<<<< HEAD
 #thirdgroup {
   flex: 1;
   font-size: 20px;
@@ -147,15 +146,6 @@ export default {
 #firstGroup:hover {
   cursor: pointer;
   color: black;
-=======
-#header :hover {
-  background-color: transparent;
-}
-#title {
-  float:middle;
-  text-align:center;
-  padding:30px;
->>>>>>> fce610514f4a06da147c8f22733387f24e90b6bf
 }
 #secondgroup {
   flex: 3;
@@ -168,20 +158,10 @@ export default {
   line-height: 0px;
   font-size: 40px;
 }
-<<<<<<< HEAD
 #title {
   float: middle;
   text-align: center;
   padding: 30px;
-=======
-#secondgroup{
-    float: left;
-    width: 50%;
-    text-align: center;
-    color: white;
-    padding: 10px;
-    line-height: 0px;
->>>>>>> fce610514f4a06da147c8f22733387f24e90b6bf
 }
 
 #btn {
