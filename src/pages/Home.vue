@@ -3,7 +3,7 @@
     <el-aside width="200px" style="background-color: cornflowerblue">
       <br />
 
-      <header style="text-align:center; size=18px; color: white">
+      <header style="text-align:center; size=18px; color: white;">
         <strong> {{ username }} </strong>
       </header>
 

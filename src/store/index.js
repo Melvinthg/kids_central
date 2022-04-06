@@ -344,14 +344,14 @@ export default createStore({
         .sort((a, b) => {
           return new Date(b.date) - new Date(a.date);
         });
-        console.log("filtered lOLOLOL")
+      console.log("filtered lOLOLOL")
       console.log(filteredPosts)
       return filteredPosts
     },
 
     async getReplies({ context }, fpid) {
       const repliesList = [];
-      
+
       const repliesRef = collection(db, "forumposts", fpid, "replies");
       const repliesSnap = await getDocs(repliesRef);
       repliesSnap.forEach((e) => {
@@ -406,39 +406,51 @@ export default createStore({
 
     //CREATING NON FORUM POST USE THIS
     async createPost({ context }, details) {
-      console.log(context);
       console.log(details);
-      const tempUrl =
-        "images/" +
-        details.location +
-        String(Math.random()) +
-        details.image.name;
-      const imageRef = ref(storage, tempUrl);
-      uploadBytes(imageRef, details.image)
-        .then((snapshot) => {
-          // Let's get a download URL for the file.
-          getDownloadURL(snapshot.ref).then((url) => {
-            //set image url here --> insert into post object
-            const post = {
-              location: details.location,
-              caption: details.caption,
-              imageUrl: url,
-              date: details.date,
-              poster: details.poster,
-              recipient: details.recipient,
-            };
-            addDoc(collection(db, "posts"), post)
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-            console.log("File available at", url);
+
+      let post = {
+        location: details.location,
+        caption: details.caption,
+        imageUrl: null,
+        date: details.date,
+        poster: details.poster,
+        recipient: details.recipient,
+      };
+
+      if (details.image == null) {
+        this.uploadPost(post);
+      } else {
+        console.log("got image")
+        console.log(details.image)
+        const tempUrl =
+          "images/" +
+          details.location +
+          String(Math.random()) +
+          details.image.name;
+        const imageRef = ref(storage, tempUrl);
+        uploadBytes(imageRef, details.image)
+          .then((snapshot) => {
+            // Let's get a download URL for the file.
+            getDownloadURL(snapshot.ref).then((url) => {
+              //set image url here --> insert into post object
+              post.imageUrl = url;
+              this.uploadPost(post);
+            });
+          })
+          .catch((error) => {
+            console.error("Upload failed", error);
           });
+      }
+    },
+    uploadPost(post) {
+      console.log("call method");
+      addDoc(collection(db, "posts"), post)
+        .then((response) => {
+          console.log(response);
         })
-        .catch((error) => {
-          console.error("Upload failed", error);
+        .catch((err) => {
+          console.log(err);
+          console.log("Errorr upload post")
         });
     },
     async createPost2({ context }, details) {
@@ -515,9 +527,9 @@ export default createStore({
       const replyRef = doc(db, "forumposts", details.fpid);
       await updateDoc(replyRef, {
         replies: arrayUnion(reply)
-    });
-    console.log("dab")
-      
+      });
+      console.log("dab")
+
       // await addDoc(replyRef, reply)
       //   .then((response) => {
       //     console.log(response);

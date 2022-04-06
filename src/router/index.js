@@ -111,7 +111,7 @@ const routes = [
     component: GradesDisplayTeacher,
   },
   {
-    path: "/gradesDisplayParent",
+    path: "/gradesDisplayParent/:id",
     name: "GradesDisplayParent",
     component: GradesDisplayParent,
   },

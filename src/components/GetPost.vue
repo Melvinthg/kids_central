@@ -8,7 +8,7 @@
       <el-card
         v-for="post in posts"
         :key="post.id"
-        :body-style="{ padding: '0px', width: auto }"
+        :body-style="{ padding: '0px', width: 'auto' }"
       >
         <div style="padding: 14px">
           <span>{{ post.poster }} shared </span>
