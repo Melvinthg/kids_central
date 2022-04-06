@@ -1,12 +1,7 @@
 <template>
   <div id="header">
     <div id="firstgroup">
-      <router-link
-        to="/Dashboard/child"
-        className="text-link"
-        style="color: white"
-        >Dashboard</router-link
-      >
+        <el-button type = "primary" @click ="this.$router.go(-1)">Back </el-button>
     </div>
     <div id="secondgroup">
       <img id="pic" src="@/assets/HealthAndInjuries.png" alt="" />
@@ -48,6 +43,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 export default {
   data() {
     return {
+      type : this.$store.state.userModel.type, 
       Reports: [],
       boo: false,
       displayName: "",
@@ -63,17 +59,23 @@ export default {
   methods: {
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
-      const q = query(
-        collection(db, "students"),
-        where("Name", "==", this.name)
-      );
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
+
+      if (this.type == "teacher") {
+        this.childID = this.$route.params.id;
+        const q = query(collection(db, "students"), where("childID", "==", this.childID));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
         this.childID = doc.data().childID;
         this.childName = doc.data().childName;
-        console.log(this.childID);
-        console.log(this.childName);
+        });
+      } else {
+        const q = query(collection(db, "students"), where("Name", "==", this.name));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        this.childID = doc.data().childID;
+        this.childName = doc.data().childName;
       });
+      }
       const x = query(
         collection(db, "reports"),
         where("childID", "==", this.childID),
@@ -81,7 +83,7 @@ export default {
       );
       const y = await getDocs(x);
       y.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
         this.Reports.push(doc.data());
       });
       if (this.Reports.length > 0) {
@@ -105,6 +107,9 @@ export default {
   padding: 5px;
   width: 100%;
 }
+#header :hover {
+  background-color: transparent;
+}
 #title {
   float: middle;
   text-align: center;
@@ -114,6 +119,7 @@ export default {
   font-size: 25px;
   padding: 40px;
   color: white;
+  background-color: none;
 }
 #secondgroup {
   float: left;

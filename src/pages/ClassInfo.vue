@@ -25,7 +25,7 @@
     </template>
     <ul v-if = "classBoo">
       <ul v-for="x in Reports" :key="x">
-         <li><h3>Name : {{x.Name}}</h3></li>
+         <li><h3>Name : {{x.childName}}</h3></li>
          <li><h3>NRIC : {{x.NRIC}}</h3></li>
          <li><h3>Child Id : {{x.childID}}</h3></li>
          <li><h3>Class : {{x.Class}}</h3></li>

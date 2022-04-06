@@ -1,7 +1,7 @@
 <template>
 <div id="header">
         <div id="firstgroup">
-            <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link>
+            <el-button type = "primary" @click ="this.$router.go(-1)">Back </el-button>
         </div>
         <div id="secondgroup">
             <img id = "pic" src="@/assets/Cognitive.png" alt="">
@@ -30,6 +30,7 @@ export default {
 
   data() {
     return {
+      type : this.$store.state.userModel.type, 
       Reports: [],
       boo: false,
       displayName: "",
@@ -44,13 +45,22 @@ export default {
 
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
-      const q = query(collection(db, "students"), where("Name", "==", this.name));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
+       if (this.type == "teacher") {
+        this.childID = this.$route.params.id;
+        const q = query(collection(db, "students"), where("childID", "==", this.childID));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
         this.childID = doc.data().childID;
         this.childName = doc.data().childName;
-        console.log(this.childID)
-      })
+        });
+      } else {
+        const q = query(collection(db, "students"), where("Name", "==", this.name));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        this.childID = doc.data().childID;
+        this.childName = doc.data().childName;
+      });
+      }
       const x = query(collection(db, "reports"), where("childID", "==", this.childID), where("category", "==", "cognitiveabilities"));
       const y = await getDocs(x);
       y.forEach((doc) => {
@@ -82,6 +92,9 @@ export default {
     padding: 5px;
     width: 100%;
 }
+#header :hover {
+  background-color: transparent;
+}
 #title {
   float:middle;
   text-align:center;
@@ -98,7 +111,6 @@ export default {
     color: white;
     padding: 10px;
     line-height: 0px;
-    /* margin-left:25%; */
 }
 
 #btn {
