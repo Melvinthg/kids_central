@@ -135,10 +135,8 @@ export default createStore({
       } else {
         idIndex = idList.indexOf(parentId);
         if (docList[idIndex].data()["activated"] == "true") {
-
-          alert("Parent ID already registered, nice try.")
-          return
-
+          alert("Parent ID already registered, nice try.");
+          return;
         }
         docId = docList[idIndex].id;
         await setDoc(doc(db, "parentID", docId), {
@@ -220,10 +218,8 @@ export default createStore({
       } else {
         idIndex = idList.indexOf(teacherID);
         if (docList[idIndex].data()["activated"] == "true") {
-
-          alert("Teacher ID already registered, nice try.")
-          return
-
+          alert("Teacher ID already registered, nice try.");
+          return;
         }
         docId = docList[idIndex].id;
         await setDoc(doc(db, "teacherID", docId), {
@@ -298,7 +294,7 @@ export default createStore({
 
       const q = query(
         collection(db, "students"),
-        where("parentEmail", "==", pEmail),
+        where("parentEmail", "==", pEmail)
       );
       const querySnap = await getDocs(q);
       querySnap.forEach((doc) => {
@@ -331,12 +327,12 @@ export default createStore({
 
       postSnap.forEach((e) => {
         const x = e.data();
-        const id = e.id
-        x['fpid'] = id
+        const id = e.id;
+        x["fpid"] = id;
         postsList.push(x);
       });
 
-      console.log("FROM STORE LOLOLOLOL")
+      console.log("FROM STORE LOLOLOLOL");
       console.log(postsList);
 
       const filteredPosts = postsList
@@ -344,9 +340,9 @@ export default createStore({
         .sort((a, b) => {
           return new Date(b.date) - new Date(a.date);
         });
-      console.log("filtered lOLOLOL")
-      console.log(filteredPosts)
-      return filteredPosts
+      console.log("filtered lOLOLOL");
+      console.log(filteredPosts);
+      return filteredPosts;
     },
 
     async getReplies({ context }, fpid) {
@@ -374,7 +370,7 @@ export default createStore({
         teachersList.push(x);
       });
       const teachersInClass = teachersList.filter(
-        (user) => user.teacherClass == className,
+        (user) => user.teacherClass == className
       );
 
       const parentsList = [];
@@ -385,7 +381,7 @@ export default createStore({
         parentsList.push(x);
       });
       const parentsInClass = parentsList.filter(
-        (user) => user.Class == className,
+        (user) => user.Class == className
       );
       return teachersInClass.concat(parentsInClass);
     },
@@ -401,7 +397,7 @@ export default createStore({
       });
       const child = childrenList.filter((user) => user.parentEmail == childID);
       const childvalues = child[0];
-      return childvalues.childName
+      return childvalues.childName;
     },
 
     //CREATING NON FORUM POST USE THIS
@@ -418,10 +414,10 @@ export default createStore({
       };
 
       if (details.image == null) {
-        this.uploadPost(post);
+        uploadPost(post);
       } else {
-        console.log("got image")
-        console.log(details.image)
+        console.log("got image");
+        console.log(details.image);
         const tempUrl =
           "images/" +
           details.location +
@@ -434,25 +430,27 @@ export default createStore({
             getDownloadURL(snapshot.ref).then((url) => {
               //set image url here --> insert into post object
               post.imageUrl = url;
-              this.uploadPost(post);
+              uploadPost(post);
             });
           })
           .catch((error) => {
             console.error("Upload failed", error);
           });
       }
+
+      function uploadPost(post) {
+        console.log("call method");
+        addDoc(collection(db, "posts"), post)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("Errorr upload post");
+          });
+      }
     },
-    uploadPost(post) {
-      console.log("call method");
-      addDoc(collection(db, "posts"), post)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log("Errorr upload post")
-        });
-    },
+
     async createPost2({ context }, details) {
       const post = {
         location: details.location,
@@ -526,9 +524,9 @@ export default createStore({
 
       const replyRef = doc(db, "forumposts", details.fpid);
       await updateDoc(replyRef, {
-        replies: arrayUnion(reply)
+        replies: arrayUnion(reply),
       });
-      console.log("dab")
+      console.log("dab");
 
       // await addDoc(replyRef, reply)
       //   .then((response) => {

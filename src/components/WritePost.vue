@@ -1,23 +1,14 @@
 <template>
-  <div>
-    <!-- write a post -->
-    <el-row>
-      <el-col :span="18" style="padding: 5px; padding-right: 10px">
-        <h3>Write a post</h3>
-
-        <el-input
-          v-model="caption"
-          :rows="3"
-          type="textarea"
-          placeholder="Write something here..."
-        />
-
-        <div style="margin-top: 15px">
-          Send to:
+  <el-card class="box-card">
+    <template #header>
+      <div class="card-header">
+        <h4><b>Create Post</b></h4>
+        <div>
+          <span>Send to: </span>
           <el-select
             v-model="recipient"
             placeholder="Select a recipient"
-            style="width: 200px"
+            style="width: 250px; margin-right: 10px"
           >
             <el-option-group
               v-for="group in options"
@@ -32,12 +23,22 @@
               />
             </el-option-group>
           </el-select>
-          <el-button type="primary" @click="create" style="margin-left: 5px"
+          <el-button class="button" type="primary" @click="create"
             >Post</el-button
           >
         </div>
+      </div>
+    </template>
+    <el-row>
+      <el-col :span="18" class="block">
+        <el-input
+          v-model="caption"
+          :rows="8"
+          type="textarea"
+          placeholder="Write something here..."
+        />
       </el-col>
-      <el-col :span="6">
+      <el-col :span="6" style="padding-left: 20px">
         <el-upload
           action="#"
           class="avatar-uploader"
@@ -50,7 +51,7 @@
         </el-upload>
       </el-col>
     </el-row>
-  </div>
+  </el-card>
 </template>
 
 <script>
@@ -96,14 +97,11 @@ export default {
         ElMessage.error("Please type in a caption");
         return;
       }
-
-      var today = new Date();
-
       const details = {
         location: "post",
         caption: this.caption,
         image: this.image,
-        date: today,
+        date: new Date(),
         poster:
           this.$store.state.userModel.first +
           " " +
@@ -198,5 +196,17 @@ export default {
   width: 178px;
   height: 178px;
   text-align: center;
+}
+.block {
+  border-right: solid 1px var(--el-border-color);
+  padding: 5px;
+  padding-right: 20px;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none !important;
+  background-color: white !important;
 }
 </style>

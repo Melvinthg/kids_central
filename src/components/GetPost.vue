@@ -1,16 +1,14 @@
 <template>
-  <h3>Feed</h3>
   <div v-if="posts.length == 0">
     <el-empty feed="No feed..." />
   </div>
   <el-row v-else>
+    <el-card style="width: 100%; margin-bottom: 20px">
+      <h4><b>Feed</b></h4>
+    </el-card>
     <el-col>
-      <el-card
-        v-for="post in posts"
-        :key="post.id"
-        :body-style="{ padding: '0px', width: 'auto' }"
-      >
-        <div style="padding: 14px">
+      <div v-for="post in posts" :key="post.id">
+        <el-card style="padding: 14px; margin-bottom: 20px; width: auto">
           <span>{{ post.poster }} shared </span>
           <time class="time">{{ post.date }}</time>
           <div class="bottom">
@@ -19,10 +17,10 @@
               v-bind:src="post.imageUrl"
               class="image"
             />
-            <span>{{ post.caption }}</span>
+            <span style="margin-right: auto">{{ post.caption }}</span>
           </div>
-        </div>
-      </el-card>
+        </el-card>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -86,7 +84,17 @@ export default {
   align-items: center;
 }
 .image {
-  width: 100%;
+  /* width: 100%; */
   display: block;
+  border-right: solid 1px var(--el-border-color);
+  margin-right: 20px;
+  padding-right: 20px;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none !important;
+  background-color: white !important;
 }
 </style>
