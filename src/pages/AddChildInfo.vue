@@ -24,7 +24,7 @@
       <!-- <label for = "Id">Id:</label>
                 <input type = "Id" id = "Id" required placeholder = "Enter student Id"> <br><br> -->
       <label for="Address">Address:</label>
-      <input type="text" id="Address" required placeholder="Enter Adress" />
+      <input type="text" id="Address" required placeholder="Enter Address" />
       <br /><br />
       <label for="DOB">Date of Birth:</label>
       <input type="text" id="DOB" required placeholder="Enter DD/MM/YYYY" />
