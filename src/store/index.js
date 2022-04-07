@@ -21,6 +21,8 @@ import {
 } from "firebase/auth";
 import { vuexfireMutations } from "vuexfire";
 import { uploadBytes, getDownloadURL, ref } from "firebase/storage";
+import { ElMessage } from "element-plus";
+
 export default createStore({
   plugins: [createPersistedState()],
   //access state using this.$store.state.<stateVariableName>
@@ -82,24 +84,28 @@ export default createStore({
 
     async login({ commit }, details) {
       const { email, password } = details;
+      console.log(details);
+
+      if (email.trim().length == 0 || password.trim().length == 0) {
+        ElMessage.error("Please fill in all fields");
+        return;
+      }
       try {
         await signInWithEmailAndPassword(auth, email, password);
 
         console.log(user);
-      } catch (error) {
-        switch (error.code) {
+      } catch (err) {
+        switch (err.code) {
           case "auth/user-not-found":
-            alert("User not found");
+            ElMessage.error("Invalid username. Please try again.");
             break;
           case "auth/wrong-password":
-            alert("Wrong password");
+            ElMessage.error("Invalid Password. Please try again.");
             break;
-
           default:
-            alert("Something went wrong");
+            ElMessage.error("Something went wrong! Please try again.");
             break;
         }
-
         return;
       }
       const userRef = doc(db, "users", auth.currentUser.uid);
@@ -331,22 +337,22 @@ export default createStore({
         x["fpid"] = id;
         postsList.push(x);
       });
-      
+
       const filteredPosts = postsList
         .filter((post) => post.class == className)
         .sort((a, b) => {
           return new Date(b.date) - new Date(a.date);
         });
 
-      return filteredPosts
+      return filteredPosts;
     },
 
     async getReplies({ context }, fpid) {
       var repliesList = [];
-      
-      const postRef = doc(db, "forumposts", fpid,);
-      const postSnap = await getDoc(postRef)
-      repliesList = postSnap.data()["replies"]
+
+      const postRef = doc(db, "forumposts", fpid);
+      const postSnap = await getDoc(postRef);
+      repliesList = postSnap.data()["replies"];
       const replies = repliesList.sort((a, b) => {
         return new Date(a.date) - new Date(b.date);
         // earliest to latest reply
@@ -517,9 +523,9 @@ export default createStore({
 
       const replyRef = doc(db, "forumposts", details.fpid);
       await updateDoc(replyRef, {
-        replies: arrayUnion(reply)
-    });
-    console.log("dab")
+        replies: arrayUnion(reply),
+      });
+      console.log("dab");
     },
     async createReport({ context }, details) {
       console.log(context);

@@ -44,7 +44,7 @@
           class="avatar-uploader"
           :before-upload="beforeAvatarUpload"
           :show-file-list="false"
-          style="margin-top: 10px"
+          style="margin-top: 7px"
         >
           <img v-if="this.imageUrl" :src="this.imageUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
@@ -82,9 +82,6 @@ export default {
   components: {
     Plus,
   },
-  //   computed: {
-  // ...mapState({userModel: state => state.userModel}),
-  //   },
   methods: {
     ...mapActions({
       createPost2: "createPost2",
@@ -110,16 +107,6 @@ export default {
       };
       await this.createPost(details);
     },
-    // previewImage(event) {
-    //   this.uploadValue = 0;
-    //   this.preview = null;
-    //   this.image = event.target.files[0];
-    // },
-    // async onUpload() {
-    //   this.preview = null;
-    //   const details = { location: "post", image: this.image };
-    //   this.imageUrl = await this.uploadImage(details);
-    // },
     async getOptions() {
       let value = await getDocs(collection(db, "students"));
       let tempOptions = [];
@@ -140,10 +127,10 @@ export default {
     },
     beforeAvatarUpload(rawFile) {
       if (rawFile.type !== "image/jpeg" && rawFile.type !== "image/png") {
-        ElMessage.error("Avatar picture must be JPG or PNG format!");
+        ElMessage.error("Picture must be JPG or PNG format!");
         return false;
       } else if (rawFile.size / 1024 / 1024 > 2) {
-        ElMessage.error("Avatar picture size can not exceed 2MB!");
+        ElMessage.error("Picture size can not exceed 2MB!");
         return false;
       }
       this.imageUrl = URL.createObjectURL(rawFile);
@@ -160,8 +147,8 @@ export default {
 
 <style scoped>
 .avatar-uploader .avatar {
-  width: 178px;
-  height: 178px;
+  width: 173px;
+  height: 173px;
   display: block;
 }
 </style>
@@ -193,8 +180,8 @@ export default {
 .el-icon.avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 178px;
-  height: 178px;
+  width: 173px;
+  height: 173px;
   text-align: center;
 }
 .block {

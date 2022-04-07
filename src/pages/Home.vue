@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: calc(100vh - 62px)">
+  <el-container style="height: calc(100vh - 54.5px)">
     <el-aside width="200px" style="background-color: cornflowerblue">
       <br />
 
@@ -96,8 +96,8 @@
     <el-main class="main">
       <div v-if="this.homeType == 'teacher'">
         <WritePost />
+        <el-divider />
       </div>
-      <el-divider />
       <div class="feed">
         <GetPost />
       </div>
