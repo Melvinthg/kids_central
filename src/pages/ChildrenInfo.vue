@@ -1,10 +1,10 @@
 <template>
-  <div id="header" v-if="boo">
+  <div id="header" v-if="childrenEmpty">
     <div id="firstGroup" @click="this.$router.push('/AddChildInfo')">
       Update Info
     </div>
     <div id="secondgroup">
-      <h2>{{ childName }}'s profile</h2>
+      <h2>{{ childName }}'s Profile</h2>
       <br />
     </div>
     <div id="thirdgroup"></div>
@@ -13,80 +13,90 @@
     <div id="firstgroup"></div>
     <div id="secondgroup">
       <h2>Profile page</h2>
+
       <br />
     </div>
+    <div id="thirdgroup"></div>
   </div>
 
-  <el-card class="box-card">
-    <div class="card-header" id="headerContainer">
-      <span
-        ><h2><b>My Child's Information</b></h2></span
+  <el-card class="box-card" v-for="child in this.children" :key="child.NRIC">
+    <div id="headerContainer">
+      <span id="childName"
+        ><h2>
+          <b>{{ child.childName }}'s Profile</b>
+        </h2></span
       >
+      <div id="delete">Delete</div>
     </div>
 
-    <div v-if="boo" id="informationCard">
+    <div v-if="child.boo" id="informationCard">
       <ul>
         <li>
           <h4>
-             <span class = "infoField">Child Name : </span><span class="info">{{ childName }}</span>
+            <span class="infoField">Child Name : </span
+            ><span class="info">{{ child.childName }}</span>
           </h4>
         </li>
         <li>
           <h4>
-             <span class = "infoField">Child ID : </span><span class="info">{{ childID }}</span>
+            <span class="infoField">Child ID : </span
+            ><span class="info">{{ child.childID }}</span>
           </h4>
         </li>
         <li>
           <h4>
-             <span class = "infoField">NRIC : </span><span class="info">{{ NRIC }}</span>
+            <span class="infoField">NRIC : </span
+            ><span class="info">{{ child.NRIC }}</span>
           </h4>
         </li>
         <li>
           <h4>
-             <span class = "infoField">Class : </span>
-            <span class="info">{{ Class }}</span>
+            <span class="infoField">Class : </span>
+            <span class="info">{{ child.Class }}</span>
           </h4>
         </li>
         <li>
           <h4>
-             <span class = "infoField">Address : </span>
-            <span class="info">{{ Address }}</span>
+            <span class="infoField">Address : </span>
+            <span class="info">{{ child.Address }}</span>
           </h4>
         </li>
         <li>
           <h4>
-             <span class = "infoField">Gender : </span>
-            <span class="info">{{ Gender }}</span>
+            <span class="infoField">Gender : </span>
+            <span class="info">{{ child.Gender }}</span>
           </h4>
         </li>
         <li>
           <h4>
-             <span class = "infoField">DOB : </span>
-            <span class="info">{{ DOB }}</span>
+            <span class="infoField">DOB : </span>
+            <span class="info">{{ child.DOB }}</span>
           </h4>
         </li>
         <li>
           <h4>
-             <span class = "infoField">Nationality : </span>
-            <span class="info">{{ Nationality }}</span>
+            <span class="infoField">Nationality : </span>
+            <span class="info">{{ child.Nationality }}</span>
           </h4>
         </li>
         <li>
           <h4>
-             <span class = "infoField">Allergies : </span>
-            <span class="info">{{ Allergies }}</span>
+            <span class="infoField">Allergies : </span>
+            <span class="info">{{ child.Allergies }}</span>
           </h4>
         </li>
       </ul>
     </div>
 
-    <div v-else id="informationCard">
+    <div v-else id="informationCarEmpty">
       <h4>Missing information, please click on update Info to update info</h4>
-      <el-button type="primary" round>
-        <router-link to="/AddChildInfo">
-          <h4 id="btn">Update Info</h4>
-        </router-link>
-      </el-button>
+      <button
+        round
+        @click="this.$router.push('/AddChildInfo')"
+        id="toUpdateInfo"
+      >
+        Update Info
+      </button>
     </div>
   </el-card>
 </template>
@@ -98,6 +108,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 export default {
   data() {
     return {
+      children: [],
       name:
         this.$store.state.userModel.first +
         " " +
@@ -116,6 +127,9 @@ export default {
   },
 
   methods: {
+    childrenEmpty() {
+      return this.children.length == 0;
+    },
     async getInfos() {
       try {
         this.boo = false;
@@ -125,15 +139,18 @@ export default {
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          this.Address = doc.data().Address;
-          this.Allergies = doc.data().Allergies;
-          this.NRIC = doc.data().NRIC;
-          this.Gender = doc.data().Gender;
-          this.DOB = doc.data().DOB;
-          this.Nationality = doc.data().Nationality;
-          this.Class = doc.data().Class;
-          this.childID = doc.data().childID;
-          this.childName = doc.data().childName;
+          const id = doc.id;
+          const x = doc.data();
+          this.children.push(x);
+          // this.Address = doc.data().Address;
+          // this.Allergies = doc.data().Allergies;
+          // this.NRIC = doc.data().NRIC;
+          // this.Gender = doc.data().Gender;
+          // this.DOB = doc.data().DOB;
+          // this.Nationality = doc.data().Nationality;
+          // this.Class = doc.data().Class;
+          // this.childID = doc.data().childID;
+          // this.childName = doc.data().childName;
         });
         if (this.checkInfo()) {
           this.boo = true;
@@ -144,17 +161,18 @@ export default {
     },
 
     checkInfo() {
-      return (
-        this.Address.length >= 1 &&
-        this.Allergies.length >= 1 &&
-        this.NRIC.length == 9 &&
-        this.Gender.length >= 1 &&
-        this.DOB.length == 10 &&
-        this.Nationality.length >= 1 &&
-        this.Class.length >= 1 &&
-        this.childID.length == 6 &&
-        this.childName.length >= 1
-      );
+      this.children.forEach((e) => {
+        e.boo =
+          e.Address.length >= 1 &&
+          e.Allergies.length >= 1 &&
+          e.NRIC.length == 9 &&
+          e.Gender.length >= 1 &&
+          e.DOB.length == 10 &&
+          e.Nationality.length >= 1 &&
+          e.Class.length >= 1 &&
+          e.childID.length == 6 &&
+          e.childName.length >= 1;
+      });
     },
   },
 
@@ -205,10 +223,13 @@ ul li {
   margin: 10px, 0;
 }
 #headerContainer {
+  display: flex;
+  flex-direction: row;
+
   border: 1px solid lightskyblue;
   background-color: rgb(135, 206, 250, 0.2);
   border-radius: 8px;
-  padding-left: 24px;
+  padding: 0px 0px 24px 24px;
 }
 #btn {
   color: white;
@@ -216,18 +237,31 @@ ul li {
   padding: 20px;
   margin-top: 10px;
 }
-#informationCard {
-  
-
+#informationCardEmpty {
+  padding: 24px;
   border-radius: 8px;
   border: 1px solid lightskyblue;
   margin-top: 16px;
 }
+#childName {
+  margin-top: 24px;
+}
+
+#toUpdateInfo {
+  margin-top: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #0777ac;
+  color: white;
+  border: none;
+  font-size: 16px;
+}
+
 .info {
   color: #2470b7;
   float: right;
 }
-.infoField{
+.infoField {
   font-weight: 600;
 }
 .box-card {
@@ -235,5 +269,16 @@ ul li {
   margin: 24px;
   background-color: rgb(255, 255, 250, 0.4);
   border-radius: 8px;
+}
+
+#delete {
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: 8px;
+  margin-top: 8px;
+  margin-bottom: auto;
+  border-radius: 6px;
+  padding: 4px;
+  border: 1px solid black;
 }
 </style>

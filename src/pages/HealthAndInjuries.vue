@@ -9,12 +9,12 @@
     </div>
     <div id="thirdgroup"></div>
   </div>
-  <div id="mainContentEmpty" v-if="!this.noReports">
+  <div id="mainContentEmpty" v-if="this.noReports">
     <div>
       {{ displaytext }}
     </div>
   </div>
-  <div id="mainContent">
+  <div id="mainContent" v-else>
     <div id="text">
       <h3>
         <b>{{ displaytext }}</b>
