@@ -28,41 +28,51 @@
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, where, query, orderBy } from "firebase/firestore";
+import { mapState } from "vuex";
 
 export default {
   name: "GetPost",
   data() {
     return {
       posts: [],
+      type: "",
     };
   },
+  computed: mapState(["userModel"]),
   methods: {
-    async getPosts() {
+    getPosts() {
       let q;
-      if (this.$store.state.userModel.type == "parent") {
-        q = query(
-          collection(db, "posts"),
-          where("recipient", "==", this.$store.state.userModel.email),
-          orderBy("date")
-        );
-      } else {
-        q = query(collection(db, "posts"), orderBy("date", "desc"));
-      }
+      if (this.$store.state.userModel) {
+        if (this.$store.state.userModel.type == "parent") {
+          q = query(
+            collection(db, "posts"),
+            where("recipient", "==", this.$store.state.userModel.email),
+            orderBy("date")
+          );
+        } else {
+          q = query(collection(db, "posts"), orderBy("date", "desc"));
+        }
 
-      getDocs(q).then((res) => {
-        res.forEach((d) => {
-          this.posts.push({
-            id: d.id,
-            caption: d.data().caption,
-            //date: new Date(d.data().date.seconds*1000),
-            date: d.data().date.toDate().toString().slice(4, 21),
-            imageUrl: d.data().imageUrl,
-            location: d.data().location,
-            poster: d.data().poster,
-            recipient: d.data().recipient,
+        getDocs(q).then((res) => {
+          res.forEach((d) => {
+            this.posts.push({
+              id: d.id,
+              caption: d.data().caption,
+              //date: new Date(d.data().date.seconds*1000),
+              date: d.data().date.toDate().toString().slice(4, 21),
+              imageUrl: d.data().imageUrl,
+              location: d.data().location,
+              poster: d.data().poster,
+              recipient: d.data().recipient,
+            });
           });
         });
-      });
+      }
+    },
+  },
+  watch: {
+    userModel() {
+      this.getPosts();
     },
   },
   created() {
