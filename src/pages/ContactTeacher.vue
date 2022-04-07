@@ -2,13 +2,13 @@
   <div class="layout">
     <el-container>
       <el-header id="topbar">
-        <h3>Chatting with: {{ receipientSelectedUserFirstName }}</h3>
+        <h3> <strong> Chatting with: {{ receipientSelectedUserFirstName }} </strong> </h3>
       </el-header>
       <el-container id="sidebarHeader">
         <el-aside width="200px">
           <h3>ChatList</h3>
           <el-table :data="userList" @current-change="selectUser">
-            <el-table-column prop="first" label="Parents:"> </el-table-column>
+            <el-table-column prop="first" label="Teachers:"> </el-table-column>
           </el-table>
         </el-aside>
 
@@ -16,13 +16,13 @@
           <el-main>
             <ul>
               <Message
-                v-for="{ senderID, receiverID, message, time } in messageList"
+                v-for="{ senderName, senderID, message, time } in messageList"
                 v-bind:key="time"
-                :name="receiverID"
-                :sender="senderID"
+                :sender="senderName"
+                :senderID="senderID"
                 :message="message"
                 :time="time"
-                :senderId2="$store.state.userModel.first"
+                :senderId2="$store.state.userModel.parentId"
               />
             </ul>
           </el-main>
@@ -40,7 +40,6 @@
               type="primary"
               @click="send"
               style="
-                background-color: rgb(7, 119, 172);
                 float: right;
                 margin-top: 24px;
                 width: 7%;
@@ -63,7 +62,7 @@ import { db } from "../firebase.js";
 import { addDoc, collection, getDocs, where, query } from "firebase/firestore";
 
 export default {
-  name: "ContactParent",
+  name: "ContactTeacher",
   data() {
     return {
       userList: [],
@@ -71,7 +70,9 @@ export default {
       messageList: [],
       receipientSelectedUserFirstName: "",
       currentSelectedUserFirstName: "",
-      senderID: this.$store.state.userModel.first,
+      senderName: this.$store.state.userModel.first,
+      senderID: this.$store.state.userModel.parentId,
+      receiverName: "",
       receiverID: "",
     };
   },
@@ -85,7 +86,8 @@ export default {
     selectUser(user) {
       console.log("user was selected", user);
       var receipientUser = user;
-      this.receiverID = receipientUser.first;
+      this.receiverName = receipientUser.first;
+      this.receiverID = receipientUser.teacherID;
       this.receipientSelectedUserFirstName =
         receipientUser.first + " " + receipientUser.last;
       this.displaychat(user);
@@ -104,9 +106,11 @@ export default {
     async send() {
       const msg = {
         message: this.message,
+        senderName: this.senderName,
         senderID: this.senderID,
+        receiverName: this.receiverName,
         receiverID: this.receiverID,
-        time: Date.now(),
+        time: new Date(),
       };
       this.messageList.push(msg);
 
@@ -125,13 +129,13 @@ export default {
       const userSendQuery = query(
         collection(db, "messages"),
         where("senderID", "==", this.senderID),
-        where("receiverID", "==", user.first),
+        where("receiverID", "==", user.teacherID),
       );
       const querySend = await getDocs(userSendQuery);
 
       const userReceiveQuery = query(
         collection(db, "messages"),
-        where("senderID", "==", user.first),
+        where("senderID", "==", user.teacherID),
         where("receiverID", "==", this.senderID),
       );
 
