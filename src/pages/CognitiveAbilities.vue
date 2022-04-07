@@ -11,7 +11,7 @@
     </div>
     <div id="thirdgroup"></div>
   </div>
-  <div id="mainContentEmpty" v-if="!this.noReports">
+  <div id="mainContentEmpty" v-if="this.noReports">
     <div>
       {{ displaytext }}
     </div>
