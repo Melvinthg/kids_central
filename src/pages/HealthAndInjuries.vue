@@ -9,12 +9,12 @@
     </div>
     <div id="thirdgroup"></div>
   </div>
-  <div id="mainContentEmpty" v-if="this.noReports">
+  <div id="mainContentEmpty" v-if="!this.noReports">
     <div>
       {{ displaytext }}
     </div>
   </div>
-  <div id="mainContent" v-else>
+  <div id="mainContent">
     <div id="text">
       <h3>
         <b>{{ displaytext }}</b>
@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     noReports() {
-      this.Reports === [];
+      this.Reports.length == 0;
     },
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
@@ -103,6 +103,8 @@ export default {
         this.boo = true;
         this.displaytext = "Viewing: " + this.childName + "'s reports";
       }
+
+      console.log(this.Reports.length);
     },
   },
   created() {

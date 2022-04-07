@@ -19,11 +19,68 @@
         </div>
         <el-card class="box-card" v-if="classBoo">
     <template #header>
-      <div class="card-header">
+      <div class="card-header" id="headerContainer">
         <span><h1><b>Class Information</b></h1></span>
       </div>
     </template>
-    <ul v-if = "classBoo">
+    
+        <div v-if="boo" id="informationCard">
+      <ul v-for="x in Reports" :key="x">
+        <li>
+          <h4>
+             <span class = "infoField">Child Name : </span><span class="info">{{ x.childName }}</span>
+          </h4>
+        </li>
+        <li>
+          <h4>
+             <span class = "infoField">Child ID : </span><span class="info">{{ x.childID }}</span>
+          </h4>
+        </li>
+        <li>
+          <h4>
+             <span class = "infoField">NRIC : </span><span class="info">{{ x.NRIC }}</span>
+          </h4>
+        </li>
+        <li>
+          <h4>
+             <span class = "infoField">Class : </span>
+            <span class="info">{{ x.Class }}</span>
+          </h4>
+        </li>
+        <li>
+          <h4>
+             <span class = "infoField">Address : </span>
+            <span class="info">{{ x.Address }}</span>
+          </h4>
+        </li>
+        <li>
+          <h4>
+             <span class = "infoField">Gender : </span>
+            <span class="info">{{ x.Gender }}</span>
+          </h4>
+        </li>
+        <li>
+          <h4>
+             <span class = "infoField">DOB : </span>
+            <span class="info">{{ x.DOB }}</span>
+          </h4>
+        </li>
+        <li>
+          <h4>
+             <span class = "infoField">Nationality : </span>
+            <span class="info">{{ x.Nationality }}</span>
+          </h4>
+        </li>
+        <li>
+          <h4>
+             <span class = "infoField">Allergies : </span>
+            <span class="info">{{ x.Allergies }}</span>
+          </h4>
+        </li>
+        <hr>
+      </ul>
+      </div>
+    <!-- <ul v-if = "classBoo">
       <ul v-for="x in Reports" :key="x">
          <li><h3>Name : {{x.childName}}</h3></li>
          <li><h3>NRIC : {{x.NRIC}}</h3></li>
@@ -36,7 +93,7 @@
          <li><h3>Allergies : {{x.Allergies}}</h3></li>
          <hr>
      </ul>
-    </ul>
+    </ul> -->
   </el-card>
 
 </template>
@@ -102,5 +159,28 @@ ul li {
 }
 #secondgroup {
     margin-left: 290px;
+}
+#informationCard {
+  border-radius: 8px;
+  border: 1px solid lightskyblue;
+  margin-top: 16px;
+}
+
+.infoField{
+  font-weight: 600;
+}
+
+.box-card {
+  padding: 0px;
+  margin: 24px;
+  background-color: rgb(255, 255, 250, 0.4);
+  border-radius: 8px;
+}
+
+#headerContainer {
+  border: 1px solid lightskyblue;
+  background-color: rgb(135, 206, 250, 0.2);
+  border-radius: 8px;
+  padding-left: 24px;
 }
 </style>

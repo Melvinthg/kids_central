@@ -11,7 +11,7 @@
     </div>
     <div id="thirdgroup"></div>
   </div>
-  <div id="mainContentEmpty" v-if="this.noReports">
+  <div id="mainContentEmpty" v-if="!this.noReports">
     <div>
       {{ displaytext }}
     </div>
@@ -67,7 +67,7 @@ export default {
 
   methods: {
     noReports() {
-      this.Reports === [];
+      this.Reports.length == 0;
     },
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
