@@ -11,7 +11,7 @@
     </div>
     <div id="thirdgroup"></div>
   </div>
-  <div id="mainContentEmpty" v-if="!this.noReports">
+  <div id="mainContentEmpty" v-if="this.noReports">
     <div>
       {{ displaytext }}
     </div>
@@ -67,7 +67,7 @@ export default {
 
   methods: {
     noReports() {
-      this.Reports.length == 0;
+      return this.Reports.length == 0;
     },
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
@@ -126,12 +126,9 @@ export default {
   margin: 0%;
   padding: 0px;
 }
+
 #thirdgroup {
   flex: 1;
-  font-size: 20px;
-  padding: 12px;
-  color: white;
-  background-color: none;
 }
 
 #firstGroup {
@@ -141,11 +138,6 @@ export default {
 
   color: white;
   background-color: none;
-}
-
-#firstGroup:hover {
-  cursor: pointer;
-  color: black;
 }
 #secondgroup {
   flex: 3;
@@ -158,6 +150,24 @@ export default {
   line-height: 0px;
   font-size: 40px;
 }
+
+@media screen and (max-width: 1000px) {
+  #firstGroup {
+    font-size: 2vw;
+  }
+  #secondgroup {
+    font-size: 3vw;
+  }
+  img {
+  height: 4vw;
+  }
+}
+
+#firstGroup:hover {
+  cursor: pointer;
+  color: black;
+}
+
 #title {
   float: middle;
   text-align: center;
@@ -171,7 +181,8 @@ export default {
 
 #text {
   text-align: center;
-  margin-right: 50px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 ul {
