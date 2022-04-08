@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <div id="firstGroup" @click="this.$router.go(-1)">
-      Back
+      <Back />
       <!-- <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link> -->
     </div>
     <div id="secondgroup">
@@ -46,6 +46,7 @@
 
 <script>
 import { db } from "../firebase.js";
+import { Plus, Back } from "@element-plus/icons-vue";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default {
@@ -109,7 +110,9 @@ export default {
       }
     },
   },
-
+components: {
+    Back,
+  },
   created() {
     this.getInfo();
   },
