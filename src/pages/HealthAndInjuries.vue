@@ -3,13 +3,13 @@
     <div id="firstGroup" @click="this.$router.go(-1)">Back</div>
 
     <div id="secondgroup">
-      Health and Injuries page
+      Health & Injuries
       <div id="space"></div>
       <img src="@/assets/HealthAndInjuries.png" alt="" />
     </div>
     <div id="thirdgroup"></div>
   </div>
-  <div id="mainContentEmpty" v-if="!this.noReports">
+  <div id="mainContentEmpty" v-if="this.noReports" @click="test">
     <div>
       {{ displaytext }}
     </div>
@@ -62,8 +62,12 @@ export default {
     };
   },
   methods: {
+    test() {
+      //console.log(this.Reports)
+      console.log(this.noReports());
+    },
     noReports() {
-      this.Reports.length == 0;
+      return this.Reports.length == 0;
     },
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
@@ -123,12 +127,9 @@ export default {
   margin: 0%;
   padding: 0px;
 }
+
 #thirdgroup {
   flex: 1;
-  font-size: 20px;
-  padding: 12px;
-  color: white;
-  background-color: none;
 }
 
 #firstGroup {
@@ -138,11 +139,6 @@ export default {
 
   color: white;
   background-color: none;
-}
-
-#firstGroup:hover {
-  cursor: pointer;
-  color: black;
 }
 #secondgroup {
   flex: 3;
@@ -155,6 +151,30 @@ export default {
   line-height: 0px;
   font-size: 40px;
 }
+
+@media screen and (max-width: 1000px) {
+  #firstGroup {
+    font-size: 2vw;
+  }
+  #secondgroup {
+    font-size: 3vw;
+  }
+  img {
+    height: 4vw;
+  }
+}
+
+#firstGroup:hover {
+  cursor: pointer;
+  color: black;
+}
+
+#title {
+  float: middle;
+  text-align: center;
+  padding: 30px;
+}
+
 #btn {
   color: white;
   font-size: 20px;
@@ -165,15 +185,18 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
 }
+
 ul {
   list-style-type: none;
 }
+
 ul li {
   margin-bottom: 10px;
 }
 #time {
   text-align: right;
 }
+
 #space {
   width: 10px;
 }
