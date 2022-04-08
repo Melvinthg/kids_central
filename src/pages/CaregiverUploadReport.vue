@@ -1,17 +1,16 @@
 <template>
   <div>
     <div id="header">
-      <div id="firstgroup">
-        <router-link
-          to="/editclassdashboard"
-          className="text-link"
-          style="color: white"
-          >Manage Dashboard</router-link
-        >
-      </div>
-      <div id="secondgroup">
-        <h1>Upload Report</h1>
-        <br />
+      <el-button
+        type="primary"
+        :icon="ArrowLeft"
+        @click="this.$router.go(-1)"
+        style="float: left"
+        id="back"
+        >Back</el-button
+      >
+      <div>
+        <h4 id="title">Upload Reports</h4>
       </div>
     </div>
     <div id="block1">
@@ -37,6 +36,7 @@
     </div>
     <br />
   </div>
+  <img id="bottomimage" src="@/assets/CaregiverUploadReports.jpg" alt="" />
 </template>
 
 <script>
@@ -54,24 +54,19 @@ export default {
         category: "",
         text: "",
         time: new Date(),
-      },
-    };
-  },
-  methods: {
-    ...mapActions({ createReport: "createReport" }),
-    async create() {
-      console.log("create");
-      const details = {
-        ...this.report,
         uploader:
           this.$store.state.userModel.first +
           " " +
           this.$store.state.userModel.last,
         uid: auth.currentUser.uid,
         name: auth.currentUser.displayName,
-      };
-      console.log(details);
-      await this.createReport(details);
+      },
+    };
+  },
+  methods: {
+    ...mapActions({ createReport: "createReport" }),
+    async create() {
+      await this.createReport(this.report);
       ElMessage.success("Successfully uploaded");
       this.goBack();
     },
@@ -91,13 +86,24 @@ export default {
   padding: 5px;
   width: 100%;
 }
-#block1 {
-  display: block;
-  line-height: 40px;
+#title {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
-#typereport {
-  display: block;
+#back {
+  position: absolute;
   float: left;
-  line-height: 40px;
+  vertical-align: middle;
+  padding: 12px;
+  margin: 2px;
+  margin-left: 30px;
+}
+#bottomimage {
+  width: 100%;
+  object-fit: cover;
+  background-size: cover;
 }
 </style>

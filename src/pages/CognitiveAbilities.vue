@@ -76,7 +76,7 @@ export default {
         this.childID = this.$route.params.id;
         const q = query(
           collection(db, "students"),
-          where("childID", "==", this.childID),
+          where("childID", "==", this.childID)
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -86,7 +86,7 @@ export default {
       } else {
         const q = query(
           collection(db, "students"),
-          where("Name", "==", this.name),
+          where("Name", "==", this.name)
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -97,7 +97,7 @@ export default {
       const x = query(
         collection(db, "reports"),
         where("childID", "==", this.childID),
-        where("category", "==", "cognitiveabilities"),
+        where("category", "==", "cognitiveabilities")
       );
       const y = await getDocs(x);
       y.forEach((doc) => {
@@ -110,7 +110,7 @@ export default {
       }
     },
   },
-components: {
+  components: {
     Back,
   },
   created() {
