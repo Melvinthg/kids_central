@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <div id="firstGroup" @click="this.$router.go(-1)">
-      Back
+      <Back />
       <!-- <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link> -->
     </div>
     <div id="secondgroup">
@@ -46,6 +46,7 @@
 
 <script>
 import { db } from "../firebase.js";
+import { Plus, Back } from "@element-plus/icons-vue";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default {
@@ -75,7 +76,7 @@ export default {
         this.childID = this.$route.params.id;
         const q = query(
           collection(db, "students"),
-          where("childID", "==", this.childID),
+          where("childID", "==", this.childID)
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -85,7 +86,7 @@ export default {
       } else {
         const q = query(
           collection(db, "students"),
-          where("Name", "==", this.name),
+          where("Name", "==", this.name)
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -96,7 +97,7 @@ export default {
       const x = query(
         collection(db, "reports"),
         where("childID", "==", this.childID),
-        where("category", "==", "cognitiveabilities"),
+        where("category", "==", "cognitiveabilities")
       );
       const y = await getDocs(x);
       y.forEach((doc) => {
@@ -109,7 +110,9 @@ export default {
       }
     },
   },
-
+  components: {
+    Back,
+  },
   created() {
     this.getInfo();
   },

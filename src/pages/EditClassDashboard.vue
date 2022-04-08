@@ -11,7 +11,7 @@
     <el-row :gutter="21" justify="space-evenly">
       <el-col :span="6" class="col">
         <el-card class="card">
-          <img style = "margin-top:29%"
+          <img
             src="https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
             class="image"
           />
@@ -29,27 +29,28 @@
                         /> -->
 
           <!-- push to next update temperature page -->
-          <b>Search</b>
-          <el-select
-            v-model="searchParams"
-            filterable
-            remote
-            reserve-keyword
-            placeholder="Search child ID..."
-            :remote-method="remoteMethod"
-            :loading="loading"
-          >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-          <el-button :icon="Search" type="primary" @click="searchChild"
-            >Search</el-button
-          >
-          <!-- </div> -->
+          <h5><strong>Search</strong></h5>
+          <div class="el-input el-input-group el-input-group--append">
+            <el-select
+              v-model="searchParams"
+              filterable
+              remote
+              reserve-keyword
+              placeholder="Search child ID..."
+              :remote-method="remoteMethod"
+              :loading="loading"
+            >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+            <div class="el-input-group__append">
+              <el-button :icon="Search" @click="searchChild"></el-button>
+            </div>
+          </div>
         </el-card>
       </el-col>
       <el-col :span="6" class="col">
@@ -215,5 +216,14 @@ img {
 .image {
   width: 100%;
   display: block;
+  border-right: none;
+  padding-right: 0px;
+}
+.el-select .el-input.is-focus .el-input__inner {
+  border-color: #409eff !important;
+}
+
+.el-input.el-input-group.el-input-group--append .el-select .el-input__suffix {
+  display: none;
 }
 </style>

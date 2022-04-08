@@ -1,148 +1,109 @@
 <template>
-<div>
+  <div>
     <div id="header">
-        <div id="firstgroup">
-            <router-link to = "/editclassdashboard" className='text-link' style='color:white'>Manage Dashboard</router-link>
-        </div>
-        <div id="secondgroup">
-            <h1>Upload Report</h1><br>
-        </div>
+      <el-button
+        type="primary"
+        :icon="ArrowLeft"
+        @click="this.$router.go(-1)"
+        style="float: left"
+        id="back"
+        >Back</el-button
+      >
+      <div>
+        <h4 id="title">Upload Reports</h4>
+      </div>
     </div>
     <div id="block1">
-        <div id="inputs">
-            <div id="enterid">
-                <h3 style="margin-left:2%">Enter Child ID:</h3>
-                <input
-                type= "text"
-                v-model= "childID"
-                placeholder="Enter Details..."
-                style="margin-left:2%">
-            </div><br>
+      <el-form :label-width="200" style="padding: 20px">
+        <el-form-item label="Enter Child Id: " style="max-width: 30%">
+          <el-input v-model="report.childID" />
+        </el-form-item>
+        <el-form-item label="Select a Category">
+          <el-radio-group v-model="report.category">
+            <el-radio border label="Injuries and Health" />
+            <el-radio border label="Cognitive Abilities" />
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="Enter Title: ">
+          <el-input v-model="report.title" />
+        </el-form-item>
 
-            <div id="entertitle">
-                <h3 style="margin-left:2%">Enter Title:</h3>
-                <input
-                type= "text"
-                v-model= "title"
-                placeholder="Enter Details..."
-                style="margin-left:2%">
-            </div> <br>
-        </div>
-    
-
-        <div id="selectcategory">
-            <h3 style="margin-left:2%">Select Category:</h3>
-            <input
-            type="radio"
-            id="injuriesandhealth"
-            name ="radio"
-            value="injuriesandhealth"
-            v-model= "category"
-            style="margin-left:2%">
-            <label for="injuriesandhealth">Injuries and Health</label><br>
-
-            <input
-            type="radio"
-            id="cognitiveabilities"
-            name ="radio"
-            value="cognitiveabilities"
-            v-model= "category"
-            style="margin-left:2%">
-            <label for="cognitiveabilities">Cognitive Abilities</label>
-
-        </div>
+        <el-form-item label="Report Description" prop="desc">
+          <el-input v-model="report.text" type="textarea" rows="5" />
+        </el-form-item>
+        <el-button style="float:right" @click="create">Upload</el-button>
+      </el-form>
     </div>
-
-    <div id="typereport">
-        <textarea
-        v-model= "text"
-        placeholder="Type your report here..."
-        cols="90"
-        rows="6"
-        style="margin-left:2%">
-        </textarea>
-    </div> <br>
-    <div>
-        <button @click="create" style="margin-left:2%">Upload</button>
-    </div>
-</div>
+    <br />
+  </div>
+  <img id="bottomimage" src="@/assets/CaregiverUploadReports.jpg" alt="" />
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import firebase from 'firebase/compat/app';
-// eslint-disable-next-line no-unused-vars
-import { auth, db, storage } from "../firebase.js";
-// eslint-disable-next-line no-unused-vars
-import { addDoc, collection, getDoc, getDocs } from "firebase/firestore";
-// eslint-disable-next-line no-unused-vars
-import {useStore, mapActions, mapState} from "vuex"
-// eslint-disable-next-line no-unused-vars
-import { ref } from "vue";
+import { auth } from "../firebase.js";
+import { mapActions } from "vuex";
+import { ElMessage } from "element-plus";
+
 export default {
-    name: "CaregiverUploadReport",
-    methods: {
-        ...mapActions({createReport: "createReport"}),
-        async create() {
-        
-        const details = {
-            childID: this.childID,
-            title: this.title,
-            category: this.category,
-            text: this.text,
-            time: new Date(),
-            uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
-            uid: auth.currentUser.uid,
-            name: auth.currentUser.displayName,
-        }
-        await this.createReport(details)
-        this.goBack()
-        },
-        goBack(){
-        this.$router.push('/editclassdashboard'); 
-        }
+  name: "CaregiverUploadReport",
+  data() {
+    return {
+      report: {
+        childID: "",
+        title: "",
+        category: "",
+        text: "",
+        time: new Date(),
+        uploader:
+          this.$store.state.userModel.first +
+          " " +
+          this.$store.state.userModel.last,
+        uid: auth.currentUser.uid,
+        name: auth.currentUser.displayName,
+      },
+    };
+  },
+  methods: {
+    ...mapActions({ createReport: "createReport" }),
+    async create() {
+      await this.createReport(this.report);
+      ElMessage.success("Successfully uploaded");
+      this.goBack();
     },
-    
-}
+    goBack() {
+      this.$router.push("/editclassdashboard");
+    },
+  },
+};
 </script>
 
 <style>
 #header {
-    overflow: hidden;
-    background-color: rgb(7, 119, 172);
-    display: block;
-    margin: 0%;
-    padding: 5px;
-    width: 100%;
+  overflow: hidden;
+  background-color: rgb(7, 119, 172);
+  display: block;
+  margin: 0%;
+  padding: 5px;
+  width: 100%;
 }
-#firstgroup {
-  float: left;
-  width: 25%;
-  color: white;
+#title {
+  display: inline-block;
   text-align: center;
-  padding: 10px 10px;
-  text-decoration: none;
-  font-size: 15px;
-  line-height: 50px;
+  vertical-align: middle;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
-#secondgroup {
-    float: left;
-    width: 50%;
-    text-align: center;
-    color: white;
-    padding: 10px;
-    line-height: 0px;
+#back {
+  position: absolute;
+  float: left;
+  vertical-align: middle;
+  padding: 12px;
+  margin: 2px;
+  margin-left: 30px;
 }
-#firstgroup:hover {
-  background-color: black;
-}
-#block1 {
-    display: block;
-    line-height: 40px;
-}
-#typereport {
-    display: block;
-    float:left;
-    line-height: 40px;
+#bottomimage {
+  width: 100%;
+  object-fit: cover;
+  background-size: cover;
 }
 </style>
