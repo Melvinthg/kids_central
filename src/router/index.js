@@ -105,7 +105,7 @@ const routes = [
     component: CaregiverUploadGrade,
   },
   {
-    path: "/HealthAndInjuries",
+    path: "/HealthAndInjuries/:id",
     name: "HealthAndInjuries",
     component: HealthAndInjuries,
   }, {
@@ -119,7 +119,7 @@ const routes = [
     component: GradesDisplayParent,
   },
   {
-    path: "/CognitiveAbilities",
+    path: "/CognitiveAbilities/:id",
     name: "CognitiveAbilities",
     component: CognitiveAbilities,
   },

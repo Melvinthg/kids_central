@@ -309,6 +309,29 @@ export default createStore({
       return children[0]["Class"];
     },
 
+    async getChildClasses({ context }, pEmail) {
+      const children = [];
+      const classes = [];
+      const q = query(
+        collection(db, "students"),
+        where("parentEmail", "==", pEmail)
+      );
+      const querySnap = await getDocs(q);
+      querySnap.forEach((doc) => {
+        children.push(doc.data());
+      });
+      children.forEach((child) => {
+        classes.push(child["Class"]);
+      });
+      var uniqueClasses = [];
+      for (var i = 0; i < classes.length; i++) {
+          if (uniqueClasses.indexOf(classes[i]) === -1) {
+              uniqueClasses.push(classes[i]);
+          }
+      }
+      return uniqueClasses;
+    },
+
     //getting list of posts
     async getPosts({ context }) {
       const postsList = [];

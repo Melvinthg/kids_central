@@ -1,7 +1,7 @@
 <template>
   <div>
         <div class="scrollable text-center green flex-grow-1 flex-shrink-0 overflow-auto ">
-            <div :style="(sender !== senderId2) ? 'display: flex; flex-direction: row; color: red;' : 'display: flex; flex-direction: row-reverse; color: blue;'">
+            <div :style="(senderID !== senderId2) ? 'display: flex; flex-direction: row; color: red;' : 'display: flex; flex-direction: row-reverse; color: blue;'">
                 <div class = "msg">
                     {{sender}}: {{message}} 
                 </div>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  props: ['name', 'sender', 'message', 'senderId2', 'time']
+  props: ['sender', 'message', 'senderId2', 'time', "senderID"]
 }
 </script>
 

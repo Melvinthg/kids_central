@@ -6,13 +6,30 @@
 
         <div>
             <h1 style="margin-left:1%">Discussion Threads</h1>
-        </div> <br>
+        </div> 
+        <div>
+          <span style="margin-left:1%">Select Class: </span>
+          <el-select
+            v-model="value"
+            placeholder="Choose class"
+            style="width: 250px; margin-right: 10px">
+          
+              <el-option @click="display"
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"/>
+   
+          </el-select>
+        </div><br>
+        <div v-if = "boo">
         <el-card
             v-for="forumpost in forumposts"
             :key="forumpost.id"
             :body-style="{ padding: '0px', width: auto}">
             <GetForumPost :forumpost = "forumpost"/>
         </el-card>
+        </div>
     </div>
 </template>
 
@@ -34,23 +51,54 @@ export default {
         return {
         forumposts: [],
         imgsrc: null,
+        options: [],
+        boo: false,
+        classBoo : false,
         };
     },
     methods: {
-      ...mapActions({getReplies: "getReplies",getChildClass: "getChildClass", getForumPosts: "getForumPosts"}),
+      ...mapActions({getReplies: "getReplies",getChildClass: "getChildClass", getForumPosts: "getForumPosts", getChildClasses: "getChildClasses"}),
      
       async display(){
-        if (this.$store.state.userModel.type == "teacher"){
-          this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        
-        } else if (this.$store.state.userModel.type == "parent"){
-          const pEmail = this.$store.state.userModel.email  
-          var childClass = await this.getChildClass(pEmail);
-          this.forumposts = await this.getForumPosts(childClass)
+        // if (this.$store.state.userModel.type == "teacher"){
+        //   this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass)        
+        // } else if (this.$store.state.userModel.type == "parent"){
+        //   const pEmail = this.$store.state.userModel.email  
+        //   var childClass = await this.getChildClass(pEmail);
+        //   this.forumposts = await this.getForumPosts(childClass)
+        //   console.log(await this.getChildClasses(pEmail))
+        // }
+        this.classBoo = false;
+        let className = this.value;
+        console.log(className)
+        
+        this.boo = true;
+        this.classBoo = true;
+        this.forumposts == await this.getForumPosts(className)
+        
+      },
+
+      async getOptions() {
+        if (this.$store.state.userModel.type == "parent"){
+            const pEmail = this.$store.state.userModel.email  
+            let value = await this.getChildClasses(pEmail);
+            value.forEach((d) => {
+                this.options.push({
+                value: d,
+                label: d,
+                });
+            });
+        } else if (this.$store.state.userModel.type == "teacher") {
+            this.options.push({
+                value: this.$store.state.userModel.teacherClass,
+                label: this.$store.state.userModel.teacherClass,
+            });
         }
       },
     },
     created: function() {
-        this.display();
+        // this.display();
+        this.getOptions();
     },
 }
 </script>
