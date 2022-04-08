@@ -44,7 +44,9 @@
             placeholder="Type your reply here..."
           >
           </textarea>
-          <button @click="this.create()" id="replyButton">Reply</button>
+          <!-- <button @click="this.create()" id="replyButton">Reply</button> -->
+          <el-button id="replyButton" type="primary" @click="this.create()">Reply</el-button>
+
         </div>
         <br />
       </el-card>
@@ -136,16 +138,13 @@ export default {
   border: 1.8px solid rgb(7, 119, 172);
 }
 #replyButton {
-  color: white;
-  background-color: rgb(7, 119, 172);
-  margin-top: 16px;
+  /* color: white; */
+  /* background-color: rgb(7, 119, 172); */
+  margin-top: 12px;
   width: 10%;
-  padding: 8px;
+  /* padding: 8px; */
   border-radius: 8px;
-  border-width: 0px;
-}
-#replyButton:hover {
-  opacity: 90%;
+  /* border-width: 0px; */
 }
 #replyCol {
   align-items: flex-end;
