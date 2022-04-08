@@ -41,7 +41,7 @@
   </div> -->
 
   <div>
-      <button @click="create" style="margin-left:1%">Post</button>
+      <el-button id="forumpostButton" type="primary" style="margin-left:1%; margin-bottom:1%" @click="create">Post</el-button>
   </div>
 </div>
 </template>
@@ -112,5 +112,11 @@ export default {
 <style>
 #text {
   white-space: pre-wrap;
+}
+#forumpostButton {
+  margin-top: 12px;
+  width: 5%;
+  padding: 15px;
+  border-radius: 8px;
 }
 </style>
