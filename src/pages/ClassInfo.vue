@@ -28,8 +28,7 @@
     <el-col :span="1"></el-col>
     <el-col :span="16"><h2><b>{{this.displayText}}</b></h2></el-col>
     <el-col :span="7"><h2><b>{{this.displayRight}}</b></h2></el-col>
-    <!-- <el-col :span="6">22</el-col> -->
-  </el-row>
+      </el-row>
       </div>
         <el-card class="box-card" v-for="x in Reports" :key="x">
         <div id ="headerContainer">
@@ -96,7 +95,7 @@ export default {
             this.numStudents = this.Reports.length;
             this.displayText = "Currently Viewing : " + this.className;
             this.displayRight = "Class Size : " + this.numStudents;
-
+            this.Reports.sort((a, b) => ((a.childName < b.childName) ? -1 : (a.childName < b.childName) ? 1 : 0));
         },
     }
 }
@@ -108,7 +107,7 @@ export default {
     margin-left: 30px;
 }
 #secondgroup {
-    margin-left: 230px;
+    margin-left: 250px;
 }
 #informationCard {
   border-radius: 8px;
