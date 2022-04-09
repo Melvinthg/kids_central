@@ -1,21 +1,16 @@
 <template>
   <div id="header" v-if="childrenEmpty">
-    <div id="firstGroup" @click="this.$router.push('/AddChildInfo')">
-      Update Info
-    </div>
-    <div id="secondgroup">
-      <h2>{{ childName }}'s Profile</h2>
-      <br />
-    </div>
-    <div id="thirdgroup"></div>
+    <el-button
+      @click="this.$router.push('/AddChildInfo')"
+      type="primary"
+      id="back"
+      >Add info</el-button
+    >
+
+    <h2 id="title">{{ childName }}'s Profile</h2>
   </div>
   <div id="header" v-else>
-    <div id="firstgroup"></div>
-    <div id="secondgroup">
-      <h2>Profile page</h2>
-
-      <br />
-    </div>
+    <h2>Profile page</h2>
     <div id="thirdgroup"></div>
   </div>
 
@@ -135,7 +130,7 @@ export default {
         this.boo = false;
         const q = query(
           collection(db, "students"),
-          where("Name", "==", this.name),
+          where("Name", "==", this.name)
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -183,35 +178,25 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  margin: 0px;
-}
-
-h4 {
-}
 #header {
-  display: flex;
-  flex-direction: row;
-  padding: 0px;
-  align-items: center;
-}
-#firstGroup {
-  flex: 1;
+  background-color: rgb(7, 119, 172);
+  width: 100%;
+  display: block;
   color: white;
-  padding: 12px;
-  font-size: 20px;
-}
-#secondgroup {
-  flex: 3;
-  padding: 4px;
+  position: relative;
 }
 
-#firstGroup:hover {
-  color: black;
-  cursor: pointer;
+#title {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
-#thirdgroup {
-  flex: 1;
+#back {
+  position: absolute;
+  float: right;
+  vertical-align: middle;
 }
 ul {
   list-style-type: none;

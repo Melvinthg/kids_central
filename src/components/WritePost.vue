@@ -1,33 +1,7 @@
 <template>
   <el-card class="box-card">
-    <template #header>
-      <div class="card-header">
-        <h4><b>Create Post</b></h4>
-        <div>
-          <span>Send to: </span>
-          <el-select
-            v-model="recipient"
-            placeholder="Select a recipient"
-            style="width: 250px; margin-right: 10px"
-          >
-            <el-option-group
-              v-for="group in options"
-              :key="group.label"
-              :label="group.label"
-            >
-              <el-option
-                v-for="item in group.options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-option-group>
-          </el-select>
-          <el-button class="button" type="primary" @click="create"
-            >Post</el-button
-          >
-        </div>
-      </div>
+    <template #header class="card-header">
+      <h4><b>Create Post</b></h4>
     </template>
     <el-row>
       <el-col :span="18" class="block">
@@ -51,6 +25,29 @@
         </el-upload>
       </el-col>
     </el-row>
+    <hr>
+    <div style="float:right;margin:10px;">
+      <span>Send to: </span>
+      <el-select
+        v-model="recipient"
+        placeholder="Select a recipient"
+        style="width: 250px; margin-right: 10px"
+      >
+        <el-option-group
+          v-for="group in options"
+          :key="group.label"
+          :label="group.label"
+        >
+          <el-option
+            v-for="item in group.options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-option-group>
+      </el-select>
+      <el-button class="button" type="primary" @click="create">Post</el-button>
+    </div>
   </el-card>
 </template>
 
@@ -189,11 +186,13 @@ export default {
   padding: 5px;
   padding-right: 20px;
 }
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: none !important;
-  background-color: white !important;
+.el-card__header {
+  border-bottom: 1px solid var(--el-card-border-color);
+  box-sizing: border-box;
+  background-color: azure;
+}
+
+.box_card {
+  background-color: azure;
 }
 </style>
