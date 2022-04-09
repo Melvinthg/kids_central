@@ -188,5 +188,9 @@ export default {
 #messageContainer {
   height: 75vh;
 }
+
+h3{
+  margin-left: 8px;
+}
 </style>
 

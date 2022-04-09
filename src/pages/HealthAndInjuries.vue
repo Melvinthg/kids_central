@@ -18,12 +18,26 @@
     </div>
   </div>
   <div id="mainContent" v-else>
-    <div id="text">
-      <h3>
-        <b>{{ displaytext }}</b>
-      </h3>
+    <div id="reportRow">
+      <div id="text">
+        <h3>
+          {{ displaytext }}
+        </h3>
+      </div>
+      <div class="custom-select" style="width: 200px">
+        <select>
+          <option
+            v-for="child in this.children"
+            :value="child.id"
+            :key="child.id"
+          >
+            {{ child.name }}
+          </option>
+        </select>
+      </div>
     </div>
-    <el-card class="box-card" v-if="boo">
+
+    <el-card class="box-card" v-if="boo" @click="test">
       <ul v-for="x in Reports" :key="x">
         <div id="title2">
           <li>
@@ -53,6 +67,7 @@ export default {
     return {
       type: this.$store.state.userModel.type,
       Reports: [],
+      children: [],
       boo: false,
       displayName: "",
       displaytext: "No Reports at the moment",
@@ -66,7 +81,18 @@ export default {
   },
   methods: {
     noReports() {
-      this.Reports.length == 0;
+      return this.Reports.length == 0;
+    },
+
+    async test() {
+      const q = query(
+        collection(db, "students"),
+        where("Name", "==", this.name),
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc.data());
+      });
     },
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
@@ -90,6 +116,10 @@ export default {
         querySnapshot.forEach((doc) => {
           this.childID = doc.data().childID;
           this.childName = doc.data().childName;
+          this.children.push({
+            id: doc.data().childID,
+            name: doc.data().childName,
+          });
         });
       }
       const x = query(
@@ -124,14 +154,10 @@ export default {
   color: white;
   position: relative;
 }
+
 #thirdgroup {
   flex: 1;
-  font-size: 20px;
-  padding: 12px;
-  color: white;
-  background-color: none;
 }
-
 #btn {
   color: white;
   font-size: 20px;
@@ -142,25 +168,22 @@ export default {
   margin-top: auto;
   margin-bottom: auto;
 }
+
 ul {
   list-style-type: none;
 }
+
 ul li {
   margin-bottom: 10px;
 }
 #time {
   text-align: right;
 }
+
 #space {
   width: 10px;
 }
-img {
-  height: 50px;
-  width: auto;
 
-  filter: invert(100%) sepia(0%) saturate(4349%) hue-rotate(210deg)
-    brightness(113%) contrast(101%);
-}
 
 #mainContentEmpty {
   height: 70vh;
@@ -168,6 +191,12 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+#reportRow {
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 </style>

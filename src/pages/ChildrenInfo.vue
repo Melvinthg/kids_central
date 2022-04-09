@@ -13,15 +13,32 @@
     <h2>Profile page</h2>
     <div id="thirdgroup"></div>
   </div>
+  <el-card v-if="!this.childrenEmpty">
+    <div id="informationCardEmpty">
+      <h4>Missing information, please update your child's information</h4>
+      <button
+        round
+        @click="this.$router.push('/AddChildInfo')"
+        id="toUpdateInfo"
+      >
+        Update Info
+      </button>
+    </div>
+  </el-card>
 
-  <el-card class="box-card" v-for="child in this.children" :key="child.NRIC">
+  <el-card
+    v-else
+    class="box-card"
+    v-for="child in this.children"
+    :key="child.NRIC"
+  >
     <div id="headerContainer">
       <span id="childName"
         ><h2>
           <b>{{ child.childName }}'s Profile</b>
         </h2></span
       >
-      <div id="delete">Delete</div>
+      <div id="delete" @click="this.deleteChild(child.childID)">Delete</div>
     </div>
 
     <div v-if="child.boo" id="informationCard">
@@ -83,7 +100,7 @@
       </ul>
     </div>
 
-    <div v-else id="informationCarEmpty">
+    <div v-else id="informationCardEmpty">
       <h4>Missing information, please click on update Info to update info</h4>
       <button
         round
@@ -98,7 +115,14 @@
 
 <script>
 import { db } from "../firebase.js";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 
 export default {
   data() {
@@ -122,10 +146,19 @@ export default {
   },
 
   methods: {
+    async deleteChild(childId) {
+      const childDoc = doc(db, "students", childId);
+      console.log(childId);
+      await deleteDoc(childDoc);
+      this.getInfos();
+    },
     childrenEmpty() {
-      return this.children.length == 0;
+      const bool = this.children.length == 0;
+      console.log(bool);
+      return bool;
     },
     async getInfos() {
+      this.children = [];
       try {
         this.boo = false;
         const q = query(
@@ -256,6 +289,7 @@ ul li {
 }
 
 #delete {
+  color: white;
   font-size: 12px;
   margin-left: auto;
   margin-right: 8px;
@@ -263,6 +297,14 @@ ul li {
   margin-bottom: auto;
   border-radius: 6px;
   padding: 4px;
-  border: 1px solid black;
+  border: 1px solid white;
+  background: linear-gradient(to left, #0777ac 50%, rgb(205, 92, 92) 50%) right;
+  background-size: 200%;
+  transition: 0.5s ease-out;
+}
+
+#delete:hover {
+  background-position: left;
+  cursor: pointer;
 }
 </style>
