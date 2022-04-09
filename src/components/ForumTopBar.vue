@@ -3,8 +3,8 @@
     <div id="firstGroup"></div>
 
     <div id="secondgroup">
-      <h1>CLASS {{ classname }} FORUM</h1>
-      <br />
+      <h1>CLASS {{ className }} FORUM</h1>
+    
       <!-- query number of parents in the class -->
       <h4>{{ number }} members</h4>
     </div>
@@ -17,11 +17,13 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 
-import {useStore, mapActions, mapState} from "vuex"
-
+import { useStore, mapActions, mapState } from "vuex";
 
 export default {
   name: "ForumTopBar",
+  props: {
+    className: String,
+  },
   data() {
     return {
       number: 0,
@@ -29,25 +31,25 @@ export default {
     };
   },
   methods: {
-    ...mapActions({ getUsers: "getUsers" }),
-    ...mapActions({getChildClass: "getChildClass"}),
-    async display() {
-
-      if (this.$store.state.userModel.type == "teacher"){
-        this.classname = this.$store.state.userModel.teacherClass
-      } else if (this.$store.state.userModel.type == "parent"){
-        const pEmail = this.$store.state.userModel.email  
-        var childClass = await this.getChildClass(pEmail);
-        this.classname = childClass;
-      }
-      var usersInClass = await this.getUsers(
-      this.$store.state.userModel.teacherClass || childClass);
-      this.number = usersInClass.length;
-    },
+    // ...mapActions({ getUsers: "getUsers" }),
+    // ...mapActions({ getChildClass: "getChildClass" }),
+    // async display() {
+    //   if (this.$store.state.userModel.type == "teacher") {
+    //     this.classname = this.$store.state.userModel.teacherClass;
+    //   } else if (this.$store.state.userModel.type == "parent") {
+    //     const pEmail = this.$store.state.userModel.email;
+    //     var childClass = await this.getChildClass(pEmail);
+    //     this.classname = childClass;
+    //   }
+    //   var usersInClass = await this.getUsers(
+    //     this.$store.state.userModel.teacherClass || childClass,
+    //   );
+    //   this.number = usersInClass.length;
+    // },
   },
-  mounted() {
-    this.display();
-  },
+  // mounted() {
+  //   this.display();
+  // },
 };
 </script>
 
@@ -65,10 +67,8 @@ export default {
   color: white;
 }
 
-
 #firstGroup {
   flex: 1;
-
 }
 #secondgroup {
   flex: 5;
@@ -91,12 +91,9 @@ export default {
   font-size: 20px;
   padding-right: 20px;
   color: white;
-
 }
 #thirdgroup:hover {
   color: black;
   cursor: pointer;
 }
-
 </style>
-

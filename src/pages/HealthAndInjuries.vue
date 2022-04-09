@@ -46,7 +46,7 @@
 
 <script>
 import { db } from "../firebase.js";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
 export default {
   data() {
     return {
@@ -74,13 +74,13 @@ export default {
       if (this.type == "teacher") {
         this.childID = this.$route.params.id;
         const q = query(
-          collection(db, "students"),
+          collection(db, "reports"),
           where("childID", "==", this.childID),
+          orderBy("date", "desc"),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          this.childID = doc.data().childID;
-          this.childName = doc.data().childName;
+          this.Reports.push(doc.data());
         });
       } else {
         const email = this.$store.state.userModel.email;
@@ -89,10 +89,10 @@ export default {
           collection(db, "reports"),
           where("parentEmail", "==", email),
           where("category", "==", "Injuries and Health"),
+          orderBy("date", "desc"),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          console.log(doc.data());
           this.Reports.push(doc.data());
         });
       }

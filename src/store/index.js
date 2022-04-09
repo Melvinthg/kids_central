@@ -581,7 +581,13 @@ export default createStore({
 
     async createGradebook({ context }, details) {
       console.log("gradebook created")
+      const studentRef = doc(db, "students", details.childID)
+      const studentDoc = await getDoc(studentRef)
+      const studentName = studentDoc.data()['childName']
+      const parentEmail = studentDoc.data()['parentEmail']
       const gradebook = {
+        "name" : studentName,
+        "parentEmail": parentEmail, 
         childID: details.childID,
         childName: details.childName,
         title: details.title,

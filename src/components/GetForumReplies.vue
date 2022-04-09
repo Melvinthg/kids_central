@@ -2,24 +2,25 @@
   <el-row>
     <el-col>
       <el-card>
-        
-       <!-- forum thread  -->
-       <el-card
-            v-for="forumpost in forumposts"
-            :key="forumpost.id"
-            :body-style="{ padding: '0px', width: auto}">
-            <GetForumPost :forumpost = "forumpost"/>
-        </el-card>
-        
-        <!-- current replies to that forum thread -->
-        <hr>
+        <!-- forum thread  -->
         <el-card
+          v-for="forumpost in forumposts"
+          :key="forumpost.id"
+          :body-style="{ padding: '0px', width: auto }"
+        >
+          <GetForumPost :forumpost="forumpost" />
+        </el-card>
+
+        <!-- current replies to that forum thread -->
+        <hr />
+        <el-card
+          id="replyCard"
           v-for="reply in replies"
           :key="reply.id"
           :body-style="{ padding: '5px', width: auto }"
         >
           <div>
-            <div style="padding: 15px">
+            <div style="padding: 15px; padding-bottom: 0px;">
               <span class="replier">{{ reply.replier }}</span>
               <time class="time">{{ reply.date }}</time>
             </div>
@@ -28,8 +29,8 @@
             <div class="repliedcontent">
               <span>{{ reply.replycontent }}</span>
             </div>
-          </div>
-        </el-card><br>
+          </div> </el-card
+        ><br />
 
         <!-- reply box with user's name and textbox -->
 
@@ -45,8 +46,9 @@
           >
           </textarea>
           <!-- <button @click="this.create()" id="replyButton">Reply</button> -->
-          <el-button id="replyButton" type="primary" @click="this.create()">Reply</el-button>
-
+          <el-button id="replyButton" type="primary" @click="this.create()"
+            >Reply</el-button
+          >
         </div>
         <br />
       </el-card>
@@ -60,12 +62,12 @@ import { collection, getDoc, doc } from "firebase/firestore";
 import { auth, db, storage } from "../firebase.js";
 // eslint-disable-next-line no-unused-vars
 import { useStore, mapActions, mapState } from "vuex";
-import GetForumPost from '@/components/GetForumPost.vue'
+import GetForumPost from "@/components/GetForumPost.vue";
 export default {
   name: "GetForumReplies",
   components: {
-        GetForumPost
-    },
+    GetForumPost,
+  },
   data() {
     return {
       replycontent: "",
@@ -83,8 +85,13 @@ export default {
   //     fpid: String,
   // },
   methods: {
-    ...mapActions({ createReply: "createReply", getReplies: "getReplies",getChildClass: "getChildClass", getForumPosts: "getForumPosts" }),
-    
+    ...mapActions({
+      createReply: "createReply",
+      getReplies: "getReplies",
+      getChildClass: "getChildClass",
+      getForumPosts: "getForumPosts",
+    }),
+
     //create the reply document to store in firebase
     async create() {
       const details = {
@@ -98,34 +105,45 @@ export default {
           this.$store.state.userModel.last,
       };
       await this.createReply(details);
-      this.replies = await this.getReplies(this.fpid) 
+      this.replies = await this.getReplies(this.fpid);
     },
-    async display(){
-        if (this.$store.state.userModel.type == "teacher"){
-          this.forumposts = await this.getForumPosts(this.$store.state.userModel.teacherClass);
-          var s = this.title;
-          this.forumposts = this.forumposts.filter(function(post) {return post.title == s});        
-        } else if (this.$store.state.userModel.type == "parent"){
-          const pEmail = this.$store.state.userModel.email  
-          var childClass = await this.getChildClass(pEmail);
-          this.forumposts = await this.getForumPosts(childClass);
-          var t = this.title;
-          this.forumposts = this.forumposts.filter(function(post) {return post.title == t});
-        }
+    async display() {
+      if (this.$store.state.userModel.type == "teacher") {
+        this.forumposts = await this.getForumPosts(
+          this.$store.state.userModel.teacherClass,
+        );
+        var s = this.title;
+        this.forumposts = this.forumposts.filter(function (post) {
+          return post.title == s;
+        });
+      } else if (this.$store.state.userModel.type == "parent") {
+        const pEmail = this.$store.state.userModel.email;
+        var childClass = await this.getChildClass(pEmail);
+        this.forumposts = await this.getForumPosts(childClass);
+        var t = this.title;
+        this.forumposts = this.forumposts.filter(function (post) {
+          return post.title == t;
+        });
+      }
     },
   },
-  async mounted(){
-    this.fpid = this.$route.params.fpid
-    this.replies = await this.getReplies(this.fpid)   
+  async mounted() {
+    this.fpid = this.$route.params.fpid;
+    this.replies = await this.getReplies(this.fpid);
   },
-  
-  created: function() {
-        this.display();
+
+  created: function () {
+    this.display();
   },
 };
 </script>
 
 <style>
+#replyCard {
+  margin-bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid lightskyblue;
+}
 #text {
   margin-left: 0px;
   border-radius: 8px;
@@ -152,16 +170,16 @@ export default {
   flex-direction: column;
 }
 .replies2 {
-    float: right;
-    margin-right: 2%;
-    text-decoration: none;
-    color: black;
+  float: right;
+  margin-right: 2%;
+  text-decoration: none;
+  color: black;
 }
 .replier {
-    font-weight: bold;
+  font-weight: bold;
 }
 .repliedcontent {
-    margin-left: 2%;
-    margin-bottom: 2%;
+  margin-left: 2%;
+  margin-bottom: 2%;
 }
 </style>

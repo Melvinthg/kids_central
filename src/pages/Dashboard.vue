@@ -4,10 +4,11 @@
       <h1>{{ childName }}'s Profile</h1>
     </div>
   </div> -->
+  <!-- <button @click = "test">asdas</button> -->
   <div class="dashRow">
     <div class="column">
       <div class="card" @click="healthPage()">
-        <h4>Injuries and health</h4>
+        <h4>Injuries & Health</h4>
         <br />
         <div v-if="!booInjuriesAndHealth">
           <p>No Injuries and health reports yet</p>
@@ -43,28 +44,27 @@
         <div v-if="!booGrades">
           <p>No Gradebook reports yet</p>
         </div>
-        <div v-if="booGrades">
-          <p>Click proceed to view more</p>
-        </div>
+
         <el-card class="box-card" v-if="booGrades">
-          <ul v-for="x in gradeReports" :key="x">
-            <div id="title-grade" style="text-align-center">
-              <li>
-                <span
-                  ><u>{{ x.title }}</u></span
-                >
-              </li>
+          <div
+            class="reportContainer"
+            style="text-align-center"
+            v-for="x in gradeReports"
+            :key="x"
+          >
+            <span class="reportTitle">{{ x.title }}</span>
+            <div class="reportTime">
+              {{ x.date }}
             </div>
-            <div>{{ x.date }}</div>
-            <br />
-          </ul>
+          </div>
         </el-card>
       </div>
+      
     </div>
 
     <div class="column">
       <div class="card" @click="cogPage()">
-        <h4>Cognitive abilities</h4>
+        <h4>Cognitive Abilities</h4>
         <br />
         <div v-if="!booCognitiveAbilities">
           <p>No cognitive abilities reports yet</p>
@@ -92,7 +92,14 @@
 <script>
 // import ForumTopBar from '@/components/ForumTopBar.vue'
 import { db } from "../firebase.js";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  orderBy,
+  limit,
+} from "firebase/firestore";
 export default {
   name: "Dashboard",
   components: {
@@ -116,7 +123,18 @@ export default {
   },
   methods: {
     async test() {
-      console.log(this.$route.params.id);
+      const list = [];
+      const q2 = query(
+        collection(db, "reports"),
+        where("childID", "==", this.childID),
+        where("category", "==", "Injuries and Health"),
+        orderBy("date", "desc"),
+        
+      );
+      const query2 = await getDocs(q2);
+      query2.forEach((doc) => {
+        list.push(doc.data());
+      });
     },
     async getInfo() {
       const paramsID = this.$route.params.id;
@@ -129,6 +147,7 @@ export default {
           collection(db, "reports"),
           where("childID", "==", this.childID),
           where("category", "==", "Cognitive Abilities"),
+          orderBy("date", "desc"),
         );
 
         const query1 = await getDocs(q1);
@@ -140,6 +159,7 @@ export default {
           collection(db, "reports"),
           where("childID", "==", this.childID),
           where("category", "==", "Injuries and Health"),
+          orderBy("date", "desc"),
         );
         const query2 = await getDocs(q2);
         query2.forEach((doc) => {
@@ -153,6 +173,8 @@ export default {
           collection(db, "reports"),
           where("parentEmail", "==", email),
           where("category", "==", "Injuries and Health"),
+          orderBy("date", "desc"),
+          
         );
         const querySnapshot1 = await getDocs(q1);
         querySnapshot1.forEach((doc) => {
@@ -163,25 +185,42 @@ export default {
           collection(db, "reports"),
           where("parentEmail", "==", email),
           where("category", "==", "Cognitive Abilities"),
+          orderBy("date", "desc"),
+          
         );
         const querySnapshot2 = await getDocs(q2);
         querySnapshot2.forEach((doc) => {
           this.cognitiveAbilitiesReports.push(doc.data());
         });
-      }
-
-      //---------------------get gradebook reports--------------------------
-      const a = query(
+ //---------------------get gradebook reports--------------------------
+        const a = query(
         collection(db, "gradebook"),
-        where("childID", "==", this.childID),
+        where("parentEmail", "==", email),
+        orderBy("date", "desc"),
+        
       );
       const b = await getDocs(a);
       b.forEach((doc) => {
         this.gradeReports.push(doc.data());
       });
+      }
+
+     
+      const a = query(
+        collection(db, "gradebook"),
+        where("childID", "==", this.childID),
+        orderBy("date", "desc"),
+        
+      );
+      const b = await getDocs(a);
+      b.forEach((doc) => {
+        this.gradeReports.push(doc.data());
+      });
+
       if (this.gradeReports.length > 0) {
         this.booGrades = true;
         if (this.gradeReports.length > 2) {
+          //this.gradeReports = this.gradeReports.reverse();
           this.gradeReports = this.gradeReports.slice(0, 2);
         }
       }
@@ -189,6 +228,8 @@ export default {
       if (this.injuriesAndHealthReports.length > 0) {
         this.booInjuriesAndHealth = true;
         if (this.injuriesAndHealthReports.length > 2) {
+          // this.injuriesAndHealthReports =
+          //   this.injuriesAndHealthReports.reverse();
           this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(
             0,
             2,
@@ -199,6 +240,8 @@ export default {
       if (this.cognitiveAbilitiesReports.length > 0) {
         this.booCognitiveAbilities = true;
         if (this.cognitiveAbilitiesReports.length > 2) {
+          // this.cognitiveAbilitiesReports =
+          //   this.cognitiveAbilitiesReports.reverse();
           this.cognitiveAbilitiesReports = this.cognitiveAbilitiesReports.slice(
             0,
             2,
@@ -229,6 +272,9 @@ export default {
 </script>
 
 <style scoped>
+p {
+  color: grey;
+}
 .box-card {
   --el-card-padding: 0px;
   padding: 8px;
@@ -275,14 +321,7 @@ export default {
   display: table;
   clear: both;
 }
-/* Responsive columns */
-@media screen and (max-width: 720px) {
-  .column {
-    width: 100%;
-    display: block;
-    margin-bottom: 20px;
-  }
-}
+
 .card:hover {
   background: rgba(135, 206, 250, 0.2);
 
@@ -358,4 +397,18 @@ ul li {
 li span {
   position: relative;
 }
+/* Responsive columns */
+@media screen and (max-width: 800px) {
+  .dashRow {
+    flex-direction: column;
+    align-items: center;
+  }
+  .column {
+    width: 70%;
+  }
+  .card {
+    height: 30%;
+  }
+}
+/* Responsive columns */
 </style>
