@@ -1,10 +1,20 @@
 <template>
-  <el-header style="margin-top: 20px">
-    <el-page-header content="Gradebook" @back="this.$router.go(-1)" />
-  </el-header>
+  <div id="header">
+      <el-button
+        type="primary"
+        :icon="ArrowLeft"
+        @click="this.$router.go(-1)"
+        style="float: left"
+        id="back"
+        >Back</el-button
+      >
+      <div>
+        <h4 id="title">Gradebook</h4>
+      </div>
+    </div>
   <div style="margin: 0px 0px 20px 20px">
     <el-row>
-      <h1>Currently viewing Grades for {{ studentname }}</h1>
+      <h2 style="margin:5px;">Currently viewing Grades for {{ studentname }}</h2>
     </el-row>
     <column-chart :data="chartdata"></column-chart>
   </div>

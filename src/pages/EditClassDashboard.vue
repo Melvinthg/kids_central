@@ -15,20 +15,6 @@
             src="https://images.unsplash.com/photo-1586769852836-bc069f19e1b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
             class="image"
           />
-          <!-- <div class="cardName"> -->
-          <!-- <h5><strong> Update Child Temperature </strong></h5> -->
-          <!-- <span> Enter Student ID </span>
-                    <el-input
-                        id="studentID"
-                        ref="type"
-                        v-model="message"
-                        :rows="1"
-                        v-on:keydown="typing()"
-                        type="textarea"
-                        placeholder="Enter Student ID..."
-                        /> -->
-
-          <!-- push to next update temperature page -->
           <h5><strong>Search</strong></h5>
           <div class="el-input el-input-group el-input-group--append">
             <el-select
@@ -51,6 +37,12 @@
               <el-button :icon="Search" @click="searchChild"></el-button>
             </div>
           </div>
+          <el-button
+            type="primary"
+            :icon="ArrowLeft"
+            @click="this.$router.push('/GradesDisplayTeacher')"
+            >View Class Grades</el-button
+          >
         </el-card>
       </el-col>
       <el-col :span="6" class="col">
@@ -61,16 +53,6 @@
           />
           <div class="cardName">
             <h5><strong> Update Child Report </strong></h5>
-            <!-- <el-button @click="$router.push('home')"> Proceed </el-button> -->
-            <!-- <h5> <strong> Update Temperature </strong> </h5>
-                    <el-input
-                        v-model="input1"
-                        class="w-50 m-2"
-                        size="medium"
-                        placeholder="Enter daily temperature here..."
-                        /> -->
-
-            <!-- push to update report page -->
           </div>
         </el-card>
       </el-col>

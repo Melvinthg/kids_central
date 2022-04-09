@@ -1,14 +1,17 @@
 <template>
   <div id="header">
-    <div id="firstGroup" @click="this.$router.go(-1)">Back</div>
-
-    <div id="secondgroup">
-      Health & Injuries
-      <div id="space"></div>
-      <img id="icon" src="@/assets/HealthAndInjuries.png" alt="" />
+      <el-button
+        type="primary"
+        :icon="ArrowLeft"
+        @click="this.$router.go(-1)"
+        style="float: left"
+        id="back"
+        >Back</el-button
+      >
+      <div>
+        <h4 id="title">Health and Injuries</h4>
+      </div>
     </div>
-    <div id="thirdgroup"></div>
-  </div>
   <div id="mainContentEmpty" v-if="!this.noReports">
     <div>{{displaytext}}</div>
   </div>
@@ -140,13 +143,11 @@ export default {
 }
 
 #header {
-  overflow: hidden;
   background-color: rgb(7, 119, 172);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 0%;
-  padding: 0px;
+  width: 100%;
+  display: block;
+  color: white;
+  position: relative;
 }
 
 #thirdgroup {
@@ -208,6 +209,7 @@ img#icon {
   text-align: center;
   padding: 30px;
 }
+
 
 #btn {
   color: white;

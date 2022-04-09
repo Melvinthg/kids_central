@@ -1,5 +1,6 @@
 <template>
   <div id="header">
+
     <div id="firstGroup" @click="this.$router.go(-1)">
       Back
       <!-- <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link> -->
@@ -8,8 +9,8 @@
       Cognitive Abilities
       <div id="space"></div>
       <img src="@/assets/Cognitive.png" alt="" />
+
     </div>
-    <div id="thirdgroup"></div>
   </div>
   <div id="mainContentEmpty" v-if="this.noReports">
     <div>{{ displaytext }}</div>
@@ -147,37 +148,11 @@ export default {
 }
 
 #header {
-  overflow: hidden;
   background-color: rgb(7, 119, 172);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 0%;
-  padding: 0px;
-}
-
-#thirdgroup {
-  flex: 1;
-}
-
-#firstGroup {
-  padding-left: 16px;
-  flex: 1;
-  font-size: 20px;
-
+  width: 100%;
+  display: block;
   color: white;
-  background-color: none;
-}
-#secondgroup {
-  flex: 3;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  padding: 10px;
-  line-height: 0px;
-  font-size: 40px;
+  position: relative;
 }
 img {
   height: 50px;
@@ -213,7 +188,6 @@ img {
 #title {
   float: middle;
   text-align: center;
-  padding: 30px;
 }
 
 #btn {

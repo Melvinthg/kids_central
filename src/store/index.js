@@ -325,9 +325,9 @@ export default createStore({
       });
       var uniqueClasses = [];
       for (var i = 0; i < classes.length; i++) {
-          if (uniqueClasses.indexOf(classes[i]) === -1) {
-              uniqueClasses.push(classes[i]);
-          }
+        if (uniqueClasses.indexOf(classes[i]) === -1) {
+          uniqueClasses.push(classes[i]);
+        }
       }
       return uniqueClasses;
     },
@@ -409,17 +409,17 @@ export default createStore({
     },
 
     async getChildName({ context }, childID) {
-      const childrenList = [];
-      console.log(context);
-      const userRef = collection(db, "students");
-      const userSnap = await getDocs(userRef);
-      userSnap.forEach((e) => {
-        const x = e.data();
-        childrenList.push(x);
+      console.log("child method got")
+      let childName = [];
+      const q = query(
+        collection(db, "students"),
+        where("childID", "==", childID))
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        childName.push(doc.data().childName)
+        console.log(childName)
       });
-      const child = childrenList.filter((user) => user.parentEmail == childID);
-      const childvalues = child[0];
-      return childvalues.childName;
+      return childName[0];
     },
 
     //CREATING NON FORUM POST USE THIS
@@ -580,10 +580,10 @@ export default createStore({
     },
 
     async createGradebook({ context }, details) {
-      console.log(context);
-      console.log(details);
+      console.log("gradebook created")
       const gradebook = {
         childID: details.childID,
+        childName: details.childName,
         title: details.title,
         score: details.score,
         date: details.date,

@@ -15,8 +15,23 @@
     </div>
 
     <el-form :label-width="200" style="padding: 20px">
-      <el-form-item label="Enter Child Id: " style="max-width: 30%">
-        <el-input v-model="report.childID" />
+      <el-form-item label="Enter Child Id: " style="width: 500px">
+        <el-select
+          v-model="report.childID"
+          filterable
+          remote
+          reserve-keyword
+          placeholder="Search child ID..."
+          :remote-method="remoteMethod"
+          :loading="loading"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="Enter Title: ">
         <el-input v-model="report.title" />
@@ -36,20 +51,22 @@
       <el-button style="float: right" @click="create">Upload</el-button>
     </el-form>
   </div>
-<br>
-    <img id="bottomimage" src="@/assets/CaregiverUploadGrade.jpg" alt="" />
+  <br />
+  <img id="bottomimage" src="@/assets/CaregiverUploadGrade.jpg" alt="" />
 </template>
 
 <script>
-import { auth } from "../firebase.js";
-import { ElMessage } from "element-plus";
+import { auth, db } from "../firebase.js";
 import { mapActions } from "vuex";
+import { collection, getDocs } from "firebase/firestore";
+import { ElMessage } from "element-plus";
 export default {
   name: "CaregiverUploadGrade",
   data() {
     return {
       report: {
         childID: "",
+        childName: "",
         title: "",
         score: "",
         date: "",
@@ -59,19 +76,51 @@ export default {
           this.$store.state.userModel.last,
         uid: auth.currentUser.uid,
       },
+      options: [],
+      list: [],
+      loading: false,
     };
   },
   methods: {
-    ...mapActions({ createGradebook: "createGradebook" }),
+    ...mapActions({
+      getChildName: "getChildName",
+      createGradebook: "createGradebook",
+    }),
 
     async create() {
-      await this.createGradebook(this.report);
+      this.report.childName = await this.getChildName(this.report.childID)
+      await this.createGradebook(this.report)
       ElMessage.success("Successfully uploaded");
       this.goBack();
     },
     goBack() {
       this.$router.push("/editclassdashboard");
     },
+    getOptions() {
+      let temp = [];
+      getDocs(collection(db, "students")).then((res) => {
+        res.forEach((d) => {
+          temp.push({ value: d.id, label: d.id });
+        });
+      });
+      this.list = temp;
+    },
+    remoteMethod(query) {
+      if (query) {
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.options = this.list.filter((item) => {
+            return item.value.toLowerCase().includes(query.toLowerCase());
+          });
+        }, 200);
+      } else {
+        this.options = [];
+      }
+    },
+  },
+  created: function () {
+    this.getOptions();
   },
 };
 </script>

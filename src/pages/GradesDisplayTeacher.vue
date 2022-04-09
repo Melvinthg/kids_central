@@ -1,11 +1,18 @@
 <template>
-  <el-header>
-    <el-button type="primary" :icon="ArrowLeft" @click="this.$router.go(-1)"
+  <div id="header">
+    <el-button
+      type="primary"
+      :icon="ArrowLeft"
+      @click="this.$router.go(-1)"
+      style="float: left"
+      id="back"
       >Back</el-button
     >
-  </el-header>
-  <h1>Currently viewing Class Grades</h1>
-
+    <div>
+      <h4 id="title">Class Grades</h4>
+    </div>
+  </div>
+  <span style="margin-left:10px">View: </span>
   <el-select
     v-model="test"
     class="m-2"
@@ -25,37 +32,46 @@
 </template>
 <script>
 import { db } from "../firebase.js";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { ref } from "vue";
+import { mapActions } from "vuex";
 
 export default {
+  ...mapActions({ getChildName: "getChildName" }),
   name: "GradesDisplayTeacher",
   data() {
     return {
       chartdata: {},
       options: [],
-      test: ref("").value,
-      //test: 'spelling1'
+      alltitle: [],
+      test: "",
     };
   },
   methods: {
     async getOptions() {
-      let value = await getDocs(collection(db, "studentsResult"));
+      let value = await getDocs(collection(db, "gradebook"));
       value.forEach((d) => {
-        this.options.push({
+        const e = {
           value: d.id,
-          label: d.data().Name,
-        });
+          label: d.data().title,
+        };
+        if (!this.alltitle.includes(e.label)) {
+          this.options.push(e);
+          this.alltitle.push(e.label);
+        }
       });
-      //console.log(this.options[0].value)
     },
     async createGraph() {
-      let value = await getDocs(
-        collection(db, "studentsResult", this.test, "studentsResults")
+      const q2 = query(
+        collection(db, "gradebook"),
+        where("title", "==", this.test)
       );
+      const value = await getDocs(q2);
+      console.log(value)
       let data = {};
       value.forEach((d) => {
-        data[d.data().studentName] = d.data().grade;
+        console.log(d.data());
+        data[d.data().childName] = d.data().score;
       });
       this.chartdata = data;
     },
