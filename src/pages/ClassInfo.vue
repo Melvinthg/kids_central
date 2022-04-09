@@ -14,7 +14,7 @@
   </div>
 
   <div>
-    <el-row justify="center" > 
+    <el-row justify="left" style="margin:10px;margin-left:30px"> 
       <el-col :span="10" class="top">
         <span style="font-size: 30px; font-weight: bold"
           >Currently Viewing:
@@ -33,8 +33,9 @@
             :value="item.value"
           /> </el-select
       ></el-col>
-
-      <el-col  :span="10" class="top"
+</el-row>
+<el-row justify="left" style="margin:10px;margin-left:30px">
+      <el-col :span="10" class="top"
         ><h2 >
           <b>{{ this.displayRight }}</b>
         </h2></el-col

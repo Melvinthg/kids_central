@@ -152,5 +152,6 @@ export default {
   width: 100%;
   object-fit: cover;
   background-size: cover;
+  position:absolute;
 }
 </style>
