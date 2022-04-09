@@ -53,7 +53,5 @@ hr {
   inline-size: 28vw;
   overflow-wrap: break-word;
 }
-.msgContainer{
-  
-}
+
 </style>
