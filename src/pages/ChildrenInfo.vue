@@ -170,15 +170,6 @@ export default {
           const id = doc.id;
           const x = doc.data();
           this.children.push(x);
-          // this.Address = doc.data().Address;
-          // this.Allergies = doc.data().Allergies;
-          // this.NRIC = doc.data().NRIC;
-          // this.Gender = doc.data().Gender;
-          // this.DOB = doc.data().DOB;
-          // this.Nationality = doc.data().Nationality;
-          // this.Class = doc.data().Class;
-          // this.childID = doc.data().childID;
-          // this.childName = doc.data().childName;
         });
         if (this.checkInfo()) {
           this.boo = true;
