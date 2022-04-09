@@ -10,44 +10,55 @@
     >
     <div>
       <h4 id="title">Cognitive Abilities</h4>
+
+    </div>
+    <div id="secondgroup">
+      Cognitive Abilities
+      <div id="space"></div>
+      <img src="@/assets/Cognitive.png" alt="" />
+
     </div>
   </div>
-  <div id="mainContentEmpty" v-if="!this.noReports">
-    <div>
-      {{ displaytext }}
-    </div>
+  <div id="mainContentEmpty" v-if="this.noReports">
+    <div>{{ displaytext }}</div>
   </div>
-  <div id="mainContent" v-else>
-    <div id="text">
-      <h3>
-        {{ displaytext }}
-      </h3>
+  <div id="mainContent" >
+    <div id="reportRow">
+      <div id="text">
+        
+      </div>
     </div>
-    <el-card class="box-card" v-if="boo">
-      <ul v-for="x in Reports" :key="x">
-        <div id="title2">
-          <li>
-            <h2>
-              <b>{{ x.title }}</b>
-            </h2>
-          </li>
+
+    <el-card
+      class="box-card"
+      v-for="x in this.Reports"
+      :key="x.id"
+      style="padding = 0px;"
+    >
+      <div id="title2">
+        <div id="name">
+          {{ x.name }}
         </div>
-        <hr />
-        <li>
-          <h3>{{ x.text }}</h3>
-        </li>
-        <li id="time">
-          <h5>{{ x.date.toDate().toString().slice(4, 16) }}</h5>
-        </li>
-        <br />
-      </ul>
+        <div id="time">
+          {{ x.date.toDate().toString().slice(4, 21) }}
+        </div>
+      </div>
+      <div id="contentContainer">
+        <div id="reportTitle">
+          {{ x.title }}
+        </div>
+        <div id="reportContent">
+          {{ x.text }}
+        </div>
+      </div>
+
+      <br />
     </el-card>
   </div>
 </template>
 
 <script>
 import { db } from "../firebase.js";
-import { Plus, Back } from "@element-plus/icons-vue";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default {
@@ -77,7 +88,7 @@ export default {
         this.childID = this.$route.params.id;
         const q = query(
           collection(db, "students"),
-          where("childID", "==", this.childID)
+          where("childID", "==", this.childID),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -85,32 +96,23 @@ export default {
           this.childName = doc.data().childName;
         });
       } else {
+        const email = this.$store.state.userModel.email;
+        const reportsCollection = collection(db, "reports");
         const q = query(
-          collection(db, "students"),
-          where("Name", "==", this.name)
+          collection(db, "reports"),
+          where("parentEmail", "==", email),
+          where("category", "==", "Cognitive Abilities"),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          this.childID = doc.data().childID;
-          this.childName = doc.data().childName;
+          console.log(doc.data());
+          this.Reports.push(doc.data());
         });
       }
-      const x = query(
-        collection(db, "reports"),
-        where("childID", "==", this.childID),
-        where("category", "==", "cognitiveabilities")
-      );
-      const y = await getDocs(x);
-      y.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
-        this.Reports.push(doc.data());
-      });
-      if (this.Reports.length > 0) {
-        this.boo = true;
-        this.displaytext = "Viewing: " + this.childName + "'s reports";
-      }
+      // console.log(this.Reports.length);
     },
   },
+
   created() {
     this.getInfo();
   },
@@ -118,6 +120,40 @@ export default {
 </script>
 
 <style scoped>
+#reportContent {
+  padding-left: 8px;
+}
+#contentContainer {
+  padding: 8px;
+}
+#reportTitle {
+  color: #055981;
+  font-weight: 600;
+}
+#title2 {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  padding: 8px;
+  padding-bottom: 16px;
+  font-size: 1em;
+  background-color: rgb(135, 206, 250, 0.3);
+  border-bottom: 0.5px solid #0777ac;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+#name {
+  font-weight: 600;
+}
+
+#time {
+  margin-right: 0px;
+  margin-left: auto;
+  color: grey;
+}
+
 #header {
   background-color: rgb(7, 119, 172);
   width: 100%;
@@ -131,15 +167,23 @@ img {
   filter: invert(100%) sepia(0%) saturate(4349%) hue-rotate(210deg)
     brightness(113%) contrast(101%);
 }
+
+.el-card {
+  border-radius: 8px;
+  margin: 12px 16px;
+  --el-card-padding: 0px;
+}
+
 @media screen and (max-width: 1000px) {
+  img {
+    height: 4vw;
+    width: auto;
+  }
   #firstGroup {
     font-size: 2vw;
   }
   #secondgroup {
     font-size: 3vw;
-  }
-  img {
-    height: 4vw;
   }
 }
 
@@ -185,6 +229,12 @@ ul li {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+#reportRow {
+  display: flex;
+  flex-direction: row;
   align-items: center;
 }
 </style>

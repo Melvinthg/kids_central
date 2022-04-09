@@ -551,10 +551,14 @@ export default createStore({
       console.log("dab");
     },
     async createReport({ context }, details) {
-      console.log(context);
-      console.log(details);
-
+      
+      const studentRef = doc(db, "students", details.childID)
+      const studentDoc = await getDoc(studentRef)
+      const studentName = studentDoc.data()['childName']
+      const parentEmail = studentDoc.data()['parentEmail']
       const report = {
+        "name" : studentName,
+        "parentEmail": parentEmail, 
         childID: details.childID,
         title: details.title,
         category: details.category,
@@ -563,9 +567,12 @@ export default createStore({
         uploader: details.uploader,
         uid: details.uid,
       };
+
+     
       addDoc(collection(db, "reports"), report)
         .then((response) => {
           console.log(response);
+          console.log(report)
         })
         .catch((err) => {
           console.log(err);

@@ -124,6 +124,15 @@ export default {
 </script>
 
 <style>
+.el-input__inner {
+  min-width: 170px;
+  max-width: 100%;
+}
+
+.el-radio {
+  min-width: 170px;
+  margin-top: 12px;
+}
 #header {
   overflow: hidden;
   background-color: rgb(7, 119, 172);
