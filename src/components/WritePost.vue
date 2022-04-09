@@ -60,7 +60,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import { mapActions } from "vuex";
-import { Plus } from "@element-plus/icons-vue";
+import { Plus, Back } from "@element-plus/icons-vue";
 
 export default {
   name: "WritePost",

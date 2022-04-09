@@ -1,134 +1,107 @@
 <template>
-<div>
-    
+  <div>
     <div id="header">
-        <div id="firstgroup">
-            <router-link to = "/editclassdashboard" className='text-link' style='color:white'>Manage Dashboard</router-link>
-        </div>
-        <div id="secondgroup">
-            <h1>Upload Gradebook</h1><br>
-        </div>
+      <el-button
+        type="primary"
+        :icon="ArrowLeft"
+        @click="this.$router.go(-1)"
+        style="float: left"
+        id="back"
+        >Back</el-button
+      >
+      <div>
+        <h4 id="title">Upload Gradebook</h4>
+      </div>
     </div>
 
-    <div id="block1">
-        <div id="inputs">
-            <div id="enterid">
-                <h3 style="margin-left:2%">Enter Child ID:</h3>
-                <input
-                type= "text"
-                v-model= "childID"
-                placeholder="Enter ID here..."
-                style="margin-left:2%; width:300px;">
-            </div><br>
-
-            <div id="entertitle">
-                <h3 style="margin-left:2%">Enter Test Title:</h3>
-                <input
-                type= "text"
-                v-model= "title"
-                placeholder="Enter title here..."
-                style="margin-left:2%; width:300px;">
-            </div> <br>
-
-            <div id="enterscore">
-                <h3 style="margin-left:2%">Enter Score:</h3>
-                <input
-                type= "text"
-                v-model= "score"
-                placeholder="Enter score here..."
-                style="margin-left:2%; width:300px;">
-            </div> <br>
-
-            <div id="date">
-                <h3 style="margin-left:2%">Date of Test:</h3>
-                <input
-                type= "text"
-                v-model= "date"
-                placeholder="Enter date here in DD/MM/YY format..."
-                style="margin-left:2%; width:300px;">
-            </div> <br>
-        </div>
-    
-    </div>
-
-    <div>
-        <button @click="create" style="margin-left:2%">Upload</button>
-    </div>
-</div>
+    <el-form :label-width="200" style="padding: 20px">
+      <el-form-item label="Enter Child Id: " style="max-width: 30%">
+        <el-input v-model="report.childID" />
+      </el-form-item>
+      <el-form-item label="Enter Title: ">
+        <el-input v-model="report.title" />
+      </el-form-item>
+      <el-form-item label="Enter Score: ">
+        <el-input v-model="report.score" />
+      </el-form-item>
+      <el-form-item label="Pick date: ">
+        <el-date-picker
+          v-model="report.date"
+          type="date"
+          placeholder="Pick a Date"
+          format="YYYY/MM/DD"
+          value-format="DD/MM/YY"
+        />
+      </el-form-item>
+      <el-button style="float: right" @click="create">Upload</el-button>
+    </el-form>
+  </div>
+<br>
+    <img id="bottomimage" src="@/assets/CaregiverUploadGrade.jpg" alt="" />
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import firebase from 'firebase/compat/app';
-// eslint-disable-next-line no-unused-vars
-import { auth, db, storage } from "../firebase.js";
-// eslint-disable-next-line no-unused-vars
-import { addDoc, collection, getDoc, getDocs } from "firebase/firestore";
-// eslint-disable-next-line no-unused-vars
-import {useStore, mapActions, mapState} from "vuex"
-// eslint-disable-next-line no-unused-vars
-import { ref } from "vue";
+import { auth } from "../firebase.js";
+import { ElMessage } from "element-plus";
+import { mapActions } from "vuex";
 export default {
-    name: "CaregiverUploadGrade",
-    methods: {
-        ...mapActions({createGradebook: "createGradebook"}),
-        async create() {
-        
-            const details = {
-                childID: this.childID,
-                title: this.title,
-                score: this.score,
-                date: this.date,
-                uploader: this.$store.state.userModel.first + " " + this.$store.state.userModel.last,
-                uid: auth.currentUser.uid,
-            }
-            await this.createGradebook(details)
-            this.goBack()
-        },
-        goBack(){
-            this.$router.push('/editclassdashboard'); 
-        },
+  name: "CaregiverUploadGrade",
+  data() {
+    return {
+      report: {
+        childID: "",
+        title: "",
+        score: "",
+        date: "",
+        uploader:
+          this.$store.state.userModel.first +
+          " " +
+          this.$store.state.userModel.last,
+        uid: auth.currentUser.uid,
+      },
+    };
+  },
+  methods: {
+    ...mapActions({ createGradebook: "createGradebook" }),
+
+    async create() {
+      await this.createGradebook(this.report);
+      ElMessage.success("Successfully uploaded");
+      this.goBack();
     },
-}
+    goBack() {
+      this.$router.push("/editclassdashboard");
+    },
+  },
+};
 </script>
 
 <style>
 #header {
-    overflow: hidden;
-    background-color: rgb(7, 119, 172);
-    display: block;
-    margin: 0%;
-    padding: 5px;
-    width: 100%;
-}
-#firstgroup {
-  float: left;
-  width: 25%;
+  background-color: rgb(7, 119, 172);
+  width: 100%;
+  display: block;
   color: white;
+  position: relative;
+}
+#title {
+  display: inline-block;
   text-align: center;
-  padding: 10px 10px;
-  text-decoration: none;
-  font-size: 15px;
-  line-height: 50px;
+  vertical-align: middle;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
 }
-#secondgroup {
-    float: left;
-    width: 50%;
-    text-align: center;
-    color: white;
-    padding: 10px;
-    line-height: 0px;
+#back {
+  position: absolute;
+  float: left;
+  vertical-align: middle;
+  padding: 12px;
+  margin: 2px;
+  margin-left: 30px;
 }
-#firstgroup:hover {
-  background-color: black;
-}
-#block1 {
-    display: block;
-    line-height: 40px;
-}
-#typereport {
-    display: block;
-    float:left;
-    line-height: 40px;
+#bottomimage {
+  width: 100%;
+  object-fit: cover;
+  background-size: cover;
 }
 </style>
