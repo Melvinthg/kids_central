@@ -1,13 +1,13 @@
 <template>
-  <nav>
+  <nav id = "landingTop">
     <div
       @click="this.$router.push($store.state.user ? '/home' : '/')"
       class="navtitle"
     >
-      <img
+      <img id = "logo"
         src="@/assets/KidsCentralLogo.png"
         alt=""
-        style="width: 30px; height: 30px; margin-right: 5px"
+        
       />
       <span>Kids Central</span>
     </div>
@@ -154,5 +154,26 @@ nav {
 .email {
   color: grey;
   font-size: 13px;
+}
+
+#logo {
+  height: 50px;
+  width: auto;
+  margin-right:8px;
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(4349%) hue-rotate(210deg)
+    brightness(113%) contrast(101%);
+}
+#landingTop{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  padding:10px;
+}
+
+.navtitle{
+  display:flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: space-evenly;
 }
 </style>
