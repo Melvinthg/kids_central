@@ -1,9 +1,16 @@
 <template>
   <div id="header">
+    <el-button
+      type="primary"
+      :icon="ArrowLeft"
+      @click="this.$router.go(-1)"
+      style="float: left"
+      id="back"
+      >Back</el-button
+    >
+    <div>
+      <h4 id="title">Cognitive Abilities</h4>
 
-    <div id="firstGroup" @click="this.$router.go(-1)">
-      Back
-      <!-- <router-link to = "/Dashboard/child" className='text-link' style='color:white'>Dashboard</router-link> -->
     </div>
     <div id="secondgroup">
       Cognitive Abilities

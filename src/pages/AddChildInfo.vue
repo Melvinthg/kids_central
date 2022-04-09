@@ -1,126 +1,132 @@
 <template>
   <div id="header">
-    <div id="firstGroup" @click="this.$router.push('/ChildrenInfo')">Back</div>
-    <div id="secondgroup">
-      <h2>Update Child Info</h2>
-      <br />
-    </div>
-    <div id="thirdgroup"></div>
+    <el-button
+      type="primary"
+      :icon="ArrowLeft"
+      @click="this.$router.go(-1)"
+      style="float: left"
+      id="back"
+      >Back</el-button
+    >
+    <h4 id="title">Add Child Info</h4>
   </div>
-  <br /><br />
-  <form id="myform">
-    <div class="formli">
-      <label for="NRIC">NRIC:</label>
-      <input type="text" id="NRIC" required placeholder="Enter NRIC" />
-      <br /><br />
-      <label for="childName">Child Name:</label>
-      <input
-        type="text"
-        id="childName"
-        required
-        placeholder="Enter child name"
-      />
-      <br /><br />
-      <!-- <label for = "Id">Id:</label>
-                <input type = "Id" id = "Id" required placeholder = "Enter student Id"> <br><br> -->
-      <label for="Address">Address:</label>
-      <input type="text" id="Address" required placeholder="Enter Address" />
-      <br /><br />
-      <label for="DOB">Date of Birth:</label>
-      <input type="text" id="DOB" required placeholder="Enter DD/MM/YYYY" />
-      <br /><br />
-      <label for="Nationality">Nationality:</label>
-      <input
-        type="text"
-        id="Nationality"
-        placeholder="Enter Nationality"
-        required
-      />
-      <br /><br />
-      <label for="Allergies">Allergies:</label>
-      <input
-        type="text"
-        id="Allergies"
-        placeholder="Enter Allergies / nil"
-        required
-      />
-      <br /><br />
-      <label for="Class" style="float: middle">Class:</label>
-      <select id="Class" name="Class">
-        <option id="optionElement" value="2J">2J</option>
-        <option value="2K">2K</option>
-      </select>
-      <br /><br />
-      <label for="Gender">Gender:</label>
-      <select id="Gender" name="Gender">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
-
-     
-    </div>
-     <div class="save">
-        <el-button input type="submit" plain @click="save()">Update</el-button>
-      </div>
-  </form>
+  <div>
+    <el-row justify="center">
+      <el-form :label-width="150">
+        <el-col :span="100" class="block">
+          <!-- <div style="width:500px"> -->
+          <el-form-item label="Name: ">
+            <el-input v-model="info.name" />
+          </el-form-item>
+          <el-form-item label="NRIC: ">
+            <el-input v-model="info.nric" />
+          </el-form-item>
+          <el-form-item label="Address: ">
+            <el-input v-model="info.address" />
+          </el-form-item>
+          <el-form-item label="Gender: ">
+            <el-input v-model="info.gender" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="100" class="block">
+          <el-form-item label="Date Of Birth: ">
+            <el-input v-model="info.dob" />
+          </el-form-item>
+          <el-form-item label="Nationality: ">
+            <el-input v-model="info.nationality" />
+          </el-form-item>
+          <el-form-item label="Allergies: ">
+            <el-input v-model="info.allergies" />
+          </el-form-item>
+          <el-form-item label="Class: ">
+            <el-input v-model="info.class" />
+          </el-form-item>
+        </el-col>
+        <!-- </div>  -->
+      </el-form>
+    </el-row>
+  </div>
+  <br />
+  <el-row justify="center">
+    <span
+      ><el-button class="btn" type="primary" @click="save"
+        >Save Particulars</el-button
+      ></span
+    ><br />
+  </el-row><el-row justify="center"><el-alert
+      v-if="alert"
+      title="Fill in all Fields"
+      type="warning"
+      @close="closeAlert"
+      style="width: 50%;margin:30px"
+    />
+  <br />  </el-row>
 </template>
 
 <script>
 import { db } from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
-import { doc, setDoc } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 export default {
   name: "AddChildInfo",
   data() {
     return {
-      name:
-        this.$store.state.userModel.first +
-        " " +
-        this.$store.state.userModel.last,
-      childID: "",
+      info: {
+        name: "",
+        nric: "",
+        address: "",
+        gender: "",
+        dob: "",
+        nationality: "",
+        allergies: "",
+        class: "",
+        childID: "",
+        parentName:
+          this.$store.state.userModel.first +
+          " " +
+          this.$store.state.userModel.last,
+        parentEmail: this.$store.state.userModel.email,
+      },
+      alert: false,
     };
   },
   // change document id from name to student id, add field parent email
   methods: {
     async save() {
-      this.childID = "";
-      if (this.validNRIC()) {
-        this.childID +=
-          document.getElementById("Class").value +
-          document.getElementById("NRIC").value.toUpperCase().slice(5, 9);
-      }
-      const details = {
-        Name: this.name,
-        childName: document.getElementById("childName").value,
-        NRIC: document.getElementById("NRIC").value.toUpperCase(),
-        Address: document.getElementById("Address").value,
-        Gender: document.getElementById("Gender").value,
-        DOB: document.getElementById("DOB").value,
-        Nationality: document.getElementById("Nationality").value,
-        Allergies: document.getElementById("Allergies").value,
-        Class: document.getElementById("Class").value,
-        childID: this.childID,
-        parentEmail: this.$store.state.userModel.email,
-      };
-
-      if (!this.validNRIC()) {
-        alert("Enter valid NRIC");
-      } else if (!this.isValidDate()) {
-        alert("Enter valid date of birth based on format provided");
-      } else if (this.checkfilled()) {
-        const docRef = await setDoc(doc(db, "students", this.childID), details)
+      if (this.allFilled()) {
+        this.info.childID =
+          this.info.class + this.info.nric.toUpperCase().slice(5, 9);
+        addDoc(collection(db, "students"), this.info)
           .then((response) => {
             console.log(response);
           })
-          .catch((error) => {
-            console.log(error);
+          .catch((err) => {
+            console.log(err);
           });
-        document.getElementById("myform").reset();
-        console.log("Added Successfully");
-        alert("Details Successfully added");
       } else {
-        alert("Form not filled properly, please fill in all required fields");
+        this.callAlert();
       }
+    },
+
+    allFilled() {
+      console.log("check");
+      return (
+        this.info.name != "" &&
+        this.info.nric != "" &&
+        this.info.address != "" &&
+        this.info.gender != "" &&
+        this.info.dob != "" &&
+        this.info.nationality != "" &&
+        this.info.class != "" &&
+        this.info.childID != ""
+      );
+    },
+
+    callAlert() {
+      this.alert = true;
+    },
+    closeAlert() {
+      this.alert = false;
     },
 
     isCharNumber(c) {
@@ -128,7 +134,7 @@ export default {
     },
 
     validNRIC() {
-      let a = document.getElementById("NRIC").value;
+      let a = this.nric;
       if (a.length == 9) {
         return (
           !this.isCharNumber(a.charAt(0)) &&
@@ -144,16 +150,6 @@ export default {
       } else {
         return false;
       }
-    },
-
-    checkfilled() {
-      return (
-        document.getElementById("Address").value.length >= 1 &&
-        document.getElementById("DOB").value.length >= 1 &&
-        document.getElementById("Nationality").value.length >= 1 &&
-        document.getElementById("Allergies").value.length >= 1 &&
-        document.getElementById("childName").value.length >= 1
-      );
     },
 
     isValidDate() {
@@ -180,24 +176,36 @@ export default {
 </script>
 
 <style scoped>
-label {
-  float: left;
-  margin-right: 16px;
+#header {
+  background-color: rgb(7, 119, 172);
+  width: 100%;
+  display: block;
+  color: white;
+  position: relative;
 }
-.formli {
+#title {
   display: inline-block;
-  text-align: right;
-}
-form {
   text-align: center;
-  align-items: center;
-  margin: auto;
+  vertical-align: middle;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#back {
+  vertical-align: middle;
+  padding: 12px;
+  margin: 2px;
+  margin-left: 30px;
+}
+.btn {
+  display: inline-block;
+}
+.block {
+  float: center;
 }
 .save {
   text-align: center;
 }
 #firstGroup {
-  
   font-size: 20px;
   color: white;
   flex: 1;
@@ -227,23 +235,10 @@ select {
   color: grey;
 }
 
-select:focus{
-    border: 1.5px solid #2470B7;
+select:focus {
+  border: 1.5px solid #2470b7;
 }
-/* .select:hover {
-  box-shadow: 0 0 10px 100px #1882a8 inset;
-  background-color: transparent;
-}
-#optionElement:hover {
-  box-shadow: 0 0 10px 100px #1882a8 inset;
-  background-color: transparent;
-} */
-
 select::-ms-expand {
   display: none;
 }
-.formli{
-    margin-bottom:24px;
-}
-
 </style>

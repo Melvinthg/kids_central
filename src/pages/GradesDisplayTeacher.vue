@@ -2,7 +2,6 @@
   <div id="header">
     <el-button
       type="primary"
-      :icon="ArrowLeft"
       @click="this.$router.go(-1)"
       style="float: left"
       id="back"
@@ -23,7 +22,7 @@
     <el-option
       v-for="item in options"
       :key="item.value"
-      :label="item.label"
+      :label="item.value"
       :value="item.value"
     />
   </el-select>
@@ -33,7 +32,6 @@
 <script>
 import { db } from "../firebase.js";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { ref } from "vue";
 import { mapActions } from "vuex";
 
 export default {
@@ -44,7 +42,7 @@ export default {
       chartdata: {},
       options: [],
       alltitle: [],
-      test: "",
+      test: {},
     };
   },
   methods: {
@@ -52,8 +50,8 @@ export default {
       let value = await getDocs(collection(db, "gradebook"));
       value.forEach((d) => {
         const e = {
-          value: d.id,
-          label: d.data().title,
+          value: d.data().title,
+          label: d.id,
         };
         if (!this.alltitle.includes(e.label)) {
           this.options.push(e);
@@ -66,6 +64,7 @@ export default {
         collection(db, "gradebook"),
         where("title", "==", this.test)
       );
+      console.log(this.test)
       const value = await getDocs(q2);
       console.log(value)
       let data = {};
