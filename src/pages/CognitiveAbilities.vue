@@ -9,7 +9,7 @@
       >Back</el-button
     >
     <div>
-      <h4 id="title">Upload Gradebook</h4>
+      <h4 id="title">Cognitive Abilities</h4>
     </div>
   </div>
   <div id="mainContentEmpty" v-if="!this.noReports">

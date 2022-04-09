@@ -1,14 +1,14 @@
 <template>
   <div id="header" v-if="childrenEmpty">
+    <h2 id="title">{{ childName }}'s Profile</h2>
     <el-button
       @click="this.$router.push('/AddChildInfo')"
       type="primary"
-      id="back"
+      id="add"
       >Add info</el-button
-    >
-
-    <h2 id="title">{{ childName }}'s Profile</h2>
+    >  
   </div>
+  
   <div id="header" v-else>
     <h2>Profile page</h2>
     <div id="thirdgroup"></div>
@@ -181,22 +181,21 @@ export default {
 #header {
   background-color: rgb(7, 119, 172);
   width: 100%;
-  display: block;
   color: white;
-  position: relative;
+  align-content: center;
 }
 
 #title {
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  width: 100%;
   font-family: Arial, Helvetica, sans-serif;
+  display:inline;
+  margin-right:auto;
+  margin-left: 45%;
 }
-#back {
-  position: absolute;
+#add {
+  display:inline;
   float: right;
   vertical-align: middle;
+  margin-right:40px;
 }
 ul {
   list-style-type: none;
