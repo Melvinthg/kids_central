@@ -180,6 +180,7 @@ export default {
           // this.childID = doc.data().childID;
           // this.childName = doc.data().childName;
         });
+        this.children.sort((x, y) => x.childName < y.childName ? -1 : x.childName > y.childName ? 1 : 0);
         if (this.checkInfo()) {
           this.boo = true;
         }

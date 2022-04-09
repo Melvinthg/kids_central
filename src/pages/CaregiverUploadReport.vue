@@ -87,9 +87,13 @@ export default {
   methods: {
     ...mapActions({ createReport: "createReport" }),
     async create() {
-      await this.createReport(this.report);
-      ElMessage.success("Successfully uploaded");
-      this.goBack();
+      if (this.checkfilled()) {
+        await this.createReport(this.report);
+        ElMessage.success("Successfully uploaded");
+        this.goBack();
+      } else {
+        ElMessage({message: "Please fill in all required fields", type : 'warning',})
+      }
     },
     goBack() {
       this.$router.push("/editclassdashboard");
@@ -115,6 +119,9 @@ export default {
       } else {
         this.options = [];
       }
+    },
+      checkfilled() {
+      return this.report.category != "" && this.report.text != "" && this.report.title != "" && this.reportchildID != ""
     },
   },
   created: function () {
