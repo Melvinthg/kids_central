@@ -11,16 +11,16 @@
     </div>
     <div id="thirdgroup"></div>
   </div>
-  <div id="mainContentEmpty" v-if="this.noReports">
+  <div id="mainContentEmpty" v-if="!this.noReports">
     <div>
       {{ displaytext }}
     </div>
   </div>
   <div id="mainContent" v-else>
     <div id="text">
-      <h1>
-        <b>{{ displaytext }}</b>
-      </h1>
+      <h3>
+        {{ displaytext }}
+      </h3>
     </div>
     <el-card class="box-card" v-if="boo">
       <ul v-for="x in Reports" :key="x">
@@ -150,7 +150,12 @@ export default {
   line-height: 0px;
   font-size: 40px;
 }
-
+img {
+  height: 50px;
+  width: auto;
+  filter: invert(100%) sepia(0%) saturate(4349%) hue-rotate(210deg)
+    brightness(113%) contrast(101%);
+}
 @media screen and (max-width: 1000px) {
   #firstGroup {
     font-size: 2vw;
@@ -159,7 +164,7 @@ export default {
     font-size: 3vw;
   }
   img {
-  height: 4vw;
+    height: 4vw;
   }
 }
 
@@ -198,13 +203,6 @@ ul li {
 
 #space {
   width: 10px;
-}
-img {
-  height: 50px;
-  width: auto;
-
-  filter: invert(100%) sepia(0%) saturate(4349%) hue-rotate(210deg)
-    brightness(113%) contrast(101%);
 }
 
 #mainContentEmpty {

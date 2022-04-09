@@ -157,9 +157,8 @@ export default {
       this.getInfos();
     },
     childrenEmpty() {
-      
-      const bool = (this.children.length == 0) 
-      console.log(bool)
+      const bool = this.children.length == 0;
+      console.log(bool);
       return bool;
     },
     async getInfos() {
