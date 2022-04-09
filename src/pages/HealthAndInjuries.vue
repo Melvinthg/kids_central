@@ -17,11 +17,9 @@
   <div id="mainContent" v-else>
     <div id="reportRow">
       <div id="text">
-        <h3>
-          {{ displaytext }}
-        </h3>
+        <h3></h3>
       </div>
-      <div class="custom-select" style="width: 200px">
+      <!-- <div class="custom-select" style="width: 200px">
         <select>
           <option
             v-for="child in this.children"
@@ -31,7 +29,7 @@
             {{ child.name }}
           </option>
         </select>
-      </div>
+      </div> -->
     </div>
 
     <el-card class="box-card" v-if="boo" @click="test">
@@ -54,6 +52,7 @@
       </ul>
     </el-card>
   </div>
+  <button @click = "test"> asdasda </button>
 </template>
 
 <script>
@@ -82,14 +81,18 @@ export default {
     },
 
     async test() {
-      const q = query(
-        collection(db, "students"),
-        where("Name", "==", this.name),
+      const email = this.$store.state.userModel.email;
+      const reportsCollection = collection(db, "reports");
+      const q =  query(
+        collection(db, "reports"),
+        where("parentEmail", "==", email),
+        where("category", "==", "Injuries and Health")
+        
       );
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(q)
       querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-      });
+        console.log(doc.data())
+      })
     },
     //search for student id wrt to name of user then get corresponding report
     async getInfo() {
@@ -122,7 +125,7 @@ export default {
       const x = query(
         collection(db, "reports"),
         where("childID", "==", this.childID),
-        where("category", "==", "injuriesandhealth"),
+        where("category", "==", "Injuries and Health"),
       );
       const y = await getDocs(x);
       y.forEach((doc) => {
@@ -134,7 +137,7 @@ export default {
         this.displaytext = "Viewing: " + this.childName + "'s reports";
       }
 
-      console.log(this.Reports.length);
+      // console.log(this.Reports.length);
     },
   },
   created() {
@@ -232,7 +235,6 @@ ul li {
 #space {
   width: 10px;
 }
-
 
 #mainContentEmpty {
   height: 70vh;
