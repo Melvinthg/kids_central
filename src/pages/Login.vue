@@ -181,6 +181,7 @@ input:focus {
   font-size: 48px;
   font-weight: 700;
   text-align: left;
+  color: black;
   
 }
 #submitButton {
@@ -216,6 +217,7 @@ input:focus {
     font-size: 24px;
     text-align: center;
     margin-bottom: 24px;
+    
   }
   #fields {
     align-items: center;
