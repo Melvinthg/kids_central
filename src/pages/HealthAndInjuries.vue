@@ -1,14 +1,17 @@
 <template>
   <div id="header">
-    <div id="firstGroup" @click="this.$router.go(-1)">Back</div>
-
-    <div id="secondgroup">
-      Health & Injuries
-      <div id="space"></div>
-      <img id="icon" src="@/assets/HealthAndInjuries.png" alt="" />
+      <el-button
+        type="primary"
+        :icon="ArrowLeft"
+        @click="this.$router.go(-1)"
+        style="float: left"
+        id="back"
+        >Back</el-button
+      >
+      <div>
+        <h4 id="title">Health and Injuries</h4>
+      </div>
     </div>
-    <div id="thirdgroup"></div>
-  </div>
   <div id="mainContentEmpty" v-if="!this.noReports">
     <div>
       {{ displaytext }}
@@ -145,68 +148,16 @@ export default {
 
 <style scoped>
 #header {
-  overflow: hidden;
   background-color: rgb(7, 119, 172);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: 0%;
-  padding: 0px;
+  width: 100%;
+  display: block;
+  color: white;
+  position: relative;
 }
 
 #thirdgroup {
   flex: 1;
 }
-
-#firstGroup {
-  padding-left: 16px;
-  flex: 1;
-  font-size: 20px;
-
-  color: white;
-  background-color: none;
-}
-#secondgroup {
-  flex: 3;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  padding: 10px;
-  line-height: 0px;
-  font-size: 40px;
-}
-img#icon {
-  height: 50px;
-  width: auto;
-  filter: invert(100%) sepia(0%) saturate(4349%) hue-rotate(210deg)
-    brightness(113%) contrast(101%);
-}
-@media screen and (max-width: 1000px) {
-  img#icon {
-    height: 4vw;
-    width: auto;
-  }
-  #firstGroup {
-    font-size: 2vw;
-  }
-  #secondgroup {
-    font-size: 3vw;
-  }
-}
-
-#firstGroup:hover {
-  cursor: pointer;
-  color: black;
-}
-
-#title {
-  float: middle;
-  text-align: center;
-  padding: 30px;
-}
-
 #btn {
   color: white;
   font-size: 20px;
