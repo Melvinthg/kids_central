@@ -1,23 +1,21 @@
 <template>
   <div id="header">
-      <el-button
-        type="primary"
-        :icon="ArrowLeft"
-        @click="this.$router.go(-1)"
-        style="float: left"
-        id="back"
-        >Back</el-button
-      >
-      <div>
-        <h4 id="title">Health and Injuries</h4>
-      </div>
+    <el-button
+      type="primary"
+      :icon="ArrowLeft"
+      @click="this.$router.go(-1)"
+      style="float: left"
+      id="back"
+      >Back</el-button
+    >
+    <div>
+      <h4 id="title">Health and Injuries</h4>
     </div>
-  <div id="mainContentEmpty" v-if="!this.noReports">
-    <div>{{displaytext}}</div>
   </div>
-  <div id="mainContent" >
-    
-
+  <div id="mainContentEmpty" v-if="!this.noReports">
+    <div>{{ displaytext }}</div>
+  </div>
+  <div id="mainContent">
     <el-card
       class="box-card"
       v-for="x in this.Reports"
@@ -54,7 +52,7 @@ export default {
     return {
       type: this.$store.state.userModel.type,
       Reports: [],
-      
+
       boo: false,
       displayName: "",
       displaytext: "No Reports at the moment",
@@ -110,6 +108,7 @@ export default {
 <style scoped>
 #reportContent {
   padding-left: 8px;
+  overflow-wrap: break-word;
 }
 #contentContainer {
   padding: 8px;
@@ -209,7 +208,6 @@ img#icon {
   text-align: center;
   padding: 30px;
 }
-
 
 #btn {
   color: white;

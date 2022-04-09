@@ -115,6 +115,7 @@ export default {
 <style scoped>
 #reportContent {
   padding-left: 8px;
+  overflow-wrap: break-word;
 }
 #contentContainer {
   padding: 8px;
