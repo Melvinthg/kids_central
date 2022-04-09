@@ -88,10 +88,15 @@ export default {
     }),
 
     async create() {
-      this.report.childName = await this.getChildName(this.report.childID)
-      await this.createGradebook(this.report)
-      ElMessage.success("Successfully uploaded");
-      this.goBack();
+      if (this.checkfilled()) {
+        this.report.childName = await this.getChildName(this.report.childID)
+        await this.createGradebook(this.report)
+        ElMessage.success("Successfully uploaded");
+        this.goBack();
+      } else {
+        ElMessage({message: "Please fill in all required fields", type : 'warning',})
+      }
+
     },
     goBack() {
       this.$router.push("/editclassdashboard");
@@ -117,6 +122,10 @@ export default {
       } else {
         this.options = [];
       }
+    },
+    checkfilled() {
+      return this.report.childID != "" && this.report.childName != "" && this.report.score != "" 
+      && this.report.title != "" && this.report.date
     },
   },
   created: function () {
