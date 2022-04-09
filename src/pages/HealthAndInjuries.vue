@@ -9,7 +9,7 @@
       >Back</el-button
     >
     <div>
-      <h4 id="title">Health and Injuries</h4>
+      <h4 id="title">Injuries & Health</h4>
     </div>
   </div>
   <div id="mainContentEmpty" v-if="!this.noReports">

@@ -8,25 +8,23 @@
     <div class="column">
       <div class="card" @click="healthPage()">
         <h4>Injuries and health</h4>
-        <br /><br />
+        <br />
         <div v-if="!booInjuriesAndHealth">
           <p>No Injuries and health reports yet</p>
         </div>
-        <div v-if="booInjuriesAndHealth">
-          <p>Click proceed to view more</p>
-        </div>
+
         <el-card class="box-card" v-if="booInjuriesAndHealth">
-          <ul v-for="x in injuriesAndHealthReports" :key="x">
-            <div id="title2" style="text-align-center">
-              <li>
-                <span
-                  ><u>{{ x.title }}</u></span
-                >
-              </li>
+          <div
+            class="reportContainer"
+            style="text-align-center"
+            v-for="x in this.injuriesAndHealthReports"
+            :key="x"
+          >
+            <span class="reportTitle">{{ x.title }}</span>
+            <div class="reportTime">
+              {{ x.date.toDate().toString().slice(4, 16) }}
             </div>
-            <div>{{ x.date.toDate().toString().slice(4, 16) }}</div>
-            <br />
-          </ul>
+          </div>
         </el-card>
       </div>
     </div>
@@ -36,12 +34,12 @@
         class="card"
         @click="
           this.$store.state.userModel.type == 'parent'
-            ? $router.push('/gradesDisplayParent/'+ this.childID)
+            ? $router.push('/gradesDisplayParent/' + this.childID)
             : $router.push('/gradesDisplayTeacher')
         "
       >
         <h4>Gradebook</h4>
-        <br /><br />
+        <br />
         <div v-if="!booGrades">
           <p>No Gradebook reports yet</p>
         </div>
@@ -50,7 +48,7 @@
         </div>
         <el-card class="box-card" v-if="booGrades">
           <ul v-for="x in gradeReports" :key="x">
-            <div id="title2" style="text-align-center">
+            <div id="title-grade" style="text-align-center">
               <li>
                 <span
                   ><u>{{ x.title }}</u></span
@@ -61,32 +59,29 @@
             <br />
           </ul>
         </el-card>
-
       </div>
     </div>
 
     <div class="column">
       <div class="card" @click="cogPage()">
         <h4>Cognitive abilities</h4>
-        <br /><br />
+        <br />
         <div v-if="!booCognitiveAbilities">
           <p>No cognitive abilities reports yet</p>
         </div>
-        <div v-if="booCognitiveAbilities">
-          <p>Click proceed to view more</p>
-        </div>
+
         <el-card class="box-card" v-if="booCognitiveAbilities">
-          <ul v-for="x in cognitiveAbilitiesReports" :key="x">
-            <div id="title2" style="text-align-center">
-              <li>
-                <span
-                  ><u>{{ x.title }}</u></span
-                >
-              </li>
+          <div
+            class="reportContainer"
+            style="text-align-center"
+            v-for="x in this.cognitiveAbilitiesReports"
+            :key="x"
+          >
+            <span class="reportTitle">{{ x.title }}</span>
+            <div class="reportTime">
+              {{ x.date.toDate().toString().slice(4, 16) }}
             </div>
-            <div>{{ x.date.toDate().toString().slice(4, 16) }}</div>
-            <br />
-          </ul>
+          </div>
         </el-card>
       </div>
     </div>
@@ -120,51 +115,59 @@ export default {
     };
   },
   methods: {
+    async test() {
+      console.log(this.$route.params.id);
+    },
     async getInfo() {
       const paramsID = this.$route.params.id;
+      this.childID = paramsID;
       // -----------------get student id QUERY FOR TEACHERS--------------------
       if (paramsID != "child") {
-        this.childID = paramsID;
-        const q = query(
-          collection(db, "students"),
-          where("childID", "==", paramsID),
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          this.childName = doc.data().childName;
-        });
+        // -------------get cognitive abilities report------------------------
 
-        //-----------------------QUERY FOR PARENTS------------------------------
+        const q1 = query(
+          collection(db, "reports"),
+          where("childID", "==", this.childID),
+          where("category", "==", "Cognitive Abilities"),
+        );
+
+        const query1 = await getDocs(q1);
+        query1.forEach((doc) => {
+          this.cognitiveAbilitiesReports.push(doc.data());
+        });
+        // -------------get injuries and health report------------------------
+        const q2 = query(
+          collection(db, "reports"),
+          where("childID", "==", this.childID),
+          where("category", "==", "Injuries and Health"),
+        );
+        const query2 = await getDocs(q2);
+        query2.forEach((doc) => {
+          this.injuriesAndHealthReports.push(doc.data());
+        });
       } else {
-        const q = query(
-          collection(db, "students"),
-          where("Name", "==", this.name),
+        // -------------get injuries and health report------------------------
+        const email = this.$store.state.userModel.email;
+        const reportsCollection = collection(db, "reports");
+        const q1 = query(
+          collection(db, "reports"),
+          where("parentEmail", "==", email),
+          where("category", "==", "Injuries and Health"),
         );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-          this.childID = doc.data().childID;
-          this.childName = doc.data().childName;
+        const querySnapshot1 = await getDocs(q1);
+        querySnapshot1.forEach((doc) => {
+          this.injuriesAndHealthReports.push(doc.data());
         });
-      }
-      // -------------get injuries and health report------------------------
-
-      const x = query(
-        collection(db, "reports"),
-        where("childID", "==", this.childID),
-        where("category", "==", "injuriesandhealth"),
-      );
-      const y = await getDocs(x);
-      y.forEach((doc) => {
-        this.injuriesAndHealthReports.push(doc.data());
-      });
-      if (this.injuriesAndHealthReports.length > 0) {
-        this.booInjuriesAndHealth = true;
-        if (this.injuriesAndHealthReports.length > 2) {
-          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(
-            0,
-            2,
-          );
-        }
+        // -------------get cognitive abilities report------------------------
+        const q2 = query(
+          collection(db, "reports"),
+          where("parentEmail", "==", email),
+          where("category", "==", "Cognitive Abilities"),
+        );
+        const querySnapshot2 = await getDocs(q2);
+        querySnapshot2.forEach((doc) => {
+          this.cognitiveAbilitiesReports.push(doc.data());
+        });
       }
 
       //---------------------get gradebook reports--------------------------
@@ -183,17 +186,16 @@ export default {
         }
       }
 
-      // -------------get cognitive abilities report------------------------
+      if (this.injuriesAndHealthReports.length > 0) {
+        this.booInjuriesAndHealth = true;
+        if (this.injuriesAndHealthReports.length > 2) {
+          this.injuriesAndHealthReports = this.injuriesAndHealthReports.slice(
+            0,
+            2,
+          );
+        }
+      }
 
-      const i = query(
-        collection(db, "reports"),
-        where("childID", "==", this.childID),
-        where("category", "==", "cognitiveabilities"),
-      );
-      const j = await getDocs(i);
-      j.forEach((doc) => {
-        this.cognitiveAbilitiesReports.push(doc.data());
-      });
       if (this.cognitiveAbilitiesReports.length > 0) {
         this.booCognitiveAbilities = true;
         if (this.cognitiveAbilitiesReports.length > 2) {
@@ -227,11 +229,30 @@ export default {
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
+.box-card {
+  --el-card-padding: 0px;
+  padding: 8px;
+  max-height: 100%;
+  min-height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-body {
-  font-family: Arial, Helvetica, sans-serif;
+.reportTitle {
+  font-size: 1em;
+  color: #0777ac;
+  text-align: start;
+}
+.reportTime {
+  font-size: 0.75em;
+  color: grey;
+  margin-right: 0px;
+  margin-left: auto;
+}
+.reportContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 /* Float four columns side by side */
 .column {
@@ -243,8 +264,8 @@ body {
 }
 /* Remove extra left and right margins, due to padding */
 .dashRow {
-  display:flex;
-  flex-direction:row;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   margin-top: 32px;
 }
