@@ -10,25 +10,17 @@
     >
     <div>
       <h4 id="title">Cognitive Abilities</h4>
-
+      
     </div>
-    <div id="secondgroup">
-      Cognitive Abilities
-      <div id="space"></div>
-      <img src="@/assets/Cognitive.png" alt="" />
-
-    </div>
+    
   </div>
   <div id="mainContentEmpty" v-if="this.noReports">
     <div>{{ displaytext }}</div>
   </div>
-  <div id="mainContent" >
+  <div id="mainContent">
     <div id="reportRow">
-      <div id="text">
-        
-      </div>
+      <div id="text"></div>
     </div>
-
     <el-card
       class="box-card"
       v-for="x in this.Reports"
@@ -88,7 +80,7 @@ export default {
         this.childID = this.$route.params.id;
         const q = query(
           collection(db, "students"),
-          where("childID", "==", this.childID),
+          where("childID", "==", this.childID)
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -101,7 +93,7 @@ export default {
         const q = query(
           collection(db, "reports"),
           where("parentEmail", "==", email),
-          where("category", "==", "Cognitive Abilities"),
+          where("category", "==", "Cognitive Abilities")
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
