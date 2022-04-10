@@ -53,9 +53,9 @@ export default {
           value: d.data().title,
           label: d.id,
         };
-        if (!this.alltitle.includes(e.label)) {
+        if (!this.alltitle.includes(e.value)) {
           this.options.push(e);
-          this.alltitle.push(e.label);
+          this.alltitle.push(e.value);
         }
       });
     },

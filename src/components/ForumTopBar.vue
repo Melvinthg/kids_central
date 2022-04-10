@@ -1,16 +1,24 @@
 <template>
   <div id="wholegroup">
-    <div id="firstGroup"></div>
-
+    <el-button
+      type="primary"
+      :icon="ArrowLeft"
+      @click="this.$router.go(-1)"
+      style="float: left;margin-left: 20px;"
+      >Back</el-button
+    >
     <div id="secondgroup">
       <h1>CLASS {{ className }} FORUM</h1>
-    
+
       <!-- query number of parents in the class -->
       <!-- <h4>{{ number }} members</h4> -->
     </div>
-    <div id="thirdgroup" @click="this.$router.push('/forumcreatepost')">
-      New Post
-    </div>
+    <el-button
+      type="primary"
+      style="margin-right: 20px"
+      @click="this.$router.push('/forumcreatepost')"
+      >New Post</el-button
+    >
   </div>
 </template>
 
@@ -55,14 +63,10 @@ export default {
 
 <style scoped>
 #wholegroup {
-  overflow: hidden;
-  height: 120px;
   background-color: rgb(7, 119, 172);
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0%;
-  padding: 5px;
   width: 100%;
   color: white;
 }

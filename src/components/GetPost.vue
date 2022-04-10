@@ -3,7 +3,7 @@
     <el-empty feed="No feed..." />
   </div>
   <el-row v-else>
-    <el-card style="width: 100%; margin-bottom: 20px; background-color:azure" >
+    <el-card style="width: 100%; margin-bottom: 20px; background-color: azure">
       <h4><b>Feed</b></h4>
     </el-card>
     <el-col>
@@ -42,15 +42,17 @@ export default {
   methods: {
     getPosts() {
       let q;
+      q = query(collection(db, "posts"), orderBy("date"));
       if (this.$store.state.userModel) {
         if (this.$store.state.userModel.type == "parent") {
           q = query(
             collection(db, "posts"),
-            where("recipient", "==", this.$store.state.userModel.email),
+            where("recipient", "in", [
+              this.$store.state.userModel.email,
+              "All"
+            ]),
             orderBy("date")
           );
-        } else {
-          q = query(collection(db, "posts"), orderBy("date"));
         }
 
         getDocs(q).then((res) => {
