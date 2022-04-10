@@ -16,16 +16,28 @@
         <el-col :span="100" class="block">
           <!-- <div style="width:500px"> -->
           <el-form-item label="Name: ">
-            <el-input v-model="info.childName" />
+            <el-input 
+            v-model="info.childName" 
+            placeholder="Enter Child Name"
+            />
           </el-form-item>
           <el-form-item label="NRIC: ">
-            <el-input v-model="info.NRIC" />
+            <el-input 
+            v-model="info.NRIC" 
+            placeholder="Enter NRIC"
+            />
           </el-form-item>
           <el-form-item label="Address: ">
-            <el-input v-model="info.Address" />
+            <el-input 
+            v-model="info.Address" 
+            placeholder="Enter Address"
+            />
           </el-form-item>
           <el-form-item label="Gender: ">
-            <el-input v-model="info.Gender" />
+            <el-input 
+            v-model="info.Gender" 
+            placeholder="Male / Female"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="100" class="block">
@@ -39,13 +51,22 @@
             />
           </el-form-item>
           <el-form-item label="Nationality: ">
-            <el-input v-model="info.Nationality" />
+            <el-input 
+            v-model="info.Nationality" 
+            placeholder = "Enter Nationality"
+            />
           </el-form-item>
           <el-form-item label="Allergies: ">
-            <el-input v-model="info.Allergies" />
+            <el-input 
+            v-model="info.Allergies" 
+            placeholder = "Enter Allergies / Nil"
+            />
           </el-form-item>
           <el-form-item label="Class: ">
-            <el-input v-model="info.Class" />
+            <el-input 
+            v-model="info.Class" 
+            placeholder = "2J / 2K"
+            />
           </el-form-item>
         </el-col>
         <!-- </div>  -->
@@ -101,7 +122,7 @@ export default {
         this.$router.go(-1);
       } else {
         ElMessage({
-          message: "Please fill in all required fields",
+          message: "Please enter valid input fields",
           type: "warning",
         });
       }
@@ -113,10 +134,11 @@ export default {
         this.info.childName != "" &&
         this.info.NRIC != "" &&
         this.info.Address != "" &&
-        this.info.Gender != "" &&
+        (this.info.Gender == "Male" || this.info.Gender == "Female") &&
         this.info.DOB != "" &&
         this.info.Nationality != "" &&
-        this.info.Class != ""
+        (this.info.Class == "2J" || this.info.Class == "2K")
+        && this.validNRIC()
       );
     },
 
@@ -124,44 +146,24 @@ export default {
       return c >= "0" && c <= "9";
     },
 
-    // validNRIC() {
-    //   let a = this.NRIC;
-    //   if (a.length == 9) {
-    //     return (
-    //       !this.isCharNumber(a.charAt(0)) &&
-    //       !this.isCharNumber(a.charAt(a.length - 1)) &&
-    //       this.isCharNumber(a.charAt(1)) &&
-    //       this.isCharNumber(a.charAt(2)) &&
-    //       this.isCharNumber(a.charAt(3)) &&
-    //       this.isCharNumber(a.charAt(4)) &&
-    //       this.isCharNumber(a.charAt(5)) &&
-    //       this.isCharNumber(a.charAt(6)) &&
-    //       this.isCharNumber(a.charAt(7))
-    //     );
-    //   } else {
-    //     return false;
-    //   }
-    // },
-
-    // isValidDate() {
-    //   let b = document.getElementById("DOB").value;
-    //   if (b.length == 10) {
-    //     return (
-    //       this.isCharNumber(b.charAt(0)) &&
-    //       this.isCharNumber(b.charAt(1)) &&
-    //       this.isCharNumber(b.charAt(3)) &&
-    //       this.isCharNumber(b.charAt(4)) &&
-    //       this.isCharNumber(b.charAt(6)) &&
-    //       this.isCharNumber(b.charAt(7)) &&
-    //       this.isCharNumber(b.charAt(8)) &&
-    //       this.isCharNumber(b.charAt(9)) &&
-    //       b.charAt(2) == "/" &&
-    //       b.charAt(5) == "/"
-    //     );
-    //   } else {
-    //     return false;
-    //   }
-    // },
+    validNRIC() {
+      let a = this.info.NRIC;
+      if (a.length == 9) {
+        return (
+          !this.isCharNumber(a.charAt(0)) &&
+          !this.isCharNumber(a.charAt(a.length - 1)) &&
+          this.isCharNumber(a.charAt(1)) &&
+          this.isCharNumber(a.charAt(2)) &&
+          this.isCharNumber(a.charAt(3)) &&
+          this.isCharNumber(a.charAt(4)) &&
+          this.isCharNumber(a.charAt(5)) &&
+          this.isCharNumber(a.charAt(6)) &&
+          this.isCharNumber(a.charAt(7))
+        );
+      } else {
+        return false;
+      }
+    },
   },
 };
 </script>
