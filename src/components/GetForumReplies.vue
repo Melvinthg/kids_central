@@ -79,11 +79,10 @@ export default {
       replies: [],
       fpid: "",
       title: this.$route.params.title,
+      class: ""
     };
   },
-  // props: {
-  //     fpid: String,
-  // },
+  
   methods: {
     ...mapActions({
       createReply: "createReply",
@@ -106,6 +105,7 @@ export default {
       };
       await this.createReply(details);
       this.replies = await this.getReplies(this.fpid);
+      this.replycontent="";
     },
     async display() {
       if (this.$store.state.userModel.type == "teacher") {
@@ -118,7 +118,9 @@ export default {
         });
       } else if (this.$store.state.userModel.type == "parent") {
         const pEmail = this.$store.state.userModel.email;
-        var childClass = await this.getChildClass(pEmail);
+        // var childClass = await this.getChildClass(pEmail);
+        var childClass = this.$route.params.class;
+        console.log(childClass);
         this.forumposts = await this.getForumPosts(childClass);
         var t = this.title;
         this.forumposts = this.forumposts.filter(function (post) {
@@ -130,6 +132,7 @@ export default {
   async mounted() {
     this.fpid = this.$route.params.fpid;
     this.replies = await this.getReplies(this.fpid);
+    // this.class = this.$route.params.class;
   },
 
   created: function () {

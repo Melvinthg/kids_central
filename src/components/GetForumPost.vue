@@ -36,15 +36,11 @@ export default {
   },
   methods: {
     nav() {
-      this.$router.push({
-        name: "ForumReply",
-        params: {
-          replies: this.forumpost.replies,
-          fpid: this.forumpost.fpid,
-          title: this.forumpost.title,
-        },
-      });
-    },
+        this.$router.push({
+          name: "ForumReply",
+          params: { replies: this.forumpost.replies, fpid: this.forumpost.fpid, title: this.forumpost.title, class: this.forumpost.class},
+        });
+      },
   },
 };
 </script>
@@ -90,10 +86,12 @@ export default {
 .replies {
   float: right;
   margin-right: 2%;
-  text-decoration: none;
+  text-decoration: underline;
   color: black;
 }
 .replies:hover {
-  color: grey;
+  color:dodgerblue;
+  /* border: 5px solid; */
+  transform: translateY(-5px);
 }
 </style>
