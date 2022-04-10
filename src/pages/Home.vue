@@ -99,6 +99,9 @@
         <el-divider />
       </div>
       <div class="feed">
+        <el-card style="width: 100%; margin-bottom: 20px; background-color: azure">
+      <h4><b>Feed</b></h4>
+    </el-card>
         <GetPost />
       </div>
     </el-main>

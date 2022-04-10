@@ -3,21 +3,20 @@
     <el-empty feed="No feed..." />
   </div>
   <el-row v-else>
-    <el-card style="width: 100%; margin-bottom: 20px; background-color: azure">
-      <h4><b>Feed</b></h4>
-    </el-card>
     <el-col>
       <div v-for="post in posts.slice().reverse()" :key="post.id">
-        <el-card style="padding: 14px; margin-bottom: 20px; width: auto">
-          <span>{{ post.poster }} shared </span>
-          <time class="time">{{ post.date }}</time>
+        <el-card style="margin-bottom: 20px; width: auto">
+          <span class="postOp">{{ post.poster }} shared </span>
+          <hr />
+
           <div class="bottom">
             <img
               v-if="post.imageUrl != null"
               v-bind:src="post.imageUrl"
-              class="image"
+              class="postImage"
             />
-            <span style="margin-right: auto">{{ post.caption }}</span>
+            <span class="postCaption">{{ post.caption }}</span>
+            <div class="time">{{ post.date }}</div>
           </div>
         </el-card>
       </div>
@@ -40,35 +39,43 @@ export default {
   },
   computed: mapState(["userModel"]),
   methods: {
-    getPosts() {
+    async getPosts() {
       let q;
       q = query(collection(db, "posts"), orderBy("date"));
       if (this.$store.state.userModel) {
+        const checkList = ["All", this.$store.state.userModel.email];
+        const tempList = [];
         if (this.$store.state.userModel.type == "parent") {
           q = query(
             collection(db, "posts"),
-            where("recipient", "in", [
-              this.$store.state.userModel.email,
-              "All"
-            ]),
-            orderBy("date")
+
+            orderBy("date"),
           );
         }
 
         getDocs(q).then((res) => {
           res.forEach((d) => {
-            this.posts.push({
-              id: d.id,
-              caption: d.data().caption,
-              //date: new Date(d.data().date.seconds*1000),
-              date: d.data().date.toDate().toString().slice(4, 21),
-              imageUrl: d.data().imageUrl,
-              location: d.data().location,
-              poster: d.data().poster,
-              recipient: d.data().recipient,
-            });
+            if (
+              d.data()["recipient"] == "All" ||
+              d.data()["recipient"] == this.$store.state.userModel.email
+            ) {
+              this.posts.push({
+                id: d.id,
+                caption: d.data().caption,
+                //date: new Date(d.data().date.seconds*1000),
+                date: d.data().date.toDate().toString().slice(4, 21),
+                imageUrl: d.data().imageUrl,
+                location: d.data().location,
+                poster: d.data().poster,
+                recipient: d.data().recipient,
+              });
+            }
           });
         });
+
+        // console.log(tempList.filter(d => (d.recipient == 'All' || d.recipient == this.$store.state.userModel.email)))
+        // this.posts = tempList.filter((d) => checkList.includes(d.recipient));
+        console.log(this.tempList);
       }
     },
   },
@@ -84,23 +91,43 @@ export default {
 </script>
 
 <style>
+.postOp {
+  font-weight: 500;
+  color: #0777ac;
+}
+.postCaption {
+  flex: 5;
+  text-align: start;
+  line-height: 1.6;
+  padding-left: 12px;
+}
 .time {
   font-size: 13px;
   color: #999;
+  float: right;
+  margin-left: auto;
 }
 .bottom {
   margin-top: 13px;
   line-height: 12px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: row;
+
+  align-items: start;
 }
-.image {
-  /* width: 100%; */
+.postImage {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: contain;
   display: block;
   border-right: solid 1px var(--el-border-color);
-  margin-right: 20px;
-  padding-right: 20px;
+  padding: 20px;
+}
+.postImage:hover {
+  position: relative;
+  scale: 1.5;
+  max-width: 400px;
+  max-height: 400px;
 }
 .card-header {
   display: flex;
