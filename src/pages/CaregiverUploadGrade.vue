@@ -129,6 +129,7 @@ export default {
       }
     },
     checkfilled() {
+
       return (
         this.report.childID != "" &&
         this.report.childName != "" &&
@@ -136,6 +137,7 @@ export default {
         this.report.title != "" &&
         this.report.date
       );
+
     },
   },
   created: function () {

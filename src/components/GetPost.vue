@@ -7,7 +7,7 @@
       <h4><b>Feed</b></h4>
     </el-card>
     <el-col>
-      <div v-for="post in posts" :key="post.id">
+      <div v-for="post in posts.slice().reverse()" :key="post.id">
         <el-card style="padding: 14px; margin-bottom: 20px; width: auto">
           <span>{{ post.poster }} shared </span>
           <time class="time">{{ post.date }}</time>

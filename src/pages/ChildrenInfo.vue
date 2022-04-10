@@ -193,6 +193,7 @@ export default {
           e.childID.length == 6 &&
           e.childName.length >= 1;
       });
+      return true
     },
   },
 
