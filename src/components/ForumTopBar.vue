@@ -6,7 +6,7 @@
       <h1>CLASS {{ className }} FORUM</h1>
     
       <!-- query number of parents in the class -->
-      <h4>{{ number }} members</h4>
+      <!-- <h4>{{ number }} members</h4> -->
     </div>
     <div id="thirdgroup" @click="this.$router.push('/forumcreatepost')">
       New Post
