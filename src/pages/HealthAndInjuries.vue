@@ -76,7 +76,8 @@ export default {
         const q = query(
           collection(db, "reports"),
           where("childID", "==", this.childID),
-          orderBy("date", "desc")
+          where("category", "==", "Injuries and Health"),
+          orderBy("date", "desc"),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
