@@ -3,7 +3,7 @@
     <el-empty feed="No feed..." />
   </div>
   <el-row v-else>
-    <el-card style="width: 100%; margin-bottom: 20px">
+    <el-card style="width: 100%; margin-bottom: 20px; background-color:azure" >
       <h4><b>Feed</b></h4>
     </el-card>
     <el-col>

@@ -9,13 +9,17 @@
       >Back</el-button
     >
     <div>
-      <h4 id="title">Cognitive Abilities </h4>
+      <h4 id="title">Cognitive Abilities</h4>
+      
     </div>
   </div>
   <div id="mainContentEmpty" v-if="!this.noReports">
     <div>{{ displaytext }}</div>
   </div>
   <div id="mainContent">
+    <div id="reportRow">
+      <div id="text"></div>
+    </div>
     <el-card
       class="box-card"
       v-for="x in this.Reports"
