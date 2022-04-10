@@ -36,15 +36,11 @@ export default {
   },
   methods: {
     nav() {
-      this.$router.push({
-        name: "ForumReply",
-        params: {
-          replies: this.forumpost.replies,
-          fpid: this.forumpost.fpid,
-          title: this.forumpost.title,
-        },
-      });
-    },
+        this.$router.push({
+          name: "ForumReply",
+          params: { replies: this.forumpost.replies, fpid: this.forumpost.fpid, title: this.forumpost.title, class: this.forumpost.class},
+        });
+      },
   },
 };
 </script>
