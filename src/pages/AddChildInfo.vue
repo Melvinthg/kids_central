@@ -29,8 +29,14 @@
           </el-form-item>
         </el-col>
         <el-col :span="100" class="block">
-          <el-form-item label="Date Of Birth: ">
-            <el-input v-model="info.DOB" />
+          <el-form-item label="Pick date: ">
+            <el-date-picker
+              v-model="info.DOB"
+              type="date"
+              placeholder="Pick a Date"
+              format="YYYY/MM/DD"
+              value-format="DD/MM/YY"
+            />
           </el-form-item>
           <el-form-item label="Nationality: ">
             <el-input v-model="info.Nationality" />
@@ -53,21 +59,14 @@
         >Save Particulars</el-button
       ></span
     ><br /> </el-row
-  ><el-row justify="center"
-    ><el-alert
-      v-if="alert"
-      title="Fill in all Fields"
-      type="warning"
-      @close="closeAlert"
-      style="width: 50%; margin: 30px"
-    />
-    <br />
-  </el-row>
+  >
 </template>
 
 <script>
 import { db } from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
+import { ElMessage } from "element-plus";
+
 import { setDoc, collection, doc } from "firebase/firestore";
 export default {
   name: "AddChildInfo",
@@ -89,7 +88,6 @@ export default {
           this.$store.state.userModel.last,
         parentEmail: this.$store.state.userModel.email,
       },
-      alert: false,
     };
   },
   // change document id from name to student id, add field parent email
@@ -106,8 +104,11 @@ export default {
           .catch((err) => {
             console.log(err);
           });
+        ElMessage.success("Successfully uploaded");
+        this.goBack();
       } else {
-        this.callAlert();
+        ElMessage({message: "Please fill in all required fields", type : 'warning',})
+
       }
     },
 
@@ -122,13 +123,6 @@ export default {
         this.info.Nationality != "" &&
         this.info.Class != ""
       );
-    },
-
-    callAlert() {
-      this.alert = true;
-    },
-    closeAlert() {
-      this.alert = false;
     },
 
     isCharNumber(c) {
