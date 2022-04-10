@@ -105,6 +105,7 @@ export default {
       };
       await this.createReply(details);
       this.replies = await this.getReplies(this.fpid);
+      this.replycontent="";
     },
     async display() {
       if (this.$store.state.userModel.type == "teacher") {
