@@ -86,10 +86,12 @@ export default {
 .replies {
   float: right;
   margin-right: 2%;
-  text-decoration: none;
+  text-decoration: underline;
   color: black;
 }
 .replies:hover {
-  color: grey;
+  color:dodgerblue;
+  /* border: 5px solid; */
+  transform: translateY(-5px);
 }
 </style>
