@@ -16,13 +16,22 @@
         <el-col :span="100" class="block">
           <!-- <div style="width:500px"> -->
           <el-form-item label="Name: ">
-            <el-input v-model="info.childName" />
+            <el-input 
+            v-model="info.childName" 
+            placeholder="Enter Child Name"
+            />
           </el-form-item>
           <el-form-item label="NRIC: ">
-            <el-input v-model="info.NRIC" />
+            <el-input 
+            v-model="info.NRIC" 
+            placeholder="Enter NRIC"
+            />
           </el-form-item>
           <el-form-item label="Address: ">
-            <el-input v-model="info.Address" />
+            <el-input 
+            v-model="info.Address" 
+            placeholder="Enter Address"
+            />
           </el-form-item>
           <el-form-item label="Gender">
             <el-select
@@ -46,15 +55,21 @@
             />
           </el-form-item>
           <el-form-item label="Nationality: ">
-            <el-input v-model="info.Nationality" />
+            <el-input 
+            v-model="info.Nationality" 
+            placeholder = "Enter Nationality"
+            />
           </el-form-item>
           <el-form-item label="Allergies: ">
-            <el-input v-model="info.Allergies" />
+            <el-input 
+            v-model="info.Allergies" 
+            placeholder = "Enter Allergies / Nil"
+            />
           </el-form-item>
           <el-form-item label="Class">
             <el-select
               v-model="info.Class"
-              placeholder="Choose 1"
+              placeholder="Choose 2J/2K"
             >
               <el-option label="2K" value="2K" />
               <el-option label="2J" value="2J" />
@@ -113,7 +128,7 @@ export default {
         this.$router.go(-1);
       } else if (this.validNRIC()) {
         ElMessage({
-          message: "Please fill in all required fields",
+          message: "Please enter valid input fields",
           type: "warning",
         });
       } else {
@@ -130,10 +145,11 @@ export default {
         this.info.childName != "" &&
         this.info.NRIC != "" &&
         this.info.Address != "" &&
-        this.info.Gender != "" &&
+        (this.info.Gender == "Male" || this.info.Gender == "Female") &&
         this.info.DOB != "" &&
         this.info.Nationality != "" &&
-        this.info.Class != ""
+        (this.info.Class == "2J" || this.info.Class == "2K")
+        && this.validNRIC()
       );
     },
 
