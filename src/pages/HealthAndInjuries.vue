@@ -206,7 +206,7 @@ img#icon {
 #title {
   float: middle;
   text-align: center;
-  padding: 30px;
+  /* padding: 30px; */
 }
 
 #btn {

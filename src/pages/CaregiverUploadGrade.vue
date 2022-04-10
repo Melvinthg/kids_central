@@ -124,7 +124,7 @@ export default {
       }
     },
     checkfilled() {
-      return this.report.childID != "" && this.report.childName != "" && this.report.score != "" 
+      return this.report.childID != "" && this.report.score != "" 
       && this.report.title != "" && this.report.date
     },
   },
