@@ -68,7 +68,7 @@
 <script>
 import { db } from "../firebase.js";
 import { getFirestore } from "firebase/firestore";
-import { addDoc, collection } from "firebase/firestore";
+import { setDoc, collection, doc } from "firebase/firestore";
 export default {
   name: "AddChildInfo",
   data() {
@@ -99,7 +99,7 @@ export default {
       this.info.childID =
         this.info.Class + this.info.NRIC.toUpperCase().slice(5, 9);
       if (this.allFilled()) {
-        addDoc(collection(db, "students", this.info.childID), this.info)
+        setDoc(doc(db, "students", this.info.childID), this.info)
           .then((response) => {
             console.log(response);
           })
