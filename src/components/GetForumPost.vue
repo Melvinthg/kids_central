@@ -37,7 +37,7 @@ export default {
     nav() {
       this.$router.push({
         name: "ForumReply",
-        params: { replies: this.forumpost.replies, fpid: this.forumpost.fpid, title: this.forumpost.title },
+        params: { replies: this.forumpost.replies, fpid: this.forumpost.fpid, title: this.forumpost.title, class: this.forumpost.class},
       });
     },
   },
