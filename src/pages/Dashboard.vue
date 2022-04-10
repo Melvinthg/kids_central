@@ -8,7 +8,7 @@
   <div class="dashRow">
     <div class="column">
       <div class="card" @click="healthPage()">
-        <h4>Injuries & Health</h4>
+        <h4>Injuries &amp; Health</h4>
         <br />
         <div v-if="!booInjuriesAndHealth">
           <p>No Injuries and health reports yet</p>
