@@ -11,7 +11,7 @@
       <el-select
         v-model="value"
         placeholder="Choose class"
-        style="width: 250px; margin-right: 10px"
+        style="width: 175px; margin-right: 10px"
       >
         <el-option
           @click="display"

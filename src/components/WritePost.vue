@@ -31,7 +31,7 @@
       <el-select
         v-model="recipient"
         placeholder="Select a recipient"
-        style="width: 250px; margin-right: 10px"
+        style="width: 175px; margin-right: 10px"
       >
         <el-option-group
           v-for="group in options"
