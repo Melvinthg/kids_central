@@ -12,14 +12,14 @@
       <h4 id="title">Cognitive Abilities</h4>
 
     </div>
-    <div id="secondgroup">
+    <!-- <div id="secondgroup">
       Cognitive Abilities
       <div id="space"></div>
       <img src="@/assets/Cognitive.png" alt="" />
 
-    </div>
+    </div> -->
   </div>
-  <div id="mainContentEmpty" v-if="this.noReports">
+  <div id="mainContentEmpty" v-if="!this.noReports">
     <div>{{ displaytext }}</div>
   </div>
   <div id="mainContent" >
