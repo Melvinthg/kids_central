@@ -41,7 +41,7 @@
       <div id="delete" @click="this.deleteChild(child.childID)">Delete</div>
     </div>
 
-    <div v-if="child.boo" id="informationCard">
+    <div id="informationCard">
       <ul>
         <li>
           <h4>
@@ -98,17 +98,6 @@
           </h4>
         </li>
       </ul>
-    </div>
-
-    <div v-else id="informationCardEmpty">
-      <h4>Missing information, please click on update Info to update info</h4>
-      <button
-        round
-        @click="this.$router.push('/AddChildInfo')"
-        id="toUpdateInfo"
-      >
-        Update Info
-      </button>
     </div>
   </el-card>
 </template>
@@ -193,6 +182,7 @@ export default {
           e.childID.length == 6 &&
           e.childName.length >= 1;
       });
+      return true
     },
   },
 

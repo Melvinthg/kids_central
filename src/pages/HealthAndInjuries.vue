@@ -76,6 +76,7 @@ export default {
         const q = query(
           collection(db, "reports"),
           where("childID", "==", this.childID),
+          where("category", "==", "Injuries and Health"),
           orderBy("date", "desc"),
         );
         const querySnapshot = await getDocs(q);
@@ -89,7 +90,7 @@ export default {
           collection(db, "reports"),
           where("parentEmail", "==", email),
           where("category", "==", "Injuries and Health"),
-          orderBy("date", "desc"),
+          orderBy("date", "desc")
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -106,6 +107,27 @@ export default {
 </script>
 
 <style scoped>
+#header {
+  background-color: rgb(7, 119, 172);
+  display: block;
+  margin: 0%;
+  width: 100%;
+}
+#title {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+}
+#back {
+  position: absolute;
+  float: left;
+  vertical-align: middle;
+  padding: 12px;
+  margin: 2px;
+  margin-left: 30px;
+}
 #reportContent {
   padding-left: 8px;
   overflow-wrap: break-word;
@@ -139,14 +161,6 @@ export default {
   margin-right: 0px;
   margin-left: auto;
   color: grey;
-}
-
-#header {
-  background-color: rgb(7, 119, 172);
-  width: 100%;
-  display: block;
-  color: white;
-  position: relative;
 }
 
 #thirdgroup {
@@ -206,7 +220,7 @@ img#icon {
 #title {
   float: middle;
   text-align: center;
-  padding: 30px;
+  /* padding: 30px; */
 }
 
 #btn {

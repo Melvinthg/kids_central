@@ -3,11 +3,11 @@
     <el-empty feed="No feed..." />
   </div>
   <el-row v-else>
-    <el-card style="width: 100%; margin-bottom: 20px">
+    <el-card style="width: 100%; margin-bottom: 20px; background-color:azure" >
       <h4><b>Feed</b></h4>
     </el-card>
     <el-col>
-      <div v-for="post in posts" :key="post.id">
+      <div v-for="post in posts.slice().reverse()" :key="post.id">
         <el-card style="padding: 14px; margin-bottom: 20px; width: auto">
           <span>{{ post.poster }} shared </span>
           <time class="time">{{ post.date }}</time>
@@ -50,7 +50,7 @@ export default {
             orderBy("date")
           );
         } else {
-          q = query(collection(db, "posts"), orderBy("date", "desc"));
+          q = query(collection(db, "posts"), orderBy("date"));
         }
 
         getDocs(q).then((res) => {

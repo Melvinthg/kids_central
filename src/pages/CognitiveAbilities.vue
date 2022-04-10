@@ -10,25 +10,16 @@
     >
     <div>
       <h4 id="title">Cognitive Abilities</h4>
-
-    </div>
-    <div id="secondgroup">
-      Cognitive Abilities
-      <div id="space"></div>
-      <img src="@/assets/Cognitive.png" alt="" />
-
+      
     </div>
   </div>
-  <div id="mainContentEmpty" v-if="this.noReports">
+  <div id="mainContentEmpty" v-if="!this.noReports">
     <div>{{ displaytext }}</div>
   </div>
-  <div id="mainContent" >
+  <div id="mainContent">
     <div id="reportRow">
-      <div id="text">
-        
-      </div>
+      <div id="text"></div>
     </div>
-
     <el-card
       class="box-card"
       v-for="x in this.Reports"
@@ -59,7 +50,7 @@
 
 <script>
 import { db } from "../firebase.js";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 
 export default {
   data() {
@@ -87,13 +78,14 @@ export default {
       if (this.type == "teacher") {
         this.childID = this.$route.params.id;
         const q = query(
-          collection(db, "students"),
+          collection(db, "reports"),
           where("childID", "==", this.childID),
+          where("category", "==", "Cognitive Abilities"),
+          orderBy("date", "desc"),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-          this.childID = doc.data().childID;
-          this.childName = doc.data().childName;
+          this.Reports.push(doc.data());
         });
       } else {
         const email = this.$store.state.userModel.email;
@@ -102,6 +94,7 @@ export default {
           collection(db, "reports"),
           where("parentEmail", "==", email),
           where("category", "==", "Cognitive Abilities"),
+          orderBy("date", "desc"),
         );
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
@@ -109,7 +102,6 @@ export default {
           this.Reports.push(doc.data());
         });
       }
-      // console.log(this.Reports.length);
     },
   },
 
