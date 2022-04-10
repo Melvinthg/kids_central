@@ -29,7 +29,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="100" class="block">
-          <el-form-item label="Pick date: ">
+          <el-form-item label="Date of Birth: ">
             <el-date-picker
               v-model="info.DOB"
               type="date"
@@ -58,16 +58,15 @@
       ><el-button class="btn" type="primary" @click="save"
         >Save Particulars</el-button
       ></span
-    ><br /> </el-row
-  >
+    ><br />
+  </el-row>
 </template>
 
 <script>
 import { db } from "../firebase.js";
-import { getFirestore } from "firebase/firestore";
 import { ElMessage } from "element-plus";
 
-import { setDoc, collection, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 export default {
   name: "AddChildInfo",
   data() {
@@ -97,18 +96,14 @@ export default {
       this.info.childID =
         this.info.Class + this.info.NRIC.toUpperCase().slice(5, 9);
       if (this.allFilled()) {
-        setDoc(doc(db, "students", this.info.childID), this.info)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        await setDoc(doc(db, "students", this.info.childID), this.info);
         ElMessage.success("Successfully uploaded");
-        this.goBack();
+        this.$router.go(-1);
       } else {
-        ElMessage({message: "Please fill in all required fields", type : 'warning',})
-
+        ElMessage({
+          message: "Please fill in all required fields",
+          type: "warning",
+        });
       }
     },
 
