@@ -8,7 +8,7 @@
         <el-aside width="200px">
           <h3>ChatList</h3>
           <el-table :data="userList" @current-change="selectUser">
-            <el-table-column prop="first" label="Teachers:"> </el-table-column>
+            <el-table-column prop="last" label="Teachers:"> </el-table-column>
           </el-table>
         </el-aside>
 
