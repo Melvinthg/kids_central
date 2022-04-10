@@ -16,30 +16,30 @@
         <el-col :span="100" class="block">
           <!-- <div style="width:500px"> -->
           <el-form-item label="Name: ">
-            <el-input v-model="info.name" />
+            <el-input v-model="info.childName" />
           </el-form-item>
           <el-form-item label="NRIC: ">
-            <el-input v-model="info.nric" />
+            <el-input v-model="info.NRIC" />
           </el-form-item>
           <el-form-item label="Address: ">
-            <el-input v-model="info.address" />
+            <el-input v-model="info.Address" />
           </el-form-item>
           <el-form-item label="Gender: ">
-            <el-input v-model="info.gender" />
+            <el-input v-model="info.Gender" />
           </el-form-item>
         </el-col>
         <el-col :span="100" class="block">
           <el-form-item label="Date Of Birth: ">
-            <el-input v-model="info.dob" />
+            <el-input v-model="info.DOB" />
           </el-form-item>
           <el-form-item label="Nationality: ">
-            <el-input v-model="info.nationality" />
+            <el-input v-model="info.Nationality" />
           </el-form-item>
           <el-form-item label="Allergies: ">
-            <el-input v-model="info.allergies" />
+            <el-input v-model="info.Allergies" />
           </el-form-item>
           <el-form-item label="Class: ">
-            <el-input v-model="info.class" />
+            <el-input v-model="info.Class" />
           </el-form-item>
         </el-col>
         <!-- </div>  -->
@@ -52,15 +52,17 @@
       ><el-button class="btn" type="primary" @click="save"
         >Save Particulars</el-button
       ></span
-    ><br />
-  </el-row><el-row justify="center"><el-alert
+    ><br /> </el-row
+  ><el-row justify="center"
+    ><el-alert
       v-if="alert"
       title="Fill in all Fields"
       type="warning"
       @close="closeAlert"
-      style="width: 50%;margin:30px"
+      style="width: 50%; margin: 30px"
     />
-  <br />  </el-row>
+    <br />
+  </el-row>
 </template>
 
 <script>
@@ -72,16 +74,16 @@ export default {
   data() {
     return {
       info: {
-        name: "",
-        nric: "",
-        address: "",
-        gender: "",
-        dob: "",
-        nationality: "",
-        allergies: "",
-        class: "",
+        childName: "",
+        NRIC: "",
+        Address: "",
+        Gender: "",
+        DOB: "",
+        Nationality: "",
+        Allergies: "",
+        Class: "",
         childID: "",
-        parentName:
+        Name:
           this.$store.state.userModel.first +
           " " +
           this.$store.state.userModel.last,
@@ -93,10 +95,11 @@ export default {
   // change document id from name to student id, add field parent email
   methods: {
     async save() {
+      console.log(this.info);
+      this.info.childID =
+        this.info.Class + this.info.NRIC.toUpperCase().slice(5, 9);
       if (this.allFilled()) {
-        this.info.childID =
-          this.info.class + this.info.nric.toUpperCase().slice(5, 9);
-        addDoc(collection(db, "students"), this.info)
+        addDoc(collection(db, "students", this.info.childID), this.info)
           .then((response) => {
             console.log(response);
           })
@@ -111,14 +114,13 @@ export default {
     allFilled() {
       console.log("check");
       return (
-        this.info.name != "" &&
-        this.info.nric != "" &&
-        this.info.address != "" &&
-        this.info.gender != "" &&
-        this.info.dob != "" &&
-        this.info.nationality != "" &&
-        this.info.class != "" &&
-        this.info.childID != ""
+        this.info.childName != "" &&
+        this.info.NRIC != "" &&
+        this.info.Address != "" &&
+        this.info.Gender != "" &&
+        this.info.DOB != "" &&
+        this.info.Nationality != "" &&
+        this.info.Class != ""
       );
     },
 
@@ -133,44 +135,44 @@ export default {
       return c >= "0" && c <= "9";
     },
 
-    validNRIC() {
-      let a = this.nric;
-      if (a.length == 9) {
-        return (
-          !this.isCharNumber(a.charAt(0)) &&
-          !this.isCharNumber(a.charAt(a.length - 1)) &&
-          this.isCharNumber(a.charAt(1)) &&
-          this.isCharNumber(a.charAt(2)) &&
-          this.isCharNumber(a.charAt(3)) &&
-          this.isCharNumber(a.charAt(4)) &&
-          this.isCharNumber(a.charAt(5)) &&
-          this.isCharNumber(a.charAt(6)) &&
-          this.isCharNumber(a.charAt(7))
-        );
-      } else {
-        return false;
-      }
-    },
+    // validNRIC() {
+    //   let a = this.NRIC;
+    //   if (a.length == 9) {
+    //     return (
+    //       !this.isCharNumber(a.charAt(0)) &&
+    //       !this.isCharNumber(a.charAt(a.length - 1)) &&
+    //       this.isCharNumber(a.charAt(1)) &&
+    //       this.isCharNumber(a.charAt(2)) &&
+    //       this.isCharNumber(a.charAt(3)) &&
+    //       this.isCharNumber(a.charAt(4)) &&
+    //       this.isCharNumber(a.charAt(5)) &&
+    //       this.isCharNumber(a.charAt(6)) &&
+    //       this.isCharNumber(a.charAt(7))
+    //     );
+    //   } else {
+    //     return false;
+    //   }
+    // },
 
-    isValidDate() {
-      let b = document.getElementById("DOB").value;
-      if (b.length == 10) {
-        return (
-          this.isCharNumber(b.charAt(0)) &&
-          this.isCharNumber(b.charAt(1)) &&
-          this.isCharNumber(b.charAt(3)) &&
-          this.isCharNumber(b.charAt(4)) &&
-          this.isCharNumber(b.charAt(6)) &&
-          this.isCharNumber(b.charAt(7)) &&
-          this.isCharNumber(b.charAt(8)) &&
-          this.isCharNumber(b.charAt(9)) &&
-          b.charAt(2) == "/" &&
-          b.charAt(5) == "/"
-        );
-      } else {
-        return false;
-      }
-    },
+    // isValidDate() {
+    //   let b = document.getElementById("DOB").value;
+    //   if (b.length == 10) {
+    //     return (
+    //       this.isCharNumber(b.charAt(0)) &&
+    //       this.isCharNumber(b.charAt(1)) &&
+    //       this.isCharNumber(b.charAt(3)) &&
+    //       this.isCharNumber(b.charAt(4)) &&
+    //       this.isCharNumber(b.charAt(6)) &&
+    //       this.isCharNumber(b.charAt(7)) &&
+    //       this.isCharNumber(b.charAt(8)) &&
+    //       this.isCharNumber(b.charAt(9)) &&
+    //       b.charAt(2) == "/" &&
+    //       b.charAt(5) == "/"
+    //     );
+    //   } else {
+    //     return false;
+    //   }
+    // },
   },
 };
 </script>
