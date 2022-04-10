@@ -1,11 +1,15 @@
 <template>
   <div id="wholegroup">
-    <div id="createfirstgroup" @click = "this.$router.push('/forumdisplay')">Back</div>
+    <el-button
+      type="primary"
+      :icon="ArrowLeft"
+      @click="this.$router.go(-1)"
+      style="float: left;margin-left: 20px;"
+      >Back</el-button
+    >
     <div id="secondgroup">
       <h1>CLASS {{ classname }} FORUM</h1>
-      <br />
       <!-- query number of parents in the class -->
-      <h4>{{ number }} members</h4>
     </div>
     <div id="thirdgroup"></div>
   </div>
@@ -48,13 +52,11 @@ export default {
 <style scoped>
 #wholegroup {
   background-color: rgb(7, 119, 172);
-  display: block;
-  align-items: center;
-
-  width: 100%;
-  height: 120px;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  width: 100%;
+  color: white;
 }
 #createfirstgroup {
   flex: 1;
@@ -65,12 +67,13 @@ export default {
   font-size: 20px;
 }
 #secondgroup {
-  float: left;
-
+  flex: 5;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
   text-align: center;
   color: white;
   padding: 20px;
-  flex: 3;
 }
 
 #thirdgroup {

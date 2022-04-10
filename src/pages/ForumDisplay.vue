@@ -4,10 +4,9 @@
       <ForumTopBar :className = value></ForumTopBar>
     </div>
 
-    <div>
-      <h1 style="margin-left: 1%">Discussion Threads</h1>
-    </div>
-    <div>
+    <div style="margin: 20px" >
+      <h1 style="margin: 1%">Discussion Threads</h1>
+    
       <span style="margin-left: 1%">Select Class: </span>
       <el-select
         v-model="value"
@@ -28,6 +27,7 @@
       <el-card
         v-for="forumpost in forumposts"
         :key="forumpost.id"
+        style="margin:10px 10px 10px 10px"
         :body-style="{ padding: '0px', width: auto }"
       >
         <GetForumPost :forumpost="forumpost" />
@@ -116,4 +116,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+</style>
