@@ -14,7 +14,7 @@
     </div>
     
   </div>
-  <div id="mainContentEmpty" v-if="this.noReports">
+  <div id="mainContentEmpty" v-if="!this.noReports">
     <div>{{ displaytext }}</div>
   </div>
   <div id="mainContent">

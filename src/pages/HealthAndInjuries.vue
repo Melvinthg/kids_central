@@ -211,6 +211,17 @@ img#icon {
   }
 }
 
+#firstGroup:hover {
+  cursor: pointer;
+  color: black;
+}
+
+#title {
+  float: middle;
+  text-align: center;
+  /* padding: 30px; */
+}
+
 #btn {
   color: white;
   font-size: 20px;
