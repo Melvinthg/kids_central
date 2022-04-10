@@ -44,6 +44,7 @@
         <div v-if="!booGrades">
           <p>No Gradebook reports yet</p>
         </div>
+        
 
         <el-card class="box-card" v-if="booGrades">
           <div
