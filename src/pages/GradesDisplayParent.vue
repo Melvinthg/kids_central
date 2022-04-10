@@ -12,7 +12,7 @@
       <h4 id="title">Gradebook</h4>
     </div>
   </div>
-  <el-select
+  <el-select v-if = "this.$route.params.id == child"
     v-model="selectedID"
     placeholder="Choose child"
     style="width: 250px; margin-right: 10px"
