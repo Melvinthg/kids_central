@@ -33,11 +33,15 @@
             placeholder="Enter Address"
             />
           </el-form-item>
-          <el-form-item label="Gender: ">
-            <el-input 
-            v-model="info.Gender" 
-            placeholder="Male / Female"
-            />
+          <el-form-item label="Gender">
+            <el-select
+              v-model="info.Gender"
+              placeholder="Choose 1"
+            >
+              <el-option label="Female" value="Female" />
+              <el-option label="Male" value="Male" />
+              <el-option label="Others" value="Others" />
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="100" class="block">
@@ -62,11 +66,14 @@
             placeholder = "Enter Allergies / Nil"
             />
           </el-form-item>
-          <el-form-item label="Class: ">
-            <el-input 
-            v-model="info.Class" 
-            placeholder = "2J / 2K"
-            />
+          <el-form-item label="Class">
+            <el-select
+              v-model="info.Class"
+              placeholder="Choose 2J/2K"
+            >
+              <el-option label="2K" value="2K" />
+              <el-option label="2J" value="2J" />
+            </el-select>
           </el-form-item>
         </el-col>
         <!-- </div>  -->
@@ -113,16 +120,20 @@ export default {
   // change document id from name to student id, add field parent email
   methods: {
     async save() {
-      console.log(this.info);
-      this.info.childID =
-        this.info.Class + this.info.NRIC.toUpperCase().slice(5, 9);
-      if (this.allFilled()) {
+      if (this.allFilled() && this.validNRIC()) {
+        this.info.childID =
+          this.info.Class + this.info.NRIC.toUpperCase().slice(5, 9);
         await setDoc(doc(db, "students", this.info.childID), this.info);
         ElMessage.success("Successfully uploaded");
         this.$router.go(-1);
-      } else {
+      } else if (this.validNRIC()) {
         ElMessage({
           message: "Please enter valid input fields",
+          type: "warning",
+        });
+      } else {
+        ElMessage({
+          message: "Please fill in correct NRIC format",
           type: "warning",
         });
       }
