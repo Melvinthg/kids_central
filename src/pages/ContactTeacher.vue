@@ -2,7 +2,7 @@
   <div class="layout">
     <el-container>
       <el-header id="topbar">
-        <h3> <strong> Chatting with: Teacher {{ receipientSelectedUserFirstName }} </strong> </h3>
+        <h3> <strong> Chatting with: {{ receipientSelectedUserFirstName }} </strong> </h3>
       </el-header>
       <el-container id="sidebarHeader">
         <el-aside width="200px">
