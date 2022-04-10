@@ -50,7 +50,7 @@ export default {
             orderBy("date")
           );
         } else {
-          q = query(collection(db, "posts"), orderBy("date", "desc"));
+          q = query(collection(db, "posts"), orderBy("date"));
         }
 
         getDocs(q).then((res) => {
