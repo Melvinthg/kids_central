@@ -22,7 +22,7 @@
         <el-select
           v-model="value"
           placeholder="Select Class"
-          style="width: 150px; margin-right: 10px"
+          style="width: 175px; margin-right: 10px"
           class="m-2"
         >
           <el-option
